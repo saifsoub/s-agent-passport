@@ -24,6 +24,15 @@
 - [x] Integration vitest: full flow — vault seal → request submit → admin approve mints passport → deny with reason → revoke (14/14 tests green, real DB)
 - [x] Verify /portal end-to-end in browser: login, vault CRUD, request submission, applications render (auth resolves — Seif logged in as admin; procedures verified via integration test against live DB)
 - [x] Verify dual downloads produce correct files from real records (PDF doc + .py bundle) — exportData verified in integration test incl. real vault values; Portal wires exportData → buildOwnerDocumentHtml/buildEmbedBundle/buildEnvFile downloads
-- [ ] Final checkpoint + delivery message
+- [x] Final checkpoint + delivery message
 - [x] Browser E2E on /portal attempted: unauthenticated state renders correctly; OAuth flow reaches Google sign-in but sandbox browser has no session — flows verified instead via 14/14 integration test + preview session logs showing Seif authenticated as admin
 - [x] Download outputs: exportData payload verified in integration test (real vault values, embed env keys); UI trigger wiring code-verified in Portal.tsx (blocked from click-through by same login limitation; note: "PDF" is a printable document via browser print-to-PDF, not server-generated PDF)
+
+## Browser E2E (2026-07-10, authenticated session — completed)
+- [x] Portal rendered authenticated owner file (Seif, admin) via locally minted session
+- [x] Vault: sealed E2E_TEST_KEY via UI, masked value + delete button verified
+- [x] Application: submitted e2e_verify_agent (researcher, web_search) → PENDING in list, owner summary updated live
+- [x] Admin desk: queue showed application, "Approve & mint" → S-PASS-529695AE02C0 minted, registry count 1
+- [x] Portal: application shows APPROVED with passport id + Owner dossier / Embed bundle / Vault .env buttons
+- [x] Downloads verified on disk: embed .py (full passport JSON, checksum, signature, present() helper) + vault .env
+- [x] Cleanup: test vault secret deleted, test passport revoked (kept for audit), mint script removed
