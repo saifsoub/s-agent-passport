@@ -37,3 +37,35 @@ Phase 3: screenshots + style review, checkpoint, deliver.
 
 ## Generated assets (fill in URLs after generation)
 - hero background, guilloche texture, S/ logo: see chat context for URLs.
+
+
+## Current task (2026-07-10, third iteration)
+User request: (1) Owner page to request a passport + select tools; (2) private secrets
+vault per owner (agent can use them on top of regular tools); (3) passport downloads in
+2 formats: owner PDF document (full picture) + embeddable code version for agent code;
+(4) soften the harsh orange.
+
+Standing rule: NEVER mention FTA unless Seif explicitly says something is for the FTA.
+
+Done so far:
+- Orange softened globally: oklch(0.646 0.222 36.5) → oklch(0.68 0.145 45) (soft copper),
+  chart variants toned, hex #FF4F00 → #D97742 in passport.ts/mockRegistry.ts branding.
+- Created client/src/lib/ownerConsole.ts: TOOL_CATALOG (14 tools, groups research/data/
+  content/execution/memory, sensitive ones carry permission flags), OwnerProfile,
+  VaultSecret (localStorage LS keys: s_pass_owner, s_pass_vault, s_pass_requests),
+  submitRequest() mints passport instantly (approved), buildEmbedBundle() → .py file,
+  buildOwnerDocumentHtml() + openOwnerPdf() → print window PDF, downloadText helper,
+  maskSecret.
+
+TODO:
+- Create OwnerConsole page at /owner route in App.tsx (wouter Route).
+- Page sections: owner identity create/load, secrets vault CRUD (masked values, delete),
+  request form (agent name, type select, purpose, TTL, tool checkboxes grouped w/
+  sensitive flags, vault secret grant checkboxes), issued requests list w/ PassportCard,
+  two download buttons per request (PDF doc via openOwnerPdf, embed bundle .py via
+  downloadText(buildEmbedBundle)).
+- Link from Home nav ("Owner Console" button) + hero CTA maybe.
+- Screenshot verify desktop+mobile, checkpoint, deliver.
+- Existing components to reuse: Section, PassportCard, Stamp, MrzStrip, Perforation from
+  @/components/passport-ui; UI: Button, Input, Checkbox, sonner toast.
+- Home.tsx nav has links schema/issue/gate/lineage/registry/annex; add /owner link.

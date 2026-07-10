@@ -1,6 +1,6 @@
 /*
  * S/ Agent Passport — "Border Control Terminal" theme
- * Navy #0A1628 sovereign field · Orange #FF4F00 stamp ink
+ * Navy #0A1628 sovereign field · Soft copper stamp ink
  * Space Grotesk (display) · IBM Plex Mono (data/MRZ/labels)
  * Signature motifs: MRZ strips, rubber stamps, perforation dots
  */
@@ -68,7 +68,7 @@
   --popover: oklch(0.215 0.038 255.5);
   --popover-foreground: oklch(0.93 0.012 255);
   /* Stamp ink */
-  --primary: oklch(0.646 0.222 36.5);               /* #FF4F00 */
+  --primary: oklch(0.68 0.145 45);               /* soft copper #E08A4F-ish */
   --primary-foreground: oklch(0.183 0.036 255.5);
   --secondary: oklch(0.26 0.04 255.5);
   --secondary-foreground: oklch(0.82 0.02 255);
@@ -80,22 +80,22 @@
   --destructive-foreground: oklch(0.93 0.012 255);
   --border: oklch(0.32 0.04 255.5);
   --input: oklch(0.32 0.04 255.5);
-  --ring: oklch(0.646 0.222 36.5);
-  --chart-1: oklch(0.646 0.222 36.5);
+  --ring: oklch(0.68 0.145 45);
+  --chart-1: oklch(0.68 0.145 45);
   --chart-2: oklch(0.62 0.028 255);
-  --chart-3: oklch(0.75 0.12 36.5);
+  --chart-3: oklch(0.75 0.10 45);
   --chart-4: oklch(0.45 0.05 255);
-  --chart-5: oklch(0.85 0.08 36.5);
+  --chart-5: oklch(0.85 0.07 45);
   --sidebar: oklch(0.215 0.038 255.5);
   --sidebar-foreground: oklch(0.93 0.012 255);
-  --sidebar-primary: oklch(0.646 0.222 36.5);
+  --sidebar-primary: oklch(0.68 0.145 45);
   --sidebar-primary-foreground: oklch(0.183 0.036 255.5);
   --sidebar-accent: oklch(0.26 0.04 255.5);
   --sidebar-accent-foreground: oklch(0.93 0.012 255);
   --sidebar-border: oklch(0.32 0.04 255.5);
-  --sidebar-ring: oklch(0.646 0.222 36.5);
+  --sidebar-ring: oklch(0.68 0.145 45);
   /* Custom tokens */
-  --ink: oklch(0.646 0.222 36.5);                   /* stamp orange */
+  --ink: oklch(0.68 0.145 45);                   /* stamp orange */
   --steel: oklch(0.62 0.028 255);
   --paper: oklch(0.93 0.012 255);
   --deny: oklch(0.58 0.17 22);
@@ -126,7 +126,7 @@
     @apply cursor-pointer;
   }
   ::selection {
-    background: oklch(0.646 0.222 36.5 / 0.35);
+    background: oklch(0.68 0.145 45 / 0.35);
   }
 }
 
@@ -262,14 +262,14 @@
   .doc-corners::before {
     top: 6px;
     left: 6px;
-    border-top: 2px solid oklch(0.646 0.222 36.5 / 0.7);
-    border-left: 2px solid oklch(0.646 0.222 36.5 / 0.7);
+    border-top: 2px solid oklch(0.68 0.145 45 / 0.7);
+    border-left: 2px solid oklch(0.68 0.145 45 / 0.7);
   }
   .doc-corners::after {
     bottom: 6px;
     right: 6px;
-    border-bottom: 2px solid oklch(0.646 0.222 36.5 / 0.7);
-    border-right: 2px solid oklch(0.646 0.222 36.5 / 0.7);
+    border-bottom: 2px solid oklch(0.68 0.145 45 / 0.7);
+    border-right: 2px solid oklch(0.68 0.145 45 / 0.7);
   }
 
   /* Giant cropped S/ watermark */
@@ -281,13 +281,13 @@
     font-weight: 700;
     line-height: 0.8;
     color: transparent;
-    -webkit-text-stroke: 1.5px oklch(0.646 0.222 36.5 / 0.14);
+    -webkit-text-stroke: 1.5px oklch(0.68 0.145 45 / 0.14);
     z-index: 0;
   }
 
   /* Ruled ledger headline framing */
   .ruled {
-    border-top: 2px solid oklch(0.646 0.222 36.5 / 0.85);
+    border-top: 2px solid oklch(0.68 0.145 45 / 0.85);
     border-bottom: 1px solid oklch(0.32 0.04 255.5);
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;

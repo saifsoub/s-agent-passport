@@ -113,7 +113,7 @@ export function issuePassport(opts: IssueOptions): Passport {
     status: "active",
     branding: {
       primary_color: "#0A1628",
-      accent_color: "#FF4F00",
+      accent_color: "#D97742",
       logo_ref: "s_logo_dark.png",
       tagline: "Sovereign. Calibrated. Accountable.",
     },

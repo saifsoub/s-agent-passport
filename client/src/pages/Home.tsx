@@ -2,9 +2,10 @@
  * Border Control Terminal · S/ Agent Passport demo page
  * Inspection route: hero checkpoint → booklet → issuance desk → border gate
  * → lineage wall → lifecycle strip → integration annex.
- * Navy #0A1628 field, orange #FF4F00 stamp ink, Space Grotesk + IBM Plex Mono.
+ * Navy #0A1628 field, soft copper #D97742 stamp ink, Space Grotesk + IBM Plex Mono.
  */
 import { useMemo, useRef, useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -342,6 +343,7 @@ export default function Home() {
             <a href="#lineage" className="hover:text-primary transition-colors">Lineage</a>
             <a href="#registry" className="hover:text-primary transition-colors">Registry</a>
             <a href="#annex" className="hover:text-primary transition-colors">Annex</a>
+            <Link href="/owner" className="text-primary hover:text-primary/80 transition-colors">Owner Console</Link>
           </nav>
           <Button
             size="sm"
