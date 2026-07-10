@@ -70,11 +70,11 @@ const SCHEMA_FIELDS: { name: string; type: string; note: string }[] = [
 ];
 
 /* ============ Integration annex code samples ============ */
-const CODE_QUICKSTART = `from s_agent_passport import issue_fta_orchestrator
+const CODE_QUICKSTART = `from s_agent_passport import issue_swarm_orchestrator
 from s_agent_passport.crypto import sign_passport
 from s_agent_passport.registry import get_registry
 
-p = issue_fta_orchestrator(project_codes=["e_invoicing_2026"])
+p = issue_swarm_orchestrator(project_codes=["automation_2026"])
 sign_passport(p, key_name="issuer")        # Ed25519, local sovereign key
 get_registry().issue(p)                    # → live Supabase table
 
@@ -84,8 +84,8 @@ const CODE_GATE = `from s_agent_passport.gate import validate_handoff
 
 res = validate_handoff(
     payload,
-    required_capabilities=["fta_einvoicing_analyze"],
-    required_permissions=["can_access_fta_projects"],
+    required_capabilities=["data_pipeline_analyze"],
+    required_permissions=["can_access_projects"],
     registry=get_registry(),
     require_signature=True,
 )
@@ -124,10 +124,10 @@ export default function Home() {
     });
 
   /* ============ 02 · Issuance desk state ============ */
-  const [presetKey, setPresetKey] = useState<string>("fta_orchestrator");
-  const [agentName, setAgentName] = useState("fta_orchestrator_v3");
+  const [presetKey, setPresetKey] = useState<string>("swarm_orchestrator");
+  const [agentName, setAgentName] = useState("s_orchestrator_v3");
   const [agentType, setAgentType] = useState<AgentType>("orchestrator");
-  const [capsInput, setCapsInput] = useState(FACTORY_PRESETS.fta_orchestrator.capabilities!.join(", "));
+  const [capsInput, setCapsInput] = useState(FACTORY_PRESETS.swarm_orchestrator.capabilities!.join(", "));
   const [permSpawn, setPermSpawn] = useState(true);
   const [permMemory, setPermMemory] = useState(true);
   const [permDeploy, setPermDeploy] = useState(false);
@@ -237,7 +237,7 @@ export default function Home() {
   const [spawnAnim, setSpawnAnim] = useState(0);
 
   const makeParent = () => {
-    const f = FACTORY_PRESETS.fta_orchestrator;
+    const f = FACTORY_PRESETS.swarm_orchestrator;
     const p = issuePassport({ ...f });
     upsert(p);
     setParentP(p);

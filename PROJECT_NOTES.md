@@ -9,7 +9,7 @@ Space Grotesk + IBM Plex Mono, MRZ strips, rubber stamps, checkpoint metaphor).
 
 ## Package facts to demonstrate (from /home/ubuntu/s-agent-passport)
 - AgentPassport pydantic model: passport_id (S-PASS-XXXX hex12), agent_name, agent_type
-  (orchestrator/researcher/coder/executor/analyst/content_engine/fta_specialist/swarm_node/memory_bridge/custom),
+  (orchestrator/researcher/coder/executor/analyst/content_engine/domain_specialist/swarm_node/memory_bridge/custom),
   version 1.0.0, creator "Seif Alsoub / S/", issued_at, expires_at, capabilities[],
   permissions{}, memory_bridge_ref, calibration_level 0-7, provenance[], parent_passport_id,
   status (active/paused/revoked/archived/expired), branding{}, metadata{}, checksum (sha256 16-hex),
@@ -24,7 +24,7 @@ Space Grotesk + IBM Plex Mono, MRZ strips, rubber stamps, checkpoint metaphor).
   nrjfbqgvigankejaajrt "DoneAi"). CLI: s-pass issue/list/inspect/verify/revoke/sweep/keygen/card.
 - Deployed: US/SRV server /home/ubuntu/s-os/s-agent-passport, systemd s-pass-registry on
   127.0.0.1:8433 (bearer token), hourly sweep cron. 41 pytest tests green.
-- Factories: issue_fta_orchestrator (calibration 5, can_spawn_children), issue_content_engine
+- Factories: issue_swarm_orchestrator (calibration 5, can_spawn_children), issue_content_engine
   (calibration 4), issue_swarm_node (6h TTL, calibration 2).
 - Tagline: "Sovereign. Calibrated. Accountable."
 

@@ -7,7 +7,7 @@
 
 export const AGENT_TYPES = [
   "orchestrator", "researcher", "coder", "executor", "analyst",
-  "content_engine", "fta_specialist", "swarm_node", "memory_bridge", "custom",
+  "content_engine", "domain_specialist", "swarm_node", "memory_bridge", "custom",
 ] as const;
 
 export type AgentType = (typeof AGENT_TYPES)[number];
@@ -341,25 +341,25 @@ export function validateHandoff(
 /* ===== Factory presets (mirror Python factories) ===== */
 
 export const FACTORY_PRESETS: Record<string, IssueOptions & { label: string; blurb: string }> = {
-  fta_orchestrator: {
-    label: "FTA Orchestrator",
-    blurb: "issue_fta_orchestrator() — calibration L5, can spawn children, deploy escalates.",
-    agent_name: "fta_orchestrator_v3",
+  swarm_orchestrator: {
+    label: "Swarm Orchestrator",
+    blurb: "issue_swarm_orchestrator() — calibration L5, can spawn children, deploy escalates.",
+    agent_name: "s_orchestrator_v3",
     agent_type: "orchestrator",
     capabilities: [
-      "fta_project_read", "fta_einvoicing_analyze", "zero_bureaucracy_scan",
+      "project_read", "data_pipeline_analyze", "workflow_scan",
       "supabase_query", "report_generation", "agent_spawn",
       "web_search", "pdf_parse", "trend_analysis",
     ],
     permissions: {
-      can_access_fta_projects: true,
+      can_access_projects: true,
       can_write_memory: true,
       can_spawn_children: true,
       can_trigger_deploy: false,
     },
-    memory_bridge_ref: "s_agent_calib_2026-07-08_fta",
+    memory_bridge_ref: "s_agent_calib_2026-07-08_core",
     calibration_level: 5,
-    metadata: { fta_projects: ["e_invoicing_2026", "institutional_performance"], owner: "Seif Alsoub" },
+    metadata: { projects: ["automation_2026", "personal_empire_os"], owner: "Seif Alsoub" },
     sign: true,
   },
   content_engine: {
@@ -369,7 +369,7 @@ export const FACTORY_PRESETS: Record<string, IssueOptions & { label: string; blu
     agent_type: "content_engine",
     capabilities: ["web_research", "copywriting", "image_prompt_gen", "pdf_assembly", "brand_compliance_check"],
     permissions: {
-      can_access_fta_projects: false,
+      can_access_projects: false,
       can_write_memory: true,
       can_publish_external: false,
     },
