@@ -46,7 +46,9 @@ import {
   Database,
   Server,
   Boxes,
+  RadioTower,
 } from "lucide-react";
+import { MOCK_REGISTRY } from "@/lib/mockRegistry";
 
 const HERO_BG = "/manus-storage/hero-checkpoint_653f00d7.png";
 const BOOKLET_IMG = "/manus-storage/passport-booklet_d06db170.png";
@@ -316,6 +318,13 @@ export default function Home() {
 
   const registryRows = useMemo(() => Array.from(registry.values()).reverse().slice(0, 6), [registry]);
 
+  /* ============ 06 · Live Registry state ============ */
+  const [regFilter, setRegFilter] = useState<"all" | Passport["status"]>("all");
+  const liveFleet = useMemo(
+    () => (regFilter === "all" ? MOCK_REGISTRY : MOCK_REGISTRY.filter((p) => p.status === regFilter)),
+    [regFilter],
+  );
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ================= NAV ================= */}
@@ -331,6 +340,7 @@ export default function Home() {
             <a href="#issue" className="hover:text-primary transition-colors">Issue</a>
             <a href="#gate" className="hover:text-primary transition-colors">Gate</a>
             <a href="#lineage" className="hover:text-primary transition-colors">Lineage</a>
+            <a href="#registry" className="hover:text-primary transition-colors">Registry</a>
             <a href="#annex" className="hover:text-primary transition-colors">Annex</a>
           </nav>
           <Button
@@ -410,7 +420,7 @@ export default function Home() {
       <Section
         id="schema"
         index="01"
-        code="PAGE·01/06"
+        code="PAGE·01/07"
         kicker="The document"
         title="One credential. Thirteen sovereign fields."
       >
@@ -451,7 +461,7 @@ export default function Home() {
       <Section
         id="issue"
         index="02"
-        code="DESK·02/06"
+        code="DESK·02/07"
         kicker="Interactive · issuance desk"
         title="Issue a passport. Watch it materialize."
       >
@@ -567,7 +577,7 @@ export default function Home() {
       <Section
         id="gate"
         index="03"
-        code="GATE·03/06"
+        code="GATE·03/07"
         kicker="Interactive · border control"
         title="The gate runs eight checks. One failure denies entry."
       >
@@ -644,7 +654,7 @@ export default function Home() {
       <Section
         id="lineage"
         index="04"
-        code="WALL·04/06"
+        code="WALL·04/07"
         kicker="Interactive · spawn lineage"
         title="Children inherit less. Never more."
       >
@@ -711,7 +721,7 @@ export default function Home() {
       <Section
         id="lifecycle"
         index="05"
-        code="STRIP·05/06"
+        code="STRIP·05/07"
         kicker="Interactive · state machine"
         title="Five states. Illegal moves are refused."
       >
@@ -791,11 +801,63 @@ export default function Home() {
 
       <Perforation />
 
-      {/* ================= 06 · ANNEX ================= */}
+      {/* ================= 06 · LIVE REGISTRY ================= */}
+      <Section
+        id="registry"
+        index="06"
+        code="LEDGER·06/07"
+        kicker="Live registry · fleet ledger"
+        title="Every credential on file. At a glance."
+      >
+        <div className="flex flex-wrap items-center gap-2.5 mb-8">
+          <span className="label-mono inline-flex items-center gap-1.5 mr-2">
+            <RadioTower className="h-3.5 w-3.5 text-primary" /> agent_passports · {liveFleet.length} on file
+          </span>
+          {(["all", "active", "paused", "revoked", "expired", "archived"] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => setRegFilter(s)}
+              className={`btn-press font-mono text-[11px] uppercase tracking-wider px-3 py-1.5 border rounded-[3px] transition-colors ${
+                regFilter === s
+                  ? "border-primary text-primary bg-primary/10"
+                  : "border-border text-muted-foreground hover:border-primary/50"
+              }`}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+
+        {liveFleet.length > 0 ? (
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            {liveFleet.map((p, i) => (
+              <div key={p.passport_id} className="rise-in min-w-0" style={{ animationDelay: `${i * 60}ms` }}>
+                <PassportCard passport={p} compact />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="panel rounded-sm min-h-[200px] flex flex-col items-center justify-center gap-3 border-dashed">
+            <Database className="h-8 w-8 text-muted-foreground/40" strokeWidth={1.25} />
+            <p className="font-mono text-sm text-muted-foreground">No credentials with this status on file.</p>
+          </div>
+        )}
+
+        <p className="font-mono text-[12px] text-muted-foreground leading-relaxed mt-8 max-w-2xl">
+          A sample fleet ledger — the same shape as the live{" "}
+          <span className="text-foreground">agent_passports</span> table in Supabase. Revoked and
+          expired documents stay on file for audit; only <span className="text-primary">active</span>{" "}
+          credentials clear the gate.
+        </p>
+      </Section>
+
+      <MrzStrip text="P<SPASS<<FLEET<LEDGER<<<NINE<CREDENTIALS<ON<FILE<<<AUDIT<TRAIL<PRESERVED<<<<<<<<<<<<<<" />
+
+      {/* ================= 07 · ANNEX ================= */}
       <Section
         id="annex"
-        index="06"
-        code="ANNEX·06/06"
+        index="07"
+        code="ANNEX·07/07"
         kicker="Integration annex"
         title="Wired into the real stack."
       >
