@@ -247,3 +247,51 @@ Phases: 1 access separation → 2 landing → 3 dashboard → 4 webauthn → 5 t
   routers: passkeys.registerOptions/registerVerify/authOptions/authVerify/list/remove/setVaultLock;
   gate: vault.reveal + passports.exportData check recent verification (Map<userId, verifiedAtMs>, 5 min TTL)
   when user.vaultLockEnabled. rpID from req host; origin from req.
+
+
+## WebAuthn progress (14:29)
+- pnpm add @simplewebauthn/server @simplewebauthn/browser DONE (13.3.2).
+- schema.ts: passkeys table + users.vaultLockEnabled int default 0 ADDED, db:push OK
+  (passkeys 11 cols verified in live DB, users.vaultLockEnabled exists).
+- server/webauthn.ts WRITTEN: startRegistration/finishRegistration,
+  startAuthentication/finishAuthentication, vaultLockBlockReason(userId),
+  listPasskeys/removePasskey (auto-disables lock when last removed),
+  setVaultLock (requires >=1 passkey), rpFromRequest(req)->{rpID,origin},
+  in-memory challenge maps + recentVerifications (5 min window).
+  simplewebauthn v13 API: registrationInfo.credential.{id,publicKey,counter,transports},
+  verifyAuthenticationResponse takes `credential:` param. credentialId stored base64url string.
+- NEXT (routers.ts): add security router:
+  security.passkeys.list / registerOptions(mutation) / registerVerify(mutation {response,label})
+  / authOptions(mutation) / authVerify(mutation {response}) / remove({id}) /
+  setVaultLock({enabled}) / status(query -> {vaultLockEnabled, unlocked, passkeyCount}).
+  Use ctx.req headers via rpFromRequest. protectedProcedure all.
+- GATE: in passports.exportData and vault router (list returns masked — gate NOT needed there;
+  gate exportData only) call vaultLockBlockReason(ctx.user.id); throw TRPCError FORBIDDEN w/ reason.
+- CLIENT (Portal.tsx): add Security section (id="security") after applications:
+  passkey enroll (label input + Enroll button -> @simplewebauthn/browser startRegistration),
+  list passkeys w/ remove, vault lock toggle (Switch), and in doDownload catch FORBIDDEN
+  containing "Vault lock" -> trigger authOptions+startAuthentication+authVerify then retry.
+  Also add nav link "Security". useAuth user has vaultLockEnabled? (auth.me returns ctx.user row).
+- Tests: add server/webauthn.test.ts basic unit tests for challenge/gate logic (markVerified,
+  isRecentlyVerified, setVaultLock w/o passkey fails).
+- Landing page already advertises Face ID in proof strip + security section (accurate once shipped).
+- Checkpoint b59d7c72 = dashboard+landing+access separation. Domains: s-agent-passport.manus.space.
+
+
+## WebAuthn progress (14:32) — server+client DONE
+- routers.ts: security router ADDED (status/registerOptions/registerVerify/authOptions/
+  authVerify/removePasskey/setVaultLock); passports.exportData now gated via
+  vaultLockBlockReason -> FORBIDDEN "Vault lock is on — verify...".
+- Portal.tsx: Security section id="security" added after applications (enroll passkey w/ label,
+  list w/ remove, vault lock Switch, Verify now & unlock button); nav link "Security" added;
+  doDownload wraps fetchExportWithUnlock (catches "Vault lock" FORBIDDEN -> verifyPasskey -> retry).
+  Uses @simplewebauthn/browser {optionsJSON}. tsc 0 errors.
+- REMAINING: server/webauthn.test.ts unit tests (setVaultLock w/o passkey fails, gate logic,
+  markVerified/isRecentlyVerified); run pnpm test (existing 14 must stay green);
+  screenshot /portal (unauth ok; authed via preview cookie — screenshot tool uses preview session
+  where Seif is logged in); update todo.md items; checkpoint; deliver.
+- Note: webauthn ceremony itself can't be browser-tested in sandbox (no authenticator);
+  verify UI renders + endpoints respond; state that honestly in delivery.
+- dotenv console error is STALE (13:36, pre-pnpm-install). Domains live:
+  s-agent-passport.manus.space + sagentpass-kzcdvsjy.manus.space (user bound them).
+- Checkpoint b59d7c72 = phases 1-3. todo.md lines 45-48 = this iteration.

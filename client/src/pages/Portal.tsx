@@ -26,10 +26,12 @@ import {
   ArrowLeft,
   FileDown,
   FileText,
+  Fingerprint,
   KeyRound,
   Loader2,
   LogOut,
   Plus,
+  ScanFace,
   Send,
   ShieldCheck,
   Stamp as StampIcon,
@@ -37,6 +39,11 @@ import {
   Vault,
   Clock,
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import {
+  startRegistration as webauthnRegister,
+  startAuthentication as webauthnAuthenticate,
+} from "@simplewebauthn/browser";
 
 const LOGO = "/manus-storage/s-slash-logo_80b146d9.png";
 
@@ -55,6 +62,7 @@ export default function Portal() {
   const typesQ = trpc.catalog.agentTypes.useQuery(undefined, { staleTime: Infinity });
   const vaultQ = trpc.vault.list.useQuery(undefined, { enabled: isAuthenticated });
   const requestsQ = trpc.requests.mine.useQuery(undefined, { enabled: isAuthenticated });
+  const securityQ = trpc.security.status.useQuery(undefined, { enabled: isAuthenticated });
 
   /* ===== vault state ===== */
   const [newKey, setNewKey] = useState("");
@@ -119,12 +127,88 @@ export default function Portal() {
     });
   };
 
+  /* ===== security: passkeys + vault lock ===== */
+  const [passkeyLabel, setPasskeyLabel] = useState("");
+  const [enrolling, setEnrolling] = useState(false);
+  const [unlocking, setUnlocking] = useState(false);
+  const registerOptions = trpc.security.registerOptions.useMutation();
+  const registerVerify = trpc.security.registerVerify.useMutation();
+  const authOptions = trpc.security.authOptions.useMutation();
+  const authVerify = trpc.security.authVerify.useMutation();
+  const removeKey = trpc.security.removePasskey.useMutation({
+    onSuccess: () => {
+      utils.security.status.invalidate();
+      toast.success("Passkey removed.");
+    },
+    onError: (e) => toast.error(e.message),
+  });
+  const setLock = trpc.security.setVaultLock.useMutation({
+    onSuccess: (r) => {
+      utils.security.status.invalidate();
+      toast.success(r.enabled ? "Vault lock armed — passkey required for exports." : "Vault lock disabled.");
+    },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const enrollPasskey = async () => {
+    setEnrolling(true);
+    try {
+      const options = await registerOptions.mutateAsync();
+      const attResp = await webauthnRegister({ optionsJSON: options as never });
+      await registerVerify.mutateAsync({ response: attResp, label: passkeyLabel.trim() || null });
+      setPasskeyLabel("");
+      utils.security.status.invalidate();
+      toast.success("Passkey enrolled — Face ID / fingerprint is now available.");
+    } catch (e) {
+      const msg = (e as Error).message || "";
+      if (msg.includes("NotAllowedError") || (e as Error).name === "NotAllowedError") {
+        toast.error("Enrollment cancelled.");
+      } else {
+        toast.error(msg || "Could not enroll passkey on this device.");
+      }
+    } finally {
+      setEnrolling(false);
+    }
+  };
+
+  const verifyPasskey = async (): Promise<boolean> => {
+    setUnlocking(true);
+    try {
+      const options = await authOptions.mutateAsync();
+      const asseResp = await webauthnAuthenticate({ optionsJSON: options as never });
+      await authVerify.mutateAsync({ response: asseResp });
+      utils.security.status.invalidate();
+      toast.success("Identity verified — vault unlocked for 5 minutes.");
+      return true;
+    } catch (e) {
+      const err = e as Error;
+      toast.error(err.name === "NotAllowedError" ? "Verification cancelled." : err.message || "Verification failed.");
+      return false;
+    } finally {
+      setUnlocking(false);
+    }
+  };
+
   /* ===== downloads ===== */
   const [exportingId, setExportingId] = useState<number | null>(null);
+  const fetchExportWithUnlock = async (passportRowId: number) => {
+    try {
+      return await utils.passports.exportData.fetch({ id: passportRowId });
+    } catch (e) {
+      // Vault lock engaged → run the biometric ceremony, then retry once.
+      if ((e as Error).message.includes("Vault lock")) {
+        toast("Vault lock is on", { description: "Verify with Face ID / fingerprint to continue." });
+        const ok = await verifyPasskey();
+        if (!ok) throw new Error("Passkey verification required to export.");
+        return await utils.passports.exportData.fetch({ id: passportRowId });
+      }
+      throw e;
+    }
+  };
   const doDownload = async (passportRowId: number, kind: "pdf" | "embed" | "env") => {
     setExportingId(passportRowId);
     try {
-      const data = await utils.passports.exportData.fetch({ id: passportRowId });
+      const data = await fetchExportWithUnlock(passportRowId);
       const tools = (toolsQ.data ?? []).filter((t) =>
         (data.passport.capabilities ?? []).includes(t.capability),
       );
@@ -213,6 +297,7 @@ export default function Portal() {
             <a href="#vault" className="hover:text-primary transition-colors">Vault</a>
             <a href="#apply" className="hover:text-primary transition-colors">Apply</a>
             <a href="#applications" className="hover:text-primary transition-colors">Applications</a>
+            <a href="#security" className="hover:text-primary transition-colors">Security</a>
             {user?.role === "admin" && (
               <Link href="/admin" className="text-primary hover:text-primary/80 transition-colors">Approval desk</Link>
             )}
@@ -624,9 +709,122 @@ export default function Portal() {
             ))}
           </div>
         </section>
+
+        <Perforation />
+
+        {/* ===== security: passkeys + vault lock ===== */}
+        <section id="security">
+          <div className="flex items-center gap-2.5 mb-5">
+            <Fingerprint className="h-5 w-5 text-primary" strokeWidth={1.5} />
+            <h2 className="font-display text-xl font-bold uppercase tracking-tight">Security &amp; biometrics</h2>
+            {securityQ.data?.vaultLockEnabled && (
+              <Stamp tone={securityQ.data.unlocked ? "ink" : "steel"} className="text-[10px]">
+                {securityQ.data.unlocked ? "unlocked" : "lock armed"}
+              </Stamp>
+            )}
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6 items-start">
+            {/* enroll + list */}
+            <div className="panel rounded-sm p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <ScanFace className="h-4 w-4 text-primary" />
+                <span className="label-mono text-foreground/90">Passkeys · Face ID / fingerprint / security key</span>
+              </div>
+              <p className="font-mono text-[12px] text-muted-foreground leading-relaxed">
+                Enroll this device's biometrics as a passkey. Nothing biometric leaves your device —
+                the portal only receives a cryptographic signature.
+              </p>
+              <div className="flex gap-2.5">
+                <Input
+                  value={passkeyLabel}
+                  onChange={(e) => setPasskeyLabel(e.target.value)}
+                  placeholder="Label, e.g. MacBook Touch ID"
+                  className="font-mono text-sm rounded-[3px]"
+                />
+                <Button
+                  onClick={enrollPasskey}
+                  disabled={enrolling}
+                  className="btn-press font-mono uppercase tracking-wider text-[11px] rounded-[3px] shrink-0"
+                >
+                  {enrolling ? <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" /> : <Plus className="h-3.5 w-3.5 mr-1.5" />}
+                  Enroll
+                </Button>
+              </div>
+
+              <div className="space-y-2">
+                {(securityQ.data?.passkeys ?? []).length === 0 && (
+                  <p className="font-mono text-[12px] text-muted-foreground border border-dashed border-border/60 rounded-[3px] p-3">
+                    No passkeys enrolled yet.
+                  </p>
+                )}
+                {(securityQ.data?.passkeys ?? []).map((k) => (
+                  <div key={k.id} className="flex items-center gap-3 border border-border/60 rounded-[3px] px-3 py-2">
+                    <Fingerprint className="h-4 w-4 text-primary shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-mono text-[13px] truncate">{k.label || "Unnamed passkey"}</div>
+                      <div className="font-mono text-[11px] text-muted-foreground">
+                        {k.deviceType === "multiDevice" ? "synced" : "device-bound"} · enrolled{" "}
+                        {new Date(k.createdAt).toLocaleDateString()}
+                        {k.lastUsedAt ? ` · last used ${new Date(k.lastUsedAt).toLocaleString()}` : ""}
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => removeKey.mutate({ id: k.id })}
+                      className="btn-press text-muted-foreground hover:text-[oklch(0.66_0.2_22)]"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* vault lock */}
+            <div className="panel rounded-sm p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-primary" />
+                <span className="label-mono text-foreground/90">Vault lock</span>
+              </div>
+              <p className="font-mono text-[12px] text-muted-foreground leading-relaxed">
+                When armed, exporting anything that carries real secret values — the vault{" "}
+                <span className="text-foreground">.env</span>, the embed bundle, or the owner dossier —
+                first requires a passkey verification on this device. The unlock lasts 5 minutes.
+              </p>
+              <div className="flex items-center justify-between border border-border/60 rounded-[3px] px-4 py-3">
+                <div className="font-mono text-[13px]">
+                  Require Face ID / fingerprint for exports
+                  <div className="font-mono text-[11px] text-muted-foreground mt-0.5">
+                    {securityQ.data?.passkeyCount
+                      ? `${securityQ.data.passkeyCount} passkey${securityQ.data.passkeyCount === 1 ? "" : "s"} enrolled`
+                      : "Enroll a passkey first"}
+                  </div>
+                </div>
+                <Switch
+                  checked={!!securityQ.data?.vaultLockEnabled}
+                  disabled={setLock.isPending || !securityQ.data}
+                  onCheckedChange={(v) => setLock.mutate({ enabled: v })}
+                />
+              </div>
+              {securityQ.data?.vaultLockEnabled && !securityQ.data.unlocked && (
+                <Button
+                  onClick={verifyPasskey}
+                  disabled={unlocking}
+                  variant="outline"
+                  className="btn-press w-full font-mono uppercase tracking-wider text-[11px] rounded-[3px] border-primary/50 text-primary hover:bg-primary/10"
+                >
+                  {unlocking ? <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" /> : <ScanFace className="h-3.5 w-3.5 mr-1.5" />}
+                  Verify now &amp; unlock
+                </Button>
+              )}
+            </div>
+          </div>
+        </section>
       </div>
 
-      <MrzStrip text="P<SPASS<<OWNER<PORTAL<<<VAULT<SEALED<<<APPLICATIONS<ON<FILE<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" />
+      <MrzStrip text="P<SPASS<<OWNER<PORTAL<<<VAULT<SEALED<<<PASSKEY<ARMED<<<APPLICATIONS<ON<FILE<<<<<<<<<<<<<" />
     </div>
   );
 }

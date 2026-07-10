@@ -14,6 +14,18 @@ import {
   type PassportPayload,
 } from "./passport";
 import * as pdb from "./passportDb";
+import {
+  finishAuthentication,
+  finishRegistration,
+  isRecentlyVerified,
+  listPasskeys,
+  removePasskey,
+  rpFromRequest,
+  setVaultLock,
+  startAuthentication,
+  startRegistration,
+  vaultLockBlockReason,
+} from "./webauthn";
 
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
@@ -180,6 +192,62 @@ export const appRouter = router({
       }),
   }),
 
+  /* ===== Security: passkeys + vault lock ===== */
+  security: router({
+    status: protectedProcedure.query(async ({ ctx }) => {
+      const keys = await listPasskeys(ctx.user.id);
+      return {
+        vaultLockEnabled: !!(ctx.user as { vaultLockEnabled?: number }).vaultLockEnabled,
+        passkeyCount: keys.length,
+        unlocked: isRecentlyVerified(ctx.user.id),
+        passkeys: keys,
+      };
+    }),
+    registerOptions: protectedProcedure.mutation(({ ctx }) => {
+      const { rpID } = rpFromRequest(ctx.req);
+      return startRegistration(
+        { id: ctx.user.id, name: ctx.user.name, email: ctx.user.email },
+        rpID,
+      );
+    }),
+    registerVerify: protectedProcedure
+      .input(z.object({ response: z.any(), label: z.string().max(128).nullable() }))
+      .mutation(async ({ ctx, input }) => {
+        const { rpID, origin } = rpFromRequest(ctx.req);
+        const res = await finishRegistration(ctx.user.id, input.response, rpID, origin, input.label);
+        if (!res.ok) throw new TRPCError({ code: "BAD_REQUEST", message: res.reason });
+        return { success: true } as const;
+      }),
+    authOptions: protectedProcedure.mutation(async ({ ctx }) => {
+      const { rpID } = rpFromRequest(ctx.req);
+      const options = await startAuthentication(ctx.user.id, rpID);
+      if (!options) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "No passkeys enrolled yet." });
+      return options;
+    }),
+    authVerify: protectedProcedure
+      .input(z.object({ response: z.any() }))
+      .mutation(async ({ ctx, input }) => {
+        const { rpID, origin } = rpFromRequest(ctx.req);
+        const res = await finishAuthentication(ctx.user.id, input.response, rpID, origin);
+        if (!res.ok) throw new TRPCError({ code: "BAD_REQUEST", message: res.reason });
+        return { success: true } as const;
+      }),
+    removePasskey: protectedProcedure
+      .input(z.object({ id: z.number().int() }))
+      .mutation(async ({ ctx, input }) => {
+        const ok = await removePasskey(ctx.user.id, input.id);
+        if (!ok) throw new TRPCError({ code: "NOT_FOUND" });
+        return { success: true } as const;
+      }),
+    setVaultLock: protectedProcedure
+      .input(z.object({ enabled: z.boolean() }))
+      .mutation(async ({ ctx, input }) => {
+        const res = await setVaultLock(ctx.user.id, input.enabled);
+        if (!res.ok) throw new TRPCError({ code: "PRECONDITION_FAILED", message: res.reason });
+        return { success: true, enabled: input.enabled } as const;
+      }),
+  }),
+
   /* ===== Issued passports (owner side) ===== */
   passports: router({
     mine: protectedProcedure.query(({ ctx }) => pdb.listMyPassports(ctx.user.id)),
@@ -189,6 +257,8 @@ export const appRouter = router({
       .query(async ({ ctx, input }) => {
         const p = await pdb.getPassportById(input.id);
         if (!p || p.userId !== ctx.user.id) throw new TRPCError({ code: "NOT_FOUND" });
+        const blockReason = await vaultLockBlockReason(ctx.user.id);
+        if (blockReason) throw new TRPCError({ code: "FORBIDDEN", message: blockReason });
         const payload = p.payload as unknown as PassportPayload;
         const refs = (payload.metadata?.vault_secret_refs as string[]) ?? [];
         const secrets = await pdb.getVaultSecretsByNames(ctx.user.id, refs);

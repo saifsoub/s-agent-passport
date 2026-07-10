@@ -42,7 +42,7 @@
 - [x] Route guard: /admin renders access-denied stamp page for non-admins (RESTRICTED AREA stamp; queries enabled only when isAdmin; server adminProcedure enforced)
 - [x] Landing page enhancement: hero credential mock card, proof strip, security posture section, FAQ accordion, sharper CTA flow
 - [x] Owner dashboard: command deck at top of /portal — stat tiles (active passports, sealed secrets, awaiting stamp, denied), quick action, recent activity feed
-- [ ] WebAuthn passkeys: schema (passkeys table + vault lock setting), register/verify endpoints
-- [ ] Biometric gate: opt-in vault lock — passkey check required for secret reveal/downloads when enabled
-- [ ] Portal settings section: enroll Face ID/fingerprint, list/remove passkeys, toggle vault lock
-- [ ] Tests for passkey endpoints + updated flows; tsc clean; screenshots; checkpoint; deliver
+- [x] WebAuthn passkeys: schema (passkeys table + vault lock setting), register/verify endpoints (security tRPC router)
+- [x] Biometric gate: opt-in vault lock — exportData FORBIDDEN when locked → passkey ceremony → 5-min unlock window → retry
+- [x] Portal settings section: Security & biometrics — enroll Face ID/fingerprint with label, list/remove passkeys, vault-lock toggle, verify-now button
+- [x] Tests for passkey logic (verify window, RP derivation) — 19/19 suite green; tsc clean; screenshots verified; checkpoint; deliver

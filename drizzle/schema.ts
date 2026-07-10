@@ -25,6 +25,8 @@ export const users = mysqlTable("users", {
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  /** Opt-in biometric vault lock: when 1, sensitive actions require a recent passkey verification. */
+  vaultLockEnabled: int("vaultLockEnabled").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -98,3 +100,30 @@ export const passports = mysqlTable("passports", {
 
 export type PassportRow = typeof passports.$inferSelect;
 export type InsertPassportRow = typeof passports.$inferInsert;
+
+/**
+ * WebAuthn passkeys (Face ID / fingerprint / security key) enrolled by owners.
+ * Used as an optional second factor ("vault lock") gating sensitive actions:
+ * vault value export (.env), embed bundle download, and owner dossier.
+ */
+export const passkeys = mysqlTable("passkeys", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Base64URL credential ID from the authenticator. */
+  credentialId: varchar("credentialId", { length: 255 }).notNull().unique(),
+  /** Base64URL-encoded COSE public key. */
+  publicKey: text("publicKey").notNull(),
+  counter: int("counter").notNull().default(0),
+  /** Comma-separated authenticator transports (internal, hybrid, usb, ble, nfc). */
+  transports: varchar("transports", { length: 255 }),
+  /** singleDevice | multiDevice */
+  deviceType: varchar("deviceType", { length: 32 }),
+  backedUp: int("backedUp").notNull().default(0),
+  /** Friendly label, e.g. "MacBook Touch ID". */
+  label: varchar("label", { length: 128 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  lastUsedAt: timestamp("lastUsedAt"),
+});
+
+export type Passkey = typeof passkeys.$inferSelect;
+export type InsertPasskey = typeof passkeys.$inferInsert;
