@@ -69,3 +69,110 @@ TODO:
 - Existing components to reuse: Section, PassportCard, Stamp, MrzStrip, Perforation from
   @/components/passport-ui; UI: Button, Input, Checkbox, sonner toast.
 - Home.tsx nav has links schema/issue/gate/lineage/registry/annex; add /owner link.
+
+
+## Fourth iteration (2026-07-10): TURN INTO REAL PRODUCT
+User request: (1) separate/create a public commercial landing page ("tired of adding your
+password over and over? issue a passport" vibe) that leads to the submission portal;
+(2) portal = real backend; (3) gate = REAL approval flow (pending → admin approves/denies);
+(4) no more mock — real DB.
+
+STATUS: webdev_add_feature web-db-user COMPLETED. Template = tRPC 11 + Drizzle (MySQL) +
+Manus OAuth. Key facts:
+- Home.tsx was REPLACED by template stub (old demo page content was overwritten — the old
+  demo page code with all sections still documented in git history; checkpoint 50ddd5b7).
+- Auth: useAuth() from @/_core/hooks/useAuth, startLogin() from @/const (call in onClick).
+  protectedProcedure gives ctx.user; adminProcedure pattern: check ctx.user.role !== 'admin'.
+  users table has role enum user/admin; OWNER_OPEN_ID auto-becomes admin on login.
+- DB: drizzle/schema.ts + pnpm db:push. server/db.ts helpers, server/routers.ts procedures.
+- trpc client: trpc.*.useQuery/useMutation from @/lib/trpc.
+- Vitest: server/*.test.ts, pnpm test. Required before delivery.
+
+RECOVERY PLAN (files to create/restore):
+1. git show 50ddd5b7 -- client/src/pages/Home.tsx > restore as client/src/pages/Demo.tsx
+   (rename component Demo, route /demo, keep all interactive sections; remove nav Owner
+   Console link → point to /portal).
+2. New Landing at / : commercial S/ branded (navy + copper #D97742 oklch(0.68 0.145 45)),
+   headline like "Tired of pasting your API keys over and over?", benefits (one credential,
+   sealed vault, scoped tools, revoke anytime), how-it-works 3 steps, CTA → /portal,
+   secondary link → /demo ("see it inspect"). Existing assets:
+   /manus-storage/hero-checkpoint_653f00d7.png, passport-booklet_d06db170.png,
+   s-slash-logo_80b146d9.png. Fonts: Space Grotesk + IBM Plex Mono (need re-add to
+   client/index.html if template reset it).
+3. Schema tables to add: vault_secrets (id, userId FK, keyName, valueEncrypted, createdAt),
+   passport_requests (id, userId, agentName, agentType, toolIds JSON, secretKeys JSON,
+   ttlHours, purpose, status enum pending/approved/denied, decidedBy, decidedAt, denialReason,
+   createdAt), passports (id, passportId S-PASS-hex12, requestId FK, userId, payload JSON,
+   checksum, signature, status enum active/revoked, issuedAt, expiresAt, revokedAt).
+4. Routers: vault (list/add/delete - protected), requests (submit/listMine - protected;
+   listAll/approve/deny - admin), passports (mine, download data). Passport minting logic
+   port from client/src/lib/passport.ts (issuePassport, computeChecksum) to server/passport.ts.
+   AES-256-GCM encrypt vault values with JWT_SECRET-derived key.
+5. Pages: Landing (/), Portal (/portal - owner console on real trpc), Admin desk (/admin -
+   adminProcedure gated, approve/deny pending), Demo (/demo). Update App.tsx routes.
+6. Downloads: reuse client/src/lib/ownerConsole.ts buildEmbedBundle + buildOwnerDocumentHtml
+   but source data from server passport records (adapt types).
+7. index.css: theme already Border Control (dark navy + copper) — KEEP. ThemeProvider
+   defaultTheme must stay "dark" in App.tsx (template may have reset to "light").
+8. pnpm db:push, write vitest for approve flow, screenshot all pages, checkpoint.
+
+Standing rule: NEVER mention FTA unless explicitly for the FTA.
+
+
+## Progress log (real product build, 2026-07-10 13:47)
+DONE so far:
+- web-db-user upgrade complete, pnpm install done, db:push applied (tables: users,
+  vault_secrets, passport_requests, passports confirmed in DB).
+- drizzle/schema.ts: added vaultSecrets, passportRequests, passports tables.
+- server/passport.ts: TOOL_CATALOG (14 tools), AGENT_TYPES, mintPassport (checksum
+  sha256[:16] over id|name|type|creator|issued_at, S-PASS-{12hex}, provenance
+  requested/approved/issued, HMAC-SHA256 signing keyed off JWT_SECRET,
+  signer_public_key="hmac-sha256:s-pass-web-registry"), AES-256-GCM encrypt/decryptSecret
+  (iv.tag.data base64), maskSecret.
+- server/passportDb.ts: vault CRUD, request create/list/decide, passport insert/list/
+  getByRequestId/revoke.
+- server/routers.ts: catalog.tools/agentTypes (public), vault.list/add/remove (protected,
+  KEY_NAME_RE ^[A-Z][A-Z0-9_]{1,63}$, max 50), requests.submit/mine, admin.pending/
+  approve/deny/allPassports/revoke (adminProcedure role check), passports.mine/exportData
+  (exportData returns payload + decrypted secretEnv for embed bundle).
+- client/src/pages/Landing.tsx: commercial page done ("Tired of pasting your API keys
+  over and over?", pain/how/benefits/final CTA, links /portal /demo /admin).
+- client/src/pages/Demo.tsx: old demo restored (component Demo), nav link → /portal.
+- client/src/pages/Home.tsx: still OLD demo content (stray useAuth line removed);
+  PLAN: App.tsx routes / → Landing (change import Home→Landing), /demo → Demo, delete
+  Home.tsx & OwnerConsole.tsx after Portal built.
+- App.tsx: routes registered for /, /demo, /portal, /admin — Portal.tsx and AdminDesk.tsx
+  DON'T EXIST YET (2 TS errors pending).
+
+REMAINING:
+1. Portal.tsx — rebuild OwnerConsole on trpc: auth via useAuth()+startLogin() from
+   "@/const"; sections: owner file (auto from Manus login), vault (trpc.vault.*),
+   request form (trpc.catalog.tools, trpc.requests.submit), my applications
+   (trpc.requests.mine, show pending/approved/denied stamps), my passports
+   (trpc.passports.mine) with dual downloads using trpc.passports.exportData →
+   client/src/lib/passportExports.ts (port buildEmbedBundle + buildOwnerDocumentHtml from
+   ownerConsole.ts lines 183-406, adapt to PassportPayload type from server; embed bundle
+   includes real env values in comments? NO — keep names only in PDF; embed bundle has
+   export lines with actual values fetched via exportData.secretEnv).
+2. AdminDesk.tsx — trpc.admin.pending list with APPROVE/DENY stamps (deny requires
+   reason dialog), allPassports table with revoke; gate by useAuth().user?.role==='admin',
+   show DENIED stamp page for non-admins.
+3. App.tsx: swap Home import → Landing for "/" route.
+4. Update Demo.tsx nav: it has Link /portal already (done via sed).
+5. Vitest: server/passport.test.ts (mint/checksum/sign/encrypt roundtrip, approve flow
+   with mocked db? — at minimum crypto + minting pure functions).
+6. tsc clean, screenshots (/, /portal, /admin, /demo), checkpoint, deliver.
+Design tokens: font-display=Space Grotesk, font-mono=IBM Plex Mono, label-mono/panel/
+doc-corners/stamp/mrz/perforation/slash-watermark/rise-in/btn-press classes in index.css.
+Copper primary. ThemeProvider defaultTheme="dark" (done in App.tsx).
+
+
+## Verification status (13:55)
+- 13/13 vitest pass (passport.test.ts 12 + auth.logout 1). tsc 0 errors.
+- Screenshots: / (landing renders great), /demo renders fully.
+- /portal and /admin show only the auth loading spinner in screenshots — expected:
+  useAuth loading state while trpc auth.me resolves without session cookie in the
+  screenshot browser. Portal shows login panel when auth resolves unauthenticated.
+  Need to verify the loading state doesn't hang: auth.me is publicProcedure returning
+  null; useAuth loading should flip false. If spinner persists → check useAuth hook.
+- Remaining: verify portal/admin non-auth render OK, checkpoint + deliver.

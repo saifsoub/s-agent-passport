@@ -115,7 +115,7 @@ $ s-pass verify S-PASS-62689D1F2D09 --cap web_search \\
 $ s-pass card S-PASS-62689D1F2D09 -o card.png
 $ s-pass revoke S-PASS-62689D1F2D09 --reason end_of_shift`;
 
-export default function Home() {
+export default function Demo() {
   /* ---- shared registry state ---- */
   const [registry, setRegistry] = useState<Map<string, Passport>>(new Map());
 
@@ -343,7 +343,7 @@ export default function Home() {
             <a href="#lineage" className="hover:text-primary transition-colors">Lineage</a>
             <a href="#registry" className="hover:text-primary transition-colors">Registry</a>
             <a href="#annex" className="hover:text-primary transition-colors">Annex</a>
-            <Link href="/owner" className="text-primary hover:text-primary/80 transition-colors">Owner Console</Link>
+            <Link href="/portal" className="text-primary hover:text-primary/80 transition-colors">Portal</Link>
           </nav>
           <Button
             size="sm"
