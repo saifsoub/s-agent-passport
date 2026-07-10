@@ -176,3 +176,74 @@ Copper primary. ThemeProvider defaultTheme="dark" (done in App.tsx).
   Need to verify the loading state doesn't hang: auth.me is publicProcedure returning
   null; useAuth loading should flip false. If spinner persists → check useAuth hook.
 - Remaining: verify portal/admin non-auth render OK, checkpoint + deliver.
+
+
+## Fifth iteration (2026-07-10 ~14:15): ACCESS SEPARATION + LANDING + DASHBOARD + BIOMETRICS
+Checkpoint before this work: 2749031e (browser E2E verified; test data cleaned).
+SITE IS PUBLISHED: s-agent-passport.manus.space + sagentpass-kzcdvsjy.manus.space.
+
+User requests:
+1. Access separation — owners currently see links to pages they shouldn't (Approval Desk
+   link in Portal nav visible to all; Landing footer may link /admin). Fix: render admin
+   links only when useAuth().user?.role === 'admin'. AdminDesk already server-gated
+   (adminProcedure) + shows denied UI, but links must disappear for non-admins.
+2. Enhance the landing page (stronger commercial design/content).
+3. Owner dashboard — passports at a glance, vault status, application history, quick
+   actions. Likely new /dashboard route (DashboardLayout not required — public product;
+   keep custom nav) or restructure Portal with an overview header section.
+4. Biometric auth option (Face ID / fingerprint) = WebAuthn passkeys, OPT-IN, for owner
+   safety. Plan: pnpm add @simplewebauthn/server @simplewebauthn/browser; passkeys table
+   (id, userId, credentialId unique, publicKey text, counter, transports, createdAt,
+   label); users.vaultLockEnabled boolean (or separate settings); challenge stored
+   server-side short-lived (in-memory Map or DB table with expiry); routers: passkeys.
+   registerOptions/registerVerify/authOptions/authVerify/list/remove + setting toggle;
+   gate: vault value reveal + exportData (.env/embed downloads) require recent passkey
+   verification (e.g. verifiedAt within 5 min in a signed cookie or server session map)
+   when user has vaultLockEnabled.
+Phases: 1 access separation → 2 landing → 3 dashboard → 4 webauthn → 5 test/checkpoint/deliver.
+
+
+## Fifth iteration progress (14:25)
+- Phase 1 DONE: Landing footer /admin link removed; Portal nav already gated by
+  user?.role==='admin'; AdminDesk shows RESTRICTED AREA denied page for non-admins,
+  queries enabled:isAdmin only; Demo has no admin links.
+- Phase 2 DONE: Landing.tsx rewritten (v2): hero + right-side credential mock card
+  (S-PASS-7C41E9A2B0D8), proof strip (AES-256-GCM/1 stamp/Instant/Face ID), pain,
+  how-it-works, benefits, NEW security section (4 cards incl. biometric vault lock)
+  + checklist row, NEW FAQ (5 items, FaqItem accordion with useState), final CTA,
+  footer (demo/portal only). tsc 0 errors. Needs screenshot verify.
+- Phase 3 NEXT: Owner dashboard — plan: add overview/dashboard section at top of
+  /portal (it already fetches vault+requests+passports): stat tiles (active passports,
+  sealed secrets, pending applications), recent activity list, quick action buttons
+  (seal secret → #vault, new application → #apply). Alternatively separate /dashboard
+  route. DECISION: integrate as Portal top "Command deck" section — avoids nav
+  duplication; Portal IS the owner space.
+- Phase 4: WebAuthn passkeys per plan in earlier notes (@simplewebauthn/server+browser,
+  passkeys table, users.vaultLockEnabled or settings, challenge map, gate exportData +
+  vault reveal).
+- dotenv error in devserver.log is STALE (13:36, pre-pnpm-install); tsc watch clean.
+- Site published: s-agent-passport.manus.space. Latest checkpoint 2749031e.
+
+
+## Portal.tsx structure facts (for dashboard + biometric integration)
+- Portal renders (after auth): header nav (Vault/Apply/Applications + admin-only Approval desk link)
+  → "Owner file" section (~line 230, panel with name + counts + File open stamp)
+  → #vault section → Perforation → #apply section → Perforation → #applications section.
+- Queries: vaultQ=trpc.vault.list, requestsQ=trpc.requests.mine (each r may have r.passport
+  {id, passportId, status}). secrets/requests/pendingCount computed at ~193-195.
+- Downloads: doDownload(passportRowId, "pdf"|"embed"|"env") uses utils.passports.exportData.fetch.
+- passportExports helpers: buildEmbedBundle, buildEnvFile, buildOwnerDocumentHtml, downloadText, openPrintableDoc.
+- statusStampTone(s) helper at top. Icons imported from lucide.
+- Dashboard plan: replace "Owner file" section with fuller "Command deck": stat tiles
+  (active passports = requests where r.passport?.status==='active'; sealed secrets; pending apps),
+  quick actions (jump #vault/#apply), recent activity (latest requests by createdAt).
+- Schema: NO passkeys table, NO vaultLockEnabled yet (greenfield). routers.ts has no settings/passkeys.
+- server/passport.ts has AES-256-GCM encryptSecret/decryptSecret/maskSecret; HMAC signing via JWT_SECRET.
+- App.tsx routes: / Landing, /demo Demo, /portal Portal, /admin AdminDesk, 404. Dark theme.
+- WebAuthn plan: pnpm add @simplewebauthn/server @simplewebauthn/browser; passkeys table
+  (id, userId, credentialId varchar(255) unique, publicKey text, counter bigint, transports varchar,
+  label, createdAt); users.vaultLockEnabled boolean default false (add column);
+  challenges: in-memory Map<userId, {challenge, expires}> in server/webauthn.ts (fine for single instance);
+  routers: passkeys.registerOptions/registerVerify/authOptions/authVerify/list/remove/setVaultLock;
+  gate: vault.reveal + passports.exportData check recent verification (Map<userId, verifiedAtMs>, 5 min TTL)
+  when user.vaultLockEnabled. rpID from req host; origin from req.

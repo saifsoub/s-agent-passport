@@ -36,3 +36,13 @@
 - [x] Portal: application shows APPROVED with passport id + Owner dossier / Embed bundle / Vault .env buttons
 - [x] Downloads verified on disk: embed .py (full passport JSON, checksum, signature, present() helper) + vault .env
 - [x] Cleanup: test vault secret deleted, test passport revoked (kept for audit), mint script removed
+
+## Fifth iteration (2026-07-10): access separation, landing, dashboard, biometrics
+- [x] Access separation: hide Approval Desk / admin links from non-admin users (Portal nav already role-gated; Landing footer /admin link removed; Demo nav has none)
+- [x] Route guard: /admin renders access-denied stamp page for non-admins (RESTRICTED AREA stamp; queries enabled only when isAdmin; server adminProcedure enforced)
+- [x] Landing page enhancement: hero credential mock card, proof strip, security posture section, FAQ accordion, sharper CTA flow
+- [x] Owner dashboard: command deck at top of /portal — stat tiles (active passports, sealed secrets, awaiting stamp, denied), quick action, recent activity feed
+- [ ] WebAuthn passkeys: schema (passkeys table + vault lock setting), register/verify endpoints
+- [ ] Biometric gate: opt-in vault lock — passkey check required for secret reveal/downloads when enabled
+- [ ] Portal settings section: enroll Face ID/fingerprint, list/remove passkeys, toggle vault lock
+- [ ] Tests for passkey endpoints + updated flows; tsc clean; screenshots; checkpoint; deliver

@@ -193,6 +193,11 @@ export default function Portal() {
   const secrets = vaultQ.data ?? [];
   const requests = requestsQ.data ?? [];
   const pendingCount = requests.filter((r) => r.status === "pending").length;
+  const activePassports = requests.filter((r) => r.passport?.status === "active").length;
+  const deniedCount = requests.filter((r) => r.status === "denied").length;
+  const recentActivity = [...requests]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 5);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -204,6 +209,7 @@ export default function Portal() {
             <span className="font-display font-bold tracking-tight">Owner Portal</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 label-mono">
+            <a href="#dashboard" className="hover:text-primary transition-colors">Dashboard</a>
             <a href="#vault" className="hover:text-primary transition-colors">Vault</a>
             <a href="#apply" className="hover:text-primary transition-colors">Apply</a>
             <a href="#applications" className="hover:text-primary transition-colors">Applications</a>
@@ -226,17 +232,100 @@ export default function Portal() {
       </header>
 
       <div className="container pt-24 pb-16 space-y-14">
-        {/* ===== owner file ===== */}
-        <section className="panel doc-corners rounded-sm p-6 flex flex-col sm:flex-row sm:items-center gap-5">
-          <div className="flex-1">
-            <div className="label-mono mb-1">Owner file</div>
-            <div className="font-display text-2xl font-bold tracking-tight">{user?.name || "Owner"}</div>
-            <div className="font-mono text-[12px] text-muted-foreground mt-1">
-              {secrets.length} sealed secret{secrets.length === 1 ? "" : "s"} · {requests.length} application{requests.length === 1 ? "" : "s"}
-              {pendingCount > 0 && <span className="text-primary"> · {pendingCount} awaiting stamp</span>}
+        {/* ===== owner dashboard / command deck ===== */}
+        <section id="dashboard" className="space-y-5">
+          <div className="panel doc-corners rounded-sm p-6 flex flex-col sm:flex-row sm:items-center gap-5">
+            <div className="flex-1">
+              <div className="label-mono mb-1">Owner file</div>
+              <div className="font-display text-2xl font-bold tracking-tight">{user?.name || "Owner"}</div>
+              <div className="font-mono text-[12px] text-muted-foreground mt-1">
+                Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—"}
+                {pendingCount > 0 && <span className="text-primary"> · {pendingCount} awaiting stamp</span>}
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Button
+                size="sm"
+                className="btn-press font-mono text-[11px] uppercase tracking-wider rounded-[3px]"
+                onClick={() => document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                <StampIcon className="h-3.5 w-3.5 mr-1.5" /> New application
+              </Button>
+              <Stamp tone="ink" className="text-sm">File open</Stamp>
             </div>
           </div>
-          <Stamp tone="ink" className="text-sm self-start sm:self-center">File open</Stamp>
+
+          {/* stat tiles */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                label: "Active passports",
+                value: activePassports,
+                icon: ShieldCheck,
+                tone: activePassports > 0 ? "text-primary" : "text-muted-foreground",
+                href: "#applications",
+              },
+              {
+                label: "Sealed secrets",
+                value: secrets.length,
+                icon: Vault,
+                tone: "text-foreground",
+                href: "#vault",
+              },
+              {
+                label: "Awaiting stamp",
+                value: pendingCount,
+                icon: Clock,
+                tone: pendingCount > 0 ? "text-primary" : "text-muted-foreground",
+                href: "#applications",
+              },
+              {
+                label: "Denied",
+                value: deniedCount,
+                icon: FileText,
+                tone: deniedCount > 0 ? "text-[oklch(0.7_0.17_22)]" : "text-muted-foreground",
+                href: "#applications",
+              },
+            ].map(({ label, value, icon: Icon, tone, href }) => (
+              <a
+                key={label}
+                href={href}
+                className="panel rounded-sm p-4 flex items-center gap-4 hover:border-primary/50 transition-colors"
+              >
+                <Icon className={`h-5 w-5 shrink-0 ${tone}`} strokeWidth={1.5} />
+                <div className="min-w-0">
+                  <div className={`font-display text-2xl font-bold leading-none ${tone}`}>{value}</div>
+                  <div className="label-mono mt-1">{label}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* recent activity */}
+          {recentActivity.length > 0 && (
+            <div className="panel rounded-sm">
+              <div className="px-4 py-2.5 border-b border-border/60 label-mono">Recent activity</div>
+              <div className="divide-y divide-border/50">
+                {recentActivity.map((r) => (
+                  <a
+                    key={r.id}
+                    href="#applications"
+                    className="flex items-center gap-3 px-4 py-2.5 font-mono text-[12px] hover:bg-secondary/40 transition-colors"
+                  >
+                    <span className="text-muted-foreground shrink-0">
+                      {new Date(r.createdAt).toLocaleDateString()}
+                    </span>
+                    <span className="text-foreground truncate">{r.agentName}</span>
+                    {r.passport && <span className="text-primary truncate hidden sm:inline">{r.passport.passportId}</span>}
+                    <span className="flex-1" />
+                    <Stamp tone={statusStampTone(r.status)} className="text-[9px] !px-1.5 !py-0.5">
+                      {r.status}
+                    </Stamp>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
 
         {/* ===== vault ===== */}
