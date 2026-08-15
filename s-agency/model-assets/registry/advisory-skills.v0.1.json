@@ -1,0 +1,94 @@
+{
+  "version": "0.1",
+  "namespace": "S/Agency",
+  "advisory_skills": [
+    {
+      "skill_id": "adv-owner-intent",
+      "advisory_skill": "owner_intent_compression",
+      "purpose": "Convert fast direction into clean executable instructions.",
+      "uses_for_model_assets": "Turns model requests into asset requirements.",
+      "owner_control_rule": "Final interpretation must stay owner-aligned.",
+      "output_artifact": "Clean instruction brief"
+    },
+    {
+      "skill_id": "adv-fit-filter",
+      "advisory_skill": "strategic_fit_filter",
+      "purpose": "Decide whether an asset belongs or is noise.",
+      "uses_for_model_assets": "Rejects models that do not serve S/Agency.",
+      "owner_control_rule": "Owner can override with explicit reason.",
+      "output_artifact": "Fit decision"
+    },
+    {
+      "skill_id": "adv-capability-map",
+      "advisory_skill": "model_capability_mapping",
+      "purpose": "Map models to reasoning, vision, voice, video, embedding, and routing roles.",
+      "uses_for_model_assets": "Defines model_class and agent_fit fields.",
+      "owner_control_rule": "No model activates without mapped use.",
+      "output_artifact": "Capability map"
+    },
+    {
+      "skill_id": "adv-governance",
+      "advisory_skill": "governance_design",
+      "purpose": "Define approval, passport, access, and status rules.",
+      "uses_for_model_assets": "Controls owner_control and passport_requirement.",
+      "owner_control_rule": "Owner approval required for activation.",
+      "output_artifact": "Governance rule"
+    },
+    {
+      "skill_id": "adv-commercial",
+      "advisory_skill": "commercial_reality_check",
+      "purpose": "Prefer assets that can create operational or revenue value.",
+      "uses_for_model_assets": "Ranks models by usefulness, not hype.",
+      "owner_control_rule": "Low-value assets remain registry_only.",
+      "output_artifact": "Commercial note"
+    },
+    {
+      "skill_id": "adv-architecture",
+      "advisory_skill": "architecture_advisor",
+      "purpose": "Choose boundaries between GitHub, Sheets, Ace, and Supabase.",
+      "uses_for_model_assets": "Keeps GitHub as canonical and Supabase as mirror.",
+      "owner_control_rule": "Architecture changes need owner approval.",
+      "output_artifact": "System design note"
+    },
+    {
+      "skill_id": "adv-risk",
+      "advisory_skill": "risk_and_permission_review",
+      "purpose": "Flag model, data, publication, and autonomy risks.",
+      "uses_for_model_assets": "Sets risk_level and allowed_use limits.",
+      "owner_control_rule": "High risk means no autonomous runtime.",
+      "output_artifact": "Risk note"
+    },
+    {
+      "skill_id": "adv-ladder",
+      "advisory_skill": "execution_laddering",
+      "purpose": "Break large system into finishable steps.",
+      "uses_for_model_assets": "Creates activation_status progression.",
+      "owner_control_rule": "Only one trusted step at a time.",
+      "output_artifact": "Execution step"
+    },
+    {
+      "skill_id": "adv-memory",
+      "advisory_skill": "evidence_memory_discipline",
+      "purpose": "Document decisions instead of leaving them in chat.",
+      "uses_for_model_assets": "Links assets to notes, graph edges, and commits.",
+      "owner_control_rule": "Important decisions must be written.",
+      "output_artifact": "Decision record"
+    },
+    {
+      "skill_id": "adv-assignment",
+      "advisory_skill": "agent_assignment_logic",
+      "purpose": "Assign models to agents under passport/control rules.",
+      "uses_for_model_assets": "Creates target assignments and fallback logic.",
+      "owner_control_rule": "Every active agent assignment needs passport scope.",
+      "output_artifact": "Assignment row"
+    },
+    {
+      "skill_id": "adv-trust-loop",
+      "advisory_skill": "trust_through_action_loop",
+      "purpose": "Build, show, verify, then expand.",
+      "uses_for_model_assets": "Keeps assets visible before runtime execution.",
+      "owner_control_rule": "Action beats title.",
+      "output_artifact": "Verified artifact"
+    }
+  ]
+}
