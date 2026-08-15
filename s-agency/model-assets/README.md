@@ -6,7 +6,7 @@ This folder is the canonical registry for S/Agency model assets.
 
 - GitHub is the source of truth.
 - Google Sheets is the operating workbook.
-- Ace Knowledge Graph is the visual relationship map.
+- The owned knowledge graph renderer is the visual relationship map.
 - Supabase is a prepared runtime mirror, not the canonical record.
 - No model asset becomes runtime-active without owner approval and a passport scope.
 
@@ -18,7 +18,7 @@ https://docs.google.com/spreadsheets/d/1yt4NBzqHKiwjZDDbcPqPh78pw1_yOMwCYImVl48e
 
 - `registry/model-assets.v0.1.json`: governed Hugging Face model assets.
 - `registry/advisory-skills.v0.1.json`: advisory skills used to evaluate and route assets.
-- `ace/knowledge-graph.v0.1.json`: graph nodes and edges for the S/Agency control map.
+- `graph/knowledge-graph.v0.1.json`: graph nodes and edges for the S/Agency control map.
 - `supabase/s_agency_model_assets.prepared.sql`: prepared Supabase/Postgres mirror contract.
 
 ## Activation Status
