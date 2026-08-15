@@ -1,0 +1,133 @@
+{
+  "title": "S/Agency Model Asset Control Graph",
+  "nodes": [
+    {
+      "id": "owner-control",
+      "label": "Owner Control",
+      "type": "concept"
+    },
+    {
+      "id": "s-model-assets",
+      "label": "S Model Assets",
+      "type": "project"
+    },
+    {
+      "id": "s-advisory-skills",
+      "label": "S Advisory Skills",
+      "type": "skill"
+    },
+    {
+      "id": "s-agent-passport",
+      "label": "S Agent Passport",
+      "type": "project"
+    },
+    {
+      "id": "s-agent-assignments",
+      "label": "S Agent Assignments",
+      "type": "project"
+    },
+    {
+      "id": "s-supabase-mirror",
+      "label": "Supabase Mirror",
+      "type": "technology"
+    },
+    {
+      "id": "ace-knowledge-graph",
+      "label": "Ace Knowledge Graph",
+      "type": "technology"
+    },
+    {
+      "id": "memory-retrieval-agent",
+      "label": "Memory Retrieval Agent",
+      "type": "project"
+    },
+    {
+      "id": "voice-memory-intake",
+      "label": "Voice Memory Intake",
+      "type": "project"
+    },
+    {
+      "id": "visual-production-agent",
+      "label": "Visual Production Agent",
+      "type": "project"
+    },
+    {
+      "id": "strategy-orchestrator",
+      "label": "Strategy Orchestrator",
+      "type": "project"
+    },
+    {
+      "id": "quality-reviewer",
+      "label": "Quality Reviewer",
+      "type": "project"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-owner-control-assets",
+      "source": "owner-control",
+      "target": "s-model-assets",
+      "relationship": "governs"
+    },
+    {
+      "id": "edge-assets-passports",
+      "source": "s-model-assets",
+      "target": "s-agent-passport",
+      "relationship": "require"
+    },
+    {
+      "id": "edge-assets-advisory",
+      "source": "s-model-assets",
+      "target": "s-advisory-skills",
+      "relationship": "evaluated_by"
+    },
+    {
+      "id": "edge-assets-assignments",
+      "source": "s-model-assets",
+      "target": "s-agent-assignments",
+      "relationship": "assigned_to"
+    },
+    {
+      "id": "edge-assets-supabase",
+      "source": "s-model-assets",
+      "target": "s-supabase-mirror",
+      "relationship": "mirrored_to"
+    },
+    {
+      "id": "edge-assets-ace",
+      "source": "s-model-assets",
+      "target": "ace-knowledge-graph",
+      "relationship": "visualized_in"
+    },
+    {
+      "id": "edge-retrieval-minilm",
+      "source": "memory-retrieval-agent",
+      "target": "s-model-assets",
+      "relationship": "uses_embedding_asset"
+    },
+    {
+      "id": "edge-voice-whisper",
+      "source": "voice-memory-intake",
+      "target": "s-model-assets",
+      "relationship": "uses_transcription_asset"
+    },
+    {
+      "id": "edge-video-minimax",
+      "source": "visual-production-agent",
+      "target": "s-model-assets",
+      "relationship": "uses_video_asset"
+    },
+    {
+      "id": "edge-strategy-qwen",
+      "source": "strategy-orchestrator",
+      "target": "s-model-assets",
+      "relationship": "uses_reasoning_asset"
+    },
+    {
+      "id": "edge-review-nemotron",
+      "source": "quality-reviewer",
+      "target": "s-model-assets",
+      "relationship": "uses_evaluation_asset"
+    }
+  ]
+}
