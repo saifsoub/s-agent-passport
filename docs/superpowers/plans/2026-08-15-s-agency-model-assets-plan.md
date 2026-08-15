@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a governed S/Agency model asset registry connected across GitHub, Google Sheets, Ace Knowledge Graph, and a prepared Supabase mirror.
+**Goal:** Build a governed S/Agency model asset registry connected across GitHub, Google Sheets, an owned knowledge graph source/render contract, and a prepared Supabase mirror.
 
-**Architecture:** GitHub stores the canonical asset records. Google Sheets gives the owner an editable operating surface. Ace renders the graph. Supabase remains a prepared mirror until the live project and access model are confirmed.
+**Architecture:** GitHub stores the canonical asset records. Google Sheets gives the owner an editable operating surface. The owned graph renderer reads the canonical nodes and edges JSON. Supabase remains a prepared mirror until the live project and access model are confirmed.
 
-**Tech Stack:** GitHub contents API, Google Sheets batchUpdate, Ace Knowledge Graph, prepared PostgreSQL/Supabase SQL.
+**Tech Stack:** GitHub contents API, Google Sheets batchUpdate, owned JSON graph render contract, prepared PostgreSQL/Supabase SQL.
 
 ## Global Constraints
 
@@ -15,6 +15,7 @@
 - Supabase is not applied until owner approval.
 - Every runtime asset requires passport scope.
 - High-risk media generation assets stay owner-gated.
+- Graph rendering must be owned by the launch surface, not blocked by an external graph provider.
 
 ---
 
@@ -60,14 +61,14 @@
 - [x] Enable RLS.
 - [x] Leave live policies unapplied until the live project and owner role model are confirmed.
 
-### Task 4: Ace Knowledge Graph Source
+### Task 4: Owned Knowledge Graph Source and Render
 
 **Files:**
-- Create: `s-agency/model-assets/ace/knowledge-graph.v0.1.json`
+- Create: `s-agency/model-assets/graph/knowledge-graph.v0.1.json`
 
 **Interfaces:**
 - Consumes: workbook graph edge rows.
-- Produces: graph source and rendered Ace graph.
+- Produces: graph source and owned rendered graph.
 
 - [x] Create graph source JSON.
-- [ ] Render Ace Knowledge Graph widget.
+- [ ] Render owned knowledge graph from canonical nodes and edges JSON in the launch surface.
