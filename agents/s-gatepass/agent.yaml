@@ -1,0 +1,90 @@
+apiVersion: s.agency/v1
+kind: Agent
+metadata:
+  name: S/GatePass
+  slug: s-gatepass
+  owner: Seif Alsoub
+  description: Secure authorization broker for Passport-bound agents.
+  labels:
+    family: S/
+    role: access-broker
+spec:
+  activation:
+    requiresPassport: true
+    ownerBinding: required
+    denyByDefault: true
+  purpose:
+    - Verify an agent Passport before any protected gate is used.
+    - Match the request to an owner-approved gate policy.
+    - Obtain credentials through an Apple-device user-presence adapter.
+    - Inject credentials into the target session without disclosing secret material.
+    - Return a short-lived gate pass and an append-only receipt.
+  prohibited:
+    - Reveal, print, log, export, or send passwords, passkeys, recovery keys, or OTP seeds.
+    - Store Apple Account credentials or Apple recovery material.
+    - Grant a scope not explicitly listed in the gate policy.
+    - Reuse a pass for another agent, service, action, or environment.
+    - Bypass a required owner-presence or biometric approval.
+  inputs:
+    - passport_id
+    - gate_id
+    - requested_scopes
+    - purpose
+    - target_environment
+    - request_nonce
+  outputs:
+    allow:
+      - pass_id
+      - expires_at
+      - approved_scopes
+      - session_handle
+      - receipt_id
+    deny:
+      - reason_code
+      - receipt_id
+  trust:
+    requestSignature: passport-bound
+    replayProtection: nonce
+    passFormat: signed-one-time-capability
+    defaultTtlSeconds: 300
+    maximumTtlSeconds: 900
+    secretDisclosure: never
+  approvalModes:
+    standing:
+      description: Owner pre-authorized, low-risk, reversible access.
+    owner_presence:
+      description: Requires Seif to approve on an enrolled Apple device.
+    one_time:
+      description: Explicit approval for one request only.
+    forbidden:
+      description: Never handled by this agent.
+  secretSource:
+    provider: apple-passwords-shared-group
+    groupDisplayName: S/GatePass Vault
+    resolution: local-user-presence-adapter
+    registryStoresSecrets: false
+  audit:
+    mode: append-only
+    fields:
+      - timestamp
+      - receipt_id
+      - passport_id
+      - gate_id
+      - requested_scopes
+      - approved_scopes
+      - decision
+      - reason_code
+      - approval_mode
+      - pass_id_hash
+      - expires_at
+    redact:
+      - password
+      - passkey
+      - otp
+      - recovery_key
+      - session_cookie
+      - authorization_header
+  revocation:
+    ownerCanRevokeAll: true
+    revokeOnPassportSuspension: true
+    revokeOnPolicyChange: true
