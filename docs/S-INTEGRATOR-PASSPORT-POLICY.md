@@ -41,6 +41,31 @@ Native platform credentials and OAuth grants remain platform-native. S/Passport 
 - `metadata.integration_role`: `primary_integrator`
 - `metadata.integration_policy`: `passport_first_native_when_available`
 
+## Connector construction: S/Talabat
+
+S/Talabat is a governed customer-side commerce connector registered under S/Integrator for Talabat shopping requests.
+
+- `connector_name`: `S/Talabat`
+- `platform`: `Talabat UAE`
+- `integration_mode`: `browser_backed_customer_connector`
+- `native_connector_policy`: reuse any future supported customer-side native Talabat integration when available; otherwise retain browser-backed execution.
+- `passport_binding`: `S/Integrator Passport`
+- `capabilities`: grocery/product search, nearest suitable store selection, cart construction, substitution handling, delivery ETA/fee retrieval, checkout handoff, order confirmation capture.
+- `permissions`: authenticated Talabat session only; current saved delivery address; existing payment preferences; least-privilege shopping actions.
+- `irreversible_action_policy`: require one compact owner approval immediately before the final purchase/payment action unless an explicitly pre-authorized spend policy exists.
+- `audit`: record store, selected SKUs, substitutions, ETA, fees, total, approval reference, Talabat order number, and final status.
+- `single_prompt_execution`: enabled. A shopping request should be sufficient to invoke the connector without rebuilding the integration.
+
+### Current execution request
+
+Create one Talabat basket containing:
+
+1. Small bottled water — smallest practical single bottle or small pack.
+2. Gif/Cif household cleaner — treat `gif` as the household cleaning product intent, not an unrelated item.
+3. Dettol — standard/common household Dettol disinfectant or antiseptic product.
+
+Selection policy: prefer one nearby store with all three items, optimize for fastest delivery first and reasonable total price second, avoid promotional extras, and use the closest same-brand equivalent if an exact item is unavailable. Present a single compact approval only at the irreversible checkout boundary, then capture order number and ETA after placement.
+
 ## Non-negotiable rule
 
 No platform is required to abandon a built-in integration merely to pass through S/Integrator. The Passport is the authoritative trust and governance layer; the connector implementation may remain native.
