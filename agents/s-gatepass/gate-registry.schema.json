@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://s.agency/schemas/gate-registry.schema.json",
+  "title": "S/GatePass Gate Registry",
+  "description": "Policy metadata only. Secrets are never valid values in this document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registry_version", "owner", "gates"],
+  "properties": {
+    "registry_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+$" },
+    "owner": { "const": "Seif Alsoub" },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gate_id",
+          "service",
+          "credential_reference",
+          "allowed_passport_ids",
+          "allowed_scopes",
+          "approval_mode",
+          "max_ttl_seconds",
+          "environments"
+        ],
+        "properties": {
+          "gate_id": { "type": "string", "pattern": "^gate_[a-z0-9_]+$" },
+          "service": { "type": "string", "minLength": 1 },
+          "credential_reference": {
+            "type": "string",
+            "description": "Opaque item label or local adapter reference; never a credential value."
+          },
+          "allowed_passport_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "allowed_scopes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "approval_mode": {
+            "enum": ["standing", "owner_presence", "one_time", "forbidden"]
+          },
+          "max_ttl_seconds": {
+            "type": "integer",
+            "minimum": 30,
+            "maximum": 900
+          },
+          "environments": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "enum": ["development", "staging", "production"] }
+          },
+          "allowed_hours": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "timezone": { "type": "string" },
+              "start": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+              "end": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" }
+            },
+            "required": ["timezone", "start", "end"]
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}
