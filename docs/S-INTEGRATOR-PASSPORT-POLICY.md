@@ -66,6 +66,35 @@ Create one Talabat basket containing:
 
 Selection policy: prefer one nearby store with all three items, optimize for fastest delivery first and reasonable total price second, avoid promotional extras, and use the closest same-brand equivalent if an exact item is unavailable. Present a single compact approval only at the irreversible checkout boundary, then capture order number and ETA after placement.
 
+## Connector construction: S/Binance
+
+S/Binance is a Passport-governed, real-time Spot connector registered under S/Integrator.
+
+- `connector_name`: `S/Binance`
+- `platform`: `Binance Spot`
+- `integration_mode`: `websocket_event_relay`
+- `passport_binding`: `S/Integrator Passport`
+- `native_connector_policy`: use Binance's native WebSocket API and User Data Stream; S/Passport adds the identity, scope, audit, and outbound webhook contract.
+- `upstream`: `wss://ws-api.binance.com:443/ws-api/v3` (test mode: `wss://ws-api.testnet.binance.vision/ws-api/v3`).
+- `capabilities`: public market-data subscriptions; read-only account balance updates; deposit/withdrawal balance updates; order execution updates; externally locked-balance updates.
+- `permissions`: public market data needs no key; private events require a dedicated Binance key with `USER_DATA`/`USER_STREAM` only. `TRADE` is deliberately excluded.
+- `secrets`: `BINANCE_API_KEY` and `BINANCE_WEBHOOK_SECRET` are vault references only. A webhook destination URL is deployment configuration, never Passport metadata.
+- `webhook_contract`: `connectors/s-binance/webhook-relay.contract.json`.
+- `irreversible_action_policy`: this connector cannot place, amend, or cancel orders. Any future trading connector must be separately Passport-scoped and require an explicit owner approval at the order boundary.
+- `audit`: record event type, Binance event time, subscription id, masked symbol/asset references where appropriate, relay delivery id, response status, and retry outcome. Never write API keys, account balances, or full event payloads to a public audit log.
+
+### Real-time relay behavior
+
+Binance Spot does not publish arbitrary outbound webhooks. The S/Binance relay is therefore the bridge: it holds the WebSocket connection, normalizes permitted User Data Stream events, signs them, and POSTs them to the configured S/ webhook destination.
+
+1. Authenticate the WebSocket session and subscribe to the User Data Stream with the least-privilege key.
+2. Allow only `outboundAccountPosition`, `balanceUpdate`, `executionReport`, `externalLockUpdate`, `eventStreamTerminated`, and `serverShutdown` events into the private relay.
+3. Send the normalized envelope to the configured HTTPS destination with an HMAC-SHA256 signature over the exact UTF-8 request body.
+4. Deduplicate by `delivery_id`; retry only failed deliveries with bounded exponential backoff. A receiver must treat a repeated `delivery_id` as idempotent.
+5. Reconnect after `serverShutdown`, an expired stream, or any disconnect. Binance WebSocket sessions are limited to 24 hours and require pong handling.
+
+The relay is disabled until its destination and both vault secrets are present. It starts in `read_only` mode and sends no order instructions upstream.
+
 ## Non-negotiable rule
 
 No platform is required to abandon a built-in integration merely to pass through S/Integrator. The Passport is the authoritative trust and governance layer; the connector implementation may remain native.
