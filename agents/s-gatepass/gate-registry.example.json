@@ -1,0 +1,29 @@
+{
+  "$schema": "./gate-registry.schema.json",
+  "registry_version": "1.0",
+  "owner": "Seif Alsoub",
+  "gates": [
+    {
+      "gate_id": "gate_example_workspace",
+      "service": "Example Workspace",
+      "credential_reference": "S-GatePass/example-workspace",
+      "allowed_passport_ids": ["PASSPORT_ID_REPLACE_ME"],
+      "allowed_scopes": ["read", "create-draft"],
+      "approval_mode": "standing",
+      "max_ttl_seconds": 300,
+      "environments": ["production"],
+      "notes": "Example only. Contains no credential value."
+    },
+    {
+      "gate_id": "gate_example_sensitive_action",
+      "service": "Example Sensitive Service",
+      "credential_reference": "S-GatePass/example-sensitive",
+      "allowed_passport_ids": ["PASSPORT_ID_REPLACE_ME"],
+      "allowed_scopes": ["submit"],
+      "approval_mode": "owner_presence",
+      "max_ttl_seconds": 120,
+      "environments": ["production"],
+      "notes": "Approval on Seif's enrolled Apple device is mandatory."
+    }
+  ]
+}
