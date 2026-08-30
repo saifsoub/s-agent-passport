@@ -1,0 +1,1750 @@
+{
+  "audit_id": "github-passport-audit-2026-08-30",
+  "decision_rules": [
+    "Passports belong to executable identities, not repositories, UIs, libraries, deployment shells, or connectors.",
+    "Demo/mock passport records are not accepted as issued passports.",
+    "Duplicate-looking identities are consolidated when repository evidence indicates one subject across multiple runtimes.",
+    "Owner authorization is recorded, but activation still requires runtime/public-key binding, canonical registration, issuer signature, and receipt."
+  ],
+  "generated_at": "2026-08-30T00:00:00Z",
+  "non_production_records_observed": {
+    "mock_passports": 9,
+    "source": "saifsoub/s-agent-passport:client/src/lib/mockRegistry.ts",
+    "treatment": "excluded"
+  },
+  "pending_passport_intakes": [
+    {
+      "evidence_refs": [
+        "saifsoub/agents:aria/SYSTEM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-001",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Aria",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency agent runtime",
+      "status": "pending_binding",
+      "subject_id": "s/aria",
+      "subject_type": "orchestrator"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:documentation/workers/documentation-architect/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-002",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Documentation Architect",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency documentation worker",
+      "status": "pending_binding",
+      "subject_id": "s/docs/documentation-architect",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:documentation/workers/documentation-editor/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-003",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Documentation Editor",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency documentation worker",
+      "status": "pending_binding",
+      "subject_id": "s/docs/documentation-editor",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:documentation/workers/documentation-publisher/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-004",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Documentation Publisher",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency documentation worker",
+      "status": "pending_binding",
+      "subject_id": "s/docs/documentation-publisher",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:documentation/workers/documentation-qa/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-005",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Documentation QA",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency documentation worker",
+      "status": "pending_binding",
+      "subject_id": "s/docs/documentation-qa",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:documentation/workers/knowledge-curator/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-006",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Knowledge Curator",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency documentation worker",
+      "status": "pending_binding",
+      "subject_id": "s/docs/knowledge-curator",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:documentation/workers/notion-systems-specialist/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-007",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Notion Systems Specialist",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency documentation worker",
+      "status": "pending_binding",
+      "subject_id": "s/docs/notion-systems-specialist",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:documentation/workers/style-guardian/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-008",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Style Guardian",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Agency documentation worker",
+      "status": "pending_binding",
+      "subject_id": "s/docs/style-guardian",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-009",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Pinned Squad v0.13.1 execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad",
+      "subject_type": "team_orchestrator"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-010",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Team Lead",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/team-lead",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-011",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Business Strategy",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/business-strategy",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-012",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Research Intelligence",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/research-intelligence",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-013",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Operations Delivery",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/operations-delivery",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-014",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Product Design",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/product-design",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-015",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Content Communications",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/content-communications",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-016",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Engineering Integration",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/engineering-integration",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-017",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Qa Evidence",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/qa-evidence",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/agents:teams/squad/team.json",
+        "saifsoub/agents:teams/squad/TEAM.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-018",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Squad Scribe Progress",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Squad execution engine",
+      "status": "pending_binding",
+      "subject_id": "s/squad/scribe-progress",
+      "subject_type": "agent_seat"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-019",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Project Manager",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Cloudflare/external worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/project-manager",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-020",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Task Executor",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Cloudflare/external worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/task-executor",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-021",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Personal Assistant",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Cloudflare/external worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/personal-assistant",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-022",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Text Normalizer",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Cloudflare/external worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/text-normalizer",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-023",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Yamel",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Linear + GitHub execution operator",
+      "status": "pending_binding",
+      "subject_id": "s/worker/yamel",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-024",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Migration Auditor",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Scheduled Cloudflare fleet worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/migration-auditor",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-025",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Second Brain Keeper",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Scheduled Cloudflare fleet worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/second-brain-keeper",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-026",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Control Room Feed",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Scheduled Cloudflare fleet worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/control-room-feed",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-cloudflare-workers:fleet/registry.json"
+      ],
+      "intake_id": "GH-AUDIT-20260830-027",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Fleet Watchdog",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Scheduled Cloudflare fleet worker",
+      "status": "pending_binding",
+      "subject_id": "s/worker/fleet-watchdog",
+      "subject_type": "worker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/FTA-Future-Strategist-Agent:.github/agents/Future Strategist.agent.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-028",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "FTA Future Strategist Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "lovable-server / google/gemini-2.5-flash",
+      "status": "pending_binding",
+      "subject_id": "s/fta-future-strategist",
+      "subject_type": "agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-agent-passport:agents/s-gatepass/agent.yaml",
+        "saifsoub/s-agent-passport:agents/s-gatepass/README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-029",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/GatePass",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Passport gatekeeper runtime",
+      "status": "pending_binding",
+      "subject_id": "s/gatepass",
+      "subject_type": "access_broker"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/s-agent-passport:docs/S-INTEGRATOR-PASSPORT-POLICY.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-030",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "S/Integrator",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "S/Integrator control layer",
+      "status": "pending_binding",
+      "subject_id": "s/integrator",
+      "subject_type": "integration_orchestrator"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/AgentEmpire:lib/agents/definitions.ts"
+      ],
+      "intake_id": "GH-AUDIT-20260830-031",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "General Operator",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "AgentEmpire native agent runtime",
+      "status": "pending_binding",
+      "subject_id": "s/general-operator",
+      "subject_type": "agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/AgentEmpire:lib/agents/personas.ts",
+        "saifsoub/doneai-daros:src/orchestrator/sally.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-032",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Sally",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "AgentEmpire + DAROS orchestrator runtimes",
+      "status": "pending_binding",
+      "subject_id": "s/sally",
+      "subject_type": "orchestrator"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/AgentEmpire:lib/agents/personas.ts"
+      ],
+      "intake_id": "GH-AUDIT-20260830-033",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Triage",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "AgentEmpire/Composio Linear runtime",
+      "status": "pending_binding",
+      "subject_id": "s/triage",
+      "subject_type": "agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/AgentEmpire:lib/agents/personas.ts"
+      ],
+      "intake_id": "GH-AUDIT-20260830-034",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Operations",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "AgentEmpire/Composio operations runtime",
+      "status": "pending_binding",
+      "subject_id": "s/operations",
+      "subject_type": "agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/AgentEmpire:lib/agents/personas.ts"
+      ],
+      "intake_id": "GH-AUDIT-20260830-035",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Social",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "AgentEmpire/Composio social runtime",
+      "status": "pending_binding",
+      "subject_id": "s/social",
+      "subject_type": "agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-036",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Signal Intelligence Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/signal",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-037",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Request Understanding Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/request-understanding",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-038",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Workflow Architect Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/workflow-architect",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-039",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Build Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/build",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-040",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Client Pack Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/client-pack",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-041",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Pricing Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/pricing",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-042",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Approval Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/approval",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-043",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Outlook Communication Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/outlook-communication",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-044",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "HubSpot Memory Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/hubspot-memory",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-045",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Payment Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/payment",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-046",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Activation Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/activation",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-047",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Delivery Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/delivery",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-048",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Proof Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/proof",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-049",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Renewal Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/renewal",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/doneai-daros:src/agents/registry.js"
+      ],
+      "intake_id": "GH-AUDIT-20260830-050",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Access Control Agent",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "DAROS Node.js agent registry",
+      "status": "pending_binding",
+      "subject_id": "s/daros/access-control",
+      "subject_type": "workflow_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/clawi-telegram-runtime:README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-051",
+      "missing_for_activation": [
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature",
+        "activation receipt"
+      ],
+      "name": "Clawi",
+      "notes": "",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "24/7 Telegram runtime",
+      "status": "pending_binding",
+      "subject_id": "s/clawi",
+      "subject_type": "bot_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/S-Claw-Full-Package:README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-052",
+      "missing_for_activation": [
+        "stable role/runtime specification",
+        "capability evidence",
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature"
+      ],
+      "name": "S/BusinessBot",
+      "notes": "Repository states the bot implementation is a placeholder stub.",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Telegram + FastAPI bridge",
+      "status": "pending_evidence",
+      "subject_id": "s/businessbot",
+      "subject_type": "bot_agent"
+    },
+    {
+      "evidence_refs": [
+        "saifsoub/the_movers:README.md"
+      ],
+      "intake_id": "GH-AUDIT-20260830-053",
+      "missing_for_activation": [
+        "stable role/runtime specification",
+        "capability evidence",
+        "runtime identity/public-key binding",
+        "canonical Passport service registration",
+        "issuer signature"
+      ],
+      "name": "The Movers",
+      "notes": "Mission exists, but no stable runtime identity or precise member identities are documented.",
+      "owner": "Seif Alsoub",
+      "owner_approval": {
+        "basis": "Explicit authorization in GitHub-wide passport audit request",
+        "granted": true,
+        "granted_at": "2026-08-30"
+      },
+      "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
+      "runtime": "Undeclared worker runtime",
+      "status": "pending_evidence",
+      "subject_id": "s/the-movers",
+      "subject_type": "worker_team"
+    }
+  ],
+  "repo_audit": [
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/trade",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/viral-connect-spark",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/smartpicks-trader",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/cozybrew-ai",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/future-tax-innovator",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/tiktok-automation-github",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/docsite",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/session-workflow-man",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/ZARA",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/eco-qualify-assist",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/binance-smart-trader",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/subdomain-nexus",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/ai-content-remaster",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/AgentEmpire",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/SS-agentic-ai-factory",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/PersonalEmpire",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/Actionplatform",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/template-master",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/ajel-live-crisis-app",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/tiktok-automation-github-579d7",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/S-Studio",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/paperclip",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/MoneyPrinterV2",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/Promptpusher",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/S-Claw-Full-Package",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/S-Craw",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/sos-deployment",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/S-OS",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/architect-render-ai",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/myFedd",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/APEX",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/apex-gateway",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/whatsapp-lead-skill-questionnaire",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/apex-swarm-unified",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/einnovate",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/teleg",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/telvip",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/digiocean",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/n8n",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/clawi-telegram-runtime",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/TheShoppingCenter",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/doneai-daros",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/lovable-agent-command-center",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/lovable-sclaw-command",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/lovable-launchpad-hub",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/lovable-innogov",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/lovable-binance-smart-trader",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/lovable-viral-connect-spark",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/thebook",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/btc-autopilot-hub",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/agentflow",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/task-agent-manager",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/agents",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/General-Requests",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/appsmith",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/S-Agency",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/gradio",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/s-cloudflare-workers",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/Team_MB",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/s-agentic-university",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/s-agent-passport",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/s_agency_os",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/mini-wini-trade",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/sagentic-university",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/Codespace-SRV1",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/llm-council",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/FTA-Future-Strategist-Agent",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/the_movers",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/yamel-interactive-avatar",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/S-PM",
+      "visibility": "private"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/s_innovation_system",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/openai-chatkit-starter-app",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_like_but_insufficient_identity_evidence",
+      "repository": "saifsoub/orbitos-saas",
+      "visibility": "private"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/rust",
+      "visibility": "public"
+    },
+    {
+      "classification": "repository_or_platform_no_passport",
+      "repository": "saifsoub/s-agency-command-center",
+      "visibility": "public"
+    },
+    {
+      "classification": "agent_subjects_recorded_separately",
+      "repository": "saifsoub/agents-s",
+      "visibility": "private"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "scope": {
+    "authenticated_github_repositories": 76,
+    "private": 45,
+    "public": 31
+  },
+  "summary": {
+    "agent_like_repositories_needing_identity_evidence": 11,
+    "pending_binding": 51,
+    "pending_evidence": 2
+  },
+  "verified_existing_active_passports": []
+}
