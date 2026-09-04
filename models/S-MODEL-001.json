@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "passport_type": "S/ Model Passport",
+  "s_model_passport": "S-MODEL-001",
+  "display_name": "Our Beautiful Model",
+  "provider": "Perplexity",
+  "subject_kind": "model",
+  "status": "documented",
+  "native_identity": {
+    "resource_handle": "Get_agent_liveff03-bc17-473d-b221-150dcc312404",
+    "perplexity_search_id": "daedff03-bc17-473d-b221-150dcc312404",
+    "perplexity_search_url": "https://www.perplexity.ai/search/daedff03-bc17-473d-b221-150dcc312404"
+  },
+  "created_at": "2026-09-05",
+  "last_verified_at": null,
+  "created_by": "S/",
+  "evidence_refs": [
+    "user-provided resource: Perplexity.agent.txt",
+    "user-provided Perplexity search URL"
+  ],
+  "integration_preservation_rule": "Overlay only. Preserve all Perplexity-native identifiers, bindings, endpoints, authentication relationships, and existing integrations exactly as they are.",
+  "authority": {
+    "grants_agent_permissions": false,
+    "grants_runtime_permissions": false,
+    "grants_financial_permissions": false,
+    "replaces_provider_identity": false
+  },
+  "verification_notes": [
+    "The S/ Model Passport documents the supplied Perplexity identity without changing it.",
+    "Exact provider model slug/version has not been supplied or independently verified; do not infer one.",
+    "Operational use by an agent remains governed separately by S-PASS, Gatekeeper, runtime permissions, and provider policy."
+  ]
+}

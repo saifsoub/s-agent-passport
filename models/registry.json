@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "registry": "S/ Model Passport Registry",
+  "number_format": "S-MODEL-NNN",
+  "last_issued_sequence": 1,
+  "records": [
+    {
+      "s_model_passport": "S-MODEL-001",
+      "display_name": "Our Beautiful Model",
+      "provider": "Perplexity",
+      "status": "documented",
+      "record_path": "models/S-MODEL-001.json"
+    }
+  ]
+}
