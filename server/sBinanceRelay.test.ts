@@ -3,6 +3,8 @@ import {
   buildSBinanceEnvelope,
   buildSignedSBinanceRequest,
   DeliveryReplayGuard,
+  deliveryIdForSBinanceEvent,
+  parseSBinanceUserDataMessage,
   signSBinanceBody,
   verifySBinanceSignature,
   verifySignedSBinanceRequest,
@@ -20,6 +22,23 @@ function sampleEvent() {
 }
 
 describe("S/Binance signed relay", () => {
+  it("parses the current WebSocket API wrapped user-data event", () => {
+    const parsed = parseSBinanceUserDataMessage(
+      JSON.stringify({ subscriptionId: 7, event: sampleEvent() }),
+    );
+    expect(parsed.subscriptionId).toBe(7);
+    expect(parsed.event).toEqual(sampleEvent());
+  });
+
+  it("builds a stable deterministic delivery ID for the same provider payload", () => {
+    const a = deliveryIdForSBinanceEvent({ event: sampleEvent(), subscriptionId: 7 });
+    const b = deliveryIdForSBinanceEvent({ event: sampleEvent(), subscriptionId: 7 });
+    const c = deliveryIdForSBinanceEvent({ event: sampleEvent(), subscriptionId: 8 });
+    expect(a).toBe(b);
+    expect(a).not.toBe(c);
+    expect(a).toMatch(/^sbin-balanceUpdate-1789000000000-[0-9a-f]{24}$/);
+  });
+
   it("builds a read-only envelope matching the connector contract", () => {
     const envelope = buildSBinanceEnvelope({
       deliveryId: "delivery-001",
