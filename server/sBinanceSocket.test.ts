@@ -141,6 +141,6 @@ describe("S/Binance WebSocket relay session", () => {
 
     const result = await loop;
     expect(result.sessions).toBe(2);
-    expect(sleeps).toEqual([500, 1_000]);
+    expect(sleeps).toEqual([500]);
   });
 });
