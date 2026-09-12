@@ -11,6 +11,7 @@ on:
       - "server/sBinanceReceiver.test.ts"
       - "server/sBinanceSocket.ts"
       - "server/sBinanceSocket.test.ts"
+      - "server/sBinanceWorker.ts"
       - "server/_core/index.ts"
       - "connectors/s-binance/**"
       - "agents/s-binance-relay/**"
@@ -27,6 +28,7 @@ on:
       - "server/sBinanceReceiver.test.ts"
       - "server/sBinanceSocket.ts"
       - "server/sBinanceSocket.test.ts"
+      - "server/sBinanceWorker.ts"
       - "server/_core/index.ts"
       - "connectors/s-binance/**"
       - "agents/s-binance-relay/**"
@@ -47,5 +49,13 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec vitest run server/sBinanceRelay.test.ts server/sBinanceRuntime.test.ts server/sBinanceReceiver.test.ts server/sBinanceSocket.test.ts
-      - run: pnpm check
+      - name: Relay contract tests
+        run: pnpm exec vitest run server/sBinanceRelay.test.ts
+      - name: Runtime helper tests
+        run: pnpm exec vitest run server/sBinanceRuntime.test.ts
+      - name: Receiver tests
+        run: pnpm exec vitest run server/sBinanceReceiver.test.ts
+      - name: Socket session tests
+        run: pnpm exec vitest run server/sBinanceSocket.test.ts
+      - name: Typecheck
+        run: pnpm check
