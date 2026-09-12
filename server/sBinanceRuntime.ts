@@ -63,24 +63,30 @@ export async function postSignedSBinanceRequest(input: {
 
   let lastError: unknown = null;
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    let response: Awaited<ReturnType<FetchLike>>;
     try {
-      const response = await fetchImpl(input.receiverUrl, {
+      response = await fetchImpl(input.receiverUrl, {
         method: "POST",
         headers: input.request.headers,
         body: input.request.body,
         signal: input.signal,
       });
-      if (response.ok) return { attempts: attempt, status: response.status };
-      if (!isRetryableHttpStatus(response.status) || attempt === maxAttempts) {
-        const detail = (await response.text()).slice(0, 200);
-        throw new Error(`receiver rejected relay: HTTP ${response.status}${detail ? ` — ${detail}` : ""}`);
-      }
-      lastError = new Error(`retryable receiver response: HTTP ${response.status}`);
     } catch (error) {
       lastError = error;
       if (attempt === maxAttempts) break;
+      await sleep(reconnectDelayMs(attempt - 1, 250, 4_000));
+      continue;
     }
 
+    if (response.ok) return { attempts: attempt, status: response.status };
+
+    if (!isRetryableHttpStatus(response.status)) {
+      const detail = (await response.text()).slice(0, 200);
+      throw new Error(`receiver rejected relay: HTTP ${response.status}${detail ? ` — ${detail}` : ""}`);
+    }
+
+    lastError = new Error(`retryable receiver response: HTTP ${response.status}`);
+    if (attempt === maxAttempts) break;
     await sleep(reconnectDelayMs(attempt - 1, 250, 4_000));
   }
 
