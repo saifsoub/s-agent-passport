@@ -1,0 +1,61 @@
+name: S/Binance Relay CI
+
+on:
+  pull_request:
+    paths:
+      - "server/sBinanceRelay.ts"
+      - "server/sBinanceRelay.test.ts"
+      - "server/sBinanceRuntime.ts"
+      - "server/sBinanceRuntime.test.ts"
+      - "server/sBinanceReceiver.ts"
+      - "server/sBinanceReceiver.test.ts"
+      - "server/sBinanceSocket.ts"
+      - "server/sBinanceSocket.test.ts"
+      - "server/sBinanceWorker.ts"
+      - "server/_core/index.ts"
+      - "connectors/s-binance/**"
+      - "agents/s-binance-relay/**"
+      - ".github/workflows/s-binance-relay-ci.yml"
+  push:
+    branches:
+      - "codex/binance-webhook-relay"
+    paths:
+      - "server/sBinanceRelay.ts"
+      - "server/sBinanceRelay.test.ts"
+      - "server/sBinanceRuntime.ts"
+      - "server/sBinanceRuntime.test.ts"
+      - "server/sBinanceReceiver.ts"
+      - "server/sBinanceReceiver.test.ts"
+      - "server/sBinanceSocket.ts"
+      - "server/sBinanceSocket.test.ts"
+      - "server/sBinanceWorker.ts"
+      - "server/_core/index.ts"
+      - "connectors/s-binance/**"
+      - "agents/s-binance-relay/**"
+      - ".github/workflows/s-binance-relay-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  relay-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Relay contract tests
+        run: pnpm exec vitest run server/sBinanceRelay.test.ts
+      - name: Runtime helper tests
+        run: pnpm exec vitest run server/sBinanceRuntime.test.ts
+      - name: Receiver tests
+        run: pnpm exec vitest run server/sBinanceReceiver.test.ts
+      - name: Socket session tests
+        run: pnpm exec vitest run server/sBinanceSocket.test.ts
+      - name: Typecheck
+        run: pnpm check

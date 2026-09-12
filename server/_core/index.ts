@@ -8,6 +8,7 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { FileDeliveryReplayStore, registerSBinanceReceiverRoute } from "../sBinanceReceiver";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -31,6 +32,19 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // S/Binance signatures cover the exact UTF-8 request body, so register this
+  // endpoint before the app-wide JSON parser. The endpoint is disabled unless
+  // a receiver secret is supplied by the runtime secret store/environment.
+  const sBinanceReceiverSecret = process.env.S_BINANCE_RECEIVER_SECRET;
+  if (sBinanceReceiverSecret) {
+    const replayPath = process.env.S_BINANCE_REPLAY_PATH || ".runtime/s-binance-deliveries.log";
+    registerSBinanceReceiverRoute(app, {
+      secret: sBinanceReceiverSecret,
+      replayStore: new FileDeliveryReplayStore(replayPath),
+    });
+  }
+
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));

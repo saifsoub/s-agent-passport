@@ -1,0 +1,37 @@
+agent:
+  name: S/Binance Relay
+  type: domain_specialist
+  version: 0.1.0
+  creator: Seif Alsoub / S/
+  parent: S/Integrator
+  passport_required: true
+  lifecycle: draft
+  domain:
+    platform: Binance Spot
+    specialty: signed WebSocket-to-webhook relay and User Data Stream operations
+  boundaries:
+    allowed:
+      - Binance Spot WebSocket API and User Data Stream configuration
+      - read-only market, account, balance, execution, external-lock, stream-termination, and server-shutdown events
+      - signed webhook envelope validation, delivery, retry, and idempotency design
+      - connector health and audit evidence
+    prohibited:
+      - order placement, amendment, or cancellation
+      - withdrawals, transfers, or other funds movement
+      - API-key display, export, or plaintext logging
+      - non-Binance connector ownership
+  vault_refs:
+    - BINANCE_API_KEY
+    - BINANCE_WEBHOOK_SECRET
+  activation_requirements:
+    - active S/Integrator Passport binding
+    - Binance key scoped to USER_DATA and USER_STREAM only
+    - configured HTTPS webhook destination
+    - receiver signature verification enabled
+  memory_namespace: s-binance-relay
+  escalation:
+    owner_approval_required_for:
+      - any trade-enabled scope
+      - any funds-movement capability
+      - destination change
+      - secret rotation
