@@ -7,6 +7,11 @@ on:
       - "server/sBinanceRelay.test.ts"
       - "server/sBinanceRuntime.ts"
       - "server/sBinanceRuntime.test.ts"
+      - "server/sBinanceReceiver.ts"
+      - "server/sBinanceReceiver.test.ts"
+      - "server/sBinanceSocket.ts"
+      - "server/sBinanceSocket.test.ts"
+      - "server/_core/index.ts"
       - "connectors/s-binance/**"
       - "agents/s-binance-relay/**"
       - ".github/workflows/s-binance-relay-ci.yml"
@@ -18,6 +23,11 @@ on:
       - "server/sBinanceRelay.test.ts"
       - "server/sBinanceRuntime.ts"
       - "server/sBinanceRuntime.test.ts"
+      - "server/sBinanceReceiver.ts"
+      - "server/sBinanceReceiver.test.ts"
+      - "server/sBinanceSocket.ts"
+      - "server/sBinanceSocket.test.ts"
+      - "server/_core/index.ts"
       - "connectors/s-binance/**"
       - "agents/s-binance-relay/**"
       - ".github/workflows/s-binance-relay-ci.yml"
@@ -37,5 +47,5 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec vitest run server/sBinanceRelay.test.ts server/sBinanceRuntime.test.ts
+      - run: pnpm exec vitest run server/sBinanceRelay.test.ts server/sBinanceRuntime.test.ts server/sBinanceReceiver.test.ts server/sBinanceSocket.test.ts
       - run: pnpm check
