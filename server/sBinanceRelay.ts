@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 
 export const S_BINANCE_EVENT_TYPES = new Set([
   "outboundAccountPosition",
@@ -43,17 +43,47 @@ function assertAllowedEvent(event: SBinanceEvent): void {
   }
 }
 
+export function parseSBinanceUserDataMessage(raw: string): {
+  event: SBinanceEvent;
+  subscriptionId: number | null;
+} {
+  const parsed = JSON.parse(raw) as Record<string, unknown>;
+  const wrappedEvent = parsed.event;
+  const event = (wrappedEvent && typeof wrappedEvent === "object" ? wrappedEvent : parsed) as SBinanceEvent;
+  const subscriptionId =
+    typeof parsed.subscriptionId === "number" && Number.isInteger(parsed.subscriptionId)
+      ? parsed.subscriptionId
+      : null;
+
+  assertAllowedEvent(event);
+  return { event, subscriptionId };
+}
+
+export function deliveryIdForSBinanceEvent(input: {
+  event: SBinanceEvent;
+  subscriptionId?: number | null;
+}): string {
+  assertAllowedEvent(input.event);
+  const digest = createHash("sha256")
+    .update(JSON.stringify({ subscriptionId: input.subscriptionId ?? null, event: input.event }), "utf8")
+    .digest("hex")
+    .slice(0, 24);
+  return `sbin-${input.event.e}-${input.event.E}-${digest}`;
+}
+
 export function buildSBinanceEnvelope(input: {
-  deliveryId: string;
+  deliveryId?: string;
   event: SBinanceEvent;
   receivedAt?: Date;
   subscriptionId?: number | null;
 }): SBinanceEnvelope {
-  if (!input.deliveryId.trim()) throw new Error("deliveryId is required");
   assertAllowedEvent(input.event);
+  const deliveryId = input.deliveryId ??
+    deliveryIdForSBinanceEvent({ event: input.event, subscriptionId: input.subscriptionId });
+  if (!deliveryId.trim()) throw new Error("deliveryId is required");
 
   return {
-    delivery_id: input.deliveryId,
+    delivery_id: deliveryId,
     connector: "S/Binance",
     mode: "read_only",
     received_at: (input.receivedAt ?? new Date()).toISOString(),
