@@ -82,8 +82,8 @@ export function runSBinanceListenTokenSession(input: {
     };
 
     const onAbort = () => {
-      ws.close(1000, "aborted");
       finish("aborted");
+      ws.close(1000, "aborted");
     };
 
     if (input.signal?.aborted) {
@@ -100,8 +100,8 @@ export function runSBinanceListenTokenSession(input: {
         }),
       );
       rotateTimer = setTimer(() => {
-        ws.close(1000, "proactive rotation before Binance connection lifetime");
         finish("rotation");
+        ws.close(1000, "proactive rotation before Binance connection lifetime");
       }, rotateAfterMs);
     });
 
@@ -120,15 +120,15 @@ export function runSBinanceListenTokenSession(input: {
           });
           deliveries.push(result.evidence);
           if (result.reconnectRequired) {
-            ws.close(1000, "provider requested reconnect");
             finish("provider_signal");
+            ws.close(1000, "provider requested reconnect");
           }
         })
         .catch(error => {
-          ws.close(1011, "relay failure");
           if (!settled) {
             settled = true;
             if (rotateTimer) clearTimer(rotateTimer);
+            ws.close(1011, "relay failure");
             reject(error);
           }
         });
@@ -168,7 +168,9 @@ export async function runSBinanceRelayLoop(input: {
     sessions += 1;
     deliveries.push(...result.deliveries);
     if (result.reason === "aborted") break;
-    await sleep(reconnectDelayMs(Math.min(sessions - 1, 6)));
+    if (sessions < maxSessions) {
+      await sleep(reconnectDelayMs(Math.min(sessions - 1, 6)));
+    }
   }
 
   return { sessions, deliveries };
