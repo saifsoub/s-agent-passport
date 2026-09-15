@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { BrainCircuit, ChevronLeft, Clock3, FileWarning, ShieldAlert, ShieldCheck } from "lucide-react";
 
@@ -6,7 +6,7 @@ type TrainingStatus = "complete" | "due" | "overdue";
 type ItemStatus = "pass" | "missing" | "failed";
 type EvidenceStatus = "verified" | "missing";
 
-type AgentProfile = {
+export type AgentProfile = {
   id: string;
   name: string;
   role: "Agent" | "Worker" | "Outsource";
@@ -18,8 +18,9 @@ type AgentProfile = {
   complianceHistory: { month: string; misses: number; lateRefreshers: number };
 };
 
-type AiInsight = {
+export type AiInsight = {
   profileId: string;
+  expiryDays: number;
   riskScore: number;
   riskFlags: string[];
   predictedExpiryRisk: string;
@@ -103,9 +104,12 @@ const AGENT_PROFILES: AgentProfile[] = [
   },
 ];
 
-function daysToExpiry(date: string) {
-  const diff = new Date(date).getTime() - Date.now();
-  return Math.ceil(diff / DAY_MS);
+export function daysToExpiry(date: string, nowTs = Date.now()) {
+  const [year, month, day] = date.split("-").map(Number);
+  const expiryStamp = Date.UTC(year, month - 1, day);
+  const now = new Date(nowTs);
+  const todayStamp = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.ceil((expiryStamp - todayStamp) / DAY_MS);
 }
 
 function trainingBadge(status: TrainingStatus) {
@@ -120,135 +124,156 @@ function expiryBadge(days: number) {
   return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
 }
 
+export function buildInsight(profile: AgentProfile, nowTs = Date.now()): AiInsight {
+  const expiryDays = daysToExpiry(profile.passportExpiry, nowTs);
+  const failedChecks = profile.mandatoryChecks.filter((check) => check.status === "failed").length;
+  const missingChecks = profile.mandatoryChecks.filter((check) => check.status === "missing").length;
+  const missingEvidence = profile.evidenceUploads.filter((item) => item.status === "missing").length;
+
+  let riskScore = 0;
+  if (expiryDays <= 14) riskScore += 35;
+  else if (expiryDays <= 30) riskScore += 20;
+  if (profile.trainingStatus === "due") riskScore += 20;
+  if (profile.trainingStatus === "overdue") riskScore += 35;
+  riskScore += failedChecks * 12 + missingChecks * 10 + missingEvidence * 8;
+  riskScore += profile.complianceHistory.misses * 5 + profile.complianceHistory.lateRefreshers * 4;
+
+  const riskFlags: string[] = [];
+  if (profile.trainingStatus !== "complete") riskFlags.push("Training attention required");
+  if (expiryDays <= 30) riskFlags.push("Passport nearing expiry");
+  if (failedChecks > 0 || missingChecks > 0) riskFlags.push("Mandatory checks incomplete");
+  if (missingEvidence > 0) riskFlags.push("Evidence uploads missing");
+  if (profile.complianceHistory.misses >= 2) riskFlags.push("Pattern: repeated compliance misses");
+
+  const predictedExpiryRisk =
+    expiryDays <= 14
+      ? "Critical renewal window"
+      : expiryDays <= 30
+        ? "High renewal pressure"
+        : expiryDays <= 45
+          ? "Monitor renewal queue"
+          : "Low expiry pressure";
+
+  const recommendation =
+    riskScore >= 90
+      ? "Verify immediately before site entry."
+      : riskScore >= 65
+        ? "Prioritize in today's verification queue."
+        : "Keep in routine audit cycle.";
+
+  return {
+    profileId: profile.id,
+    expiryDays,
+    riskScore,
+    riskFlags,
+    predictedExpiryRisk,
+    recommendation,
+  };
+}
+
 export default function Demo() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const collapseButtonRef = useRef<HTMLButtonElement>(null);
+  const profilesById = useMemo(() => new Map(AGENT_PROFILES.map((profile) => [profile.id, profile])), []);
 
   const insights = useMemo<AiInsight[]>(() => {
-    return AGENT_PROFILES.map((profile) => {
-      const days = daysToExpiry(profile.passportExpiry);
-      const failedChecks = profile.mandatoryChecks.filter((check) => check.status === "failed").length;
-      const missingChecks = profile.mandatoryChecks.filter((check) => check.status === "missing").length;
-      const missingEvidence = profile.evidenceUploads.filter((item) => item.status === "missing").length;
-
-      let riskScore = 0;
-      if (days <= 14) riskScore += 35;
-      else if (days <= 30) riskScore += 20;
-      if (profile.trainingStatus === "due") riskScore += 20;
-      if (profile.trainingStatus === "overdue") riskScore += 35;
-      riskScore += failedChecks * 12 + missingChecks * 10 + missingEvidence * 8;
-      riskScore += profile.complianceHistory.misses * 5 + profile.complianceHistory.lateRefreshers * 4;
-
-      const flags: string[] = [];
-      if (profile.trainingStatus !== "complete") flags.push("Training attention required");
-      if (days <= 30) flags.push("Passport nearing expiry");
-      if (failedChecks > 0 || missingChecks > 0) flags.push("Mandatory checks incomplete");
-      if (missingEvidence > 0) flags.push("Evidence uploads missing");
-      if (profile.complianceHistory.misses >= 2) flags.push("Pattern: repeated compliance misses");
-
-      const predictedExpiryRisk =
-        days <= 14
-          ? "Critical renewal window"
-          : days <= 30
-            ? "High renewal pressure"
-            : days <= 45
-              ? "Monitor renewal queue"
-              : "Low expiry pressure";
-
-      const recommendation =
-        riskScore >= 90
-          ? "Verify immediately before site entry."
-          : riskScore >= 65
-            ? "Prioritize in today's verification queue."
-            : "Keep in routine audit cycle.";
-
-      return {
-        profileId: profile.id,
-        riskScore,
-        riskFlags: flags,
-        predictedExpiryRisk,
-        recommendation,
-      };
-    }).sort((a, b) => b.riskScore - a.riskScore);
+    return AGENT_PROFILES.map(buildInsight).sort((a, b) => b.riskScore - a.riskScore);
   }, []);
+  const insightsById = useMemo(() => new Map(insights.map((insight) => [insight.profileId, insight])), [insights]);
 
   const selectedProfile = AGENT_PROFILES.find((profile) => profile.id === selectedId) ?? null;
   const selectedInsight = insights.find((insight) => insight.profileId === selectedId) ?? null;
+  const selectedDetailId = selectedProfile ? `agent-profile-detail-${selectedProfile.id}` : undefined;
+
+  useEffect(() => {
+    if (selectedProfile) {
+      collapseButtonRef.current?.focus();
+    }
+  }, [selectedProfile]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto w-full max-w-md px-4 py-6 space-y-6">
-        {!selectedProfile ? (
-          <>
-            <header className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold tracking-tight">Mobile Passport Hub</h1>
-                <Link href="/" className="text-sm text-primary underline-offset-4 hover:underline">Home</Link>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Supervisor view for fast credential checks, compliance status, and active passport verification.
-              </p>
-            </header>
+        <header className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold tracking-tight">Mobile Passport Hub</h1>
+            <Link href="/" className="text-sm text-primary underline-offset-4 hover:underline">Home</Link>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Supervisor view for fast credential checks, compliance status, and active passport verification.
+          </p>
+        </header>
 
-            <section className="rounded-xl border border-border bg-card p-4 space-y-3">
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <BrainCircuit className="h-4 w-4 text-primary" />
-                AI Compliance Watch
-              </div>
-              <ul className="space-y-2 text-sm">
-                {insights.slice(0, 3).map((insight, index) => {
-                  const profile = AGENT_PROFILES.find((item) => item.id === insight.profileId);
-                  if (!profile) return null;
-                  return (
-                    <li key={insight.profileId} className="rounded-lg border border-border/70 p-3 bg-background/80">
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="font-medium text-foreground">#{index + 1} {profile.name}</span>
-                        <span className="text-xs text-red-300 font-semibold">Risk {insight.riskScore}</span>
-                      </div>
-                      <p className="mt-1 text-xs text-muted-foreground">{insight.predictedExpiryRisk}</p>
-                      <p className="mt-1 text-xs text-foreground">{insight.recommendation}</p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
+        <section className="rounded-xl border border-border bg-card p-4 space-y-3">
+          <div className="flex items-center gap-2 text-sm font-medium">
+            <BrainCircuit className="h-4 w-4 text-primary" />
+            AI Compliance Watch
+          </div>
+          <ul className="space-y-2 text-sm">
+            {insights.slice(0, 3).map((insight, index) => {
+              const profile = profilesById.get(insight.profileId);
+              if (!profile) return null;
+              return (
+                <li key={insight.profileId} className="rounded-lg border border-border/70 p-3 bg-background/80">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-medium text-foreground">#{index + 1} {profile.name}</span>
+                    <span className="text-xs text-red-300 font-semibold">Risk {insight.riskScore}</span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">{insight.predictedExpiryRisk}</p>
+                  <p className="mt-1 text-xs text-foreground">{insight.recommendation}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
 
-            <section className="space-y-4">
-              {AGENT_PROFILES.map((profile) => {
-                const days = daysToExpiry(profile.passportExpiry);
-                return (
-                  <button
-                    key={profile.id}
-                    onClick={() => setSelectedId(profile.id)}
-                    className="w-full text-left rounded-xl border border-border bg-card p-4 space-y-3 hover:border-primary/50 transition-colors"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h2 className="text-lg font-semibold leading-snug">{profile.name}</h2>
-                        <p className="text-sm text-muted-foreground">{profile.role}</p>
-                      </div>
-                      <ShieldCheck className="h-5 w-5 text-primary shrink-0" />
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${trainingBadge(profile.trainingStatus)}`}>
-                        Training: {profile.trainingStatus}
-                      </span>
-                      <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${expiryBadge(days)}`}>
-                        Expiry: {days < 0 ? "expired" : `${days}d`}
-                      </span>
-                    </div>
-                    <p className="text-sm">
-                      <span className="text-muted-foreground">Active passport:</span>{" "}
-                      <span className="font-medium">{profile.activePassportId}</span>
-                    </p>
-                  </button>
-                );
-              })}
-            </section>
-          </>
-        ) : (
-          <section className="space-y-4">
-            <button onClick={() => setSelectedId(null)} className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
-              <ChevronLeft className="h-4 w-4" /> Back to list
+        <section className="space-y-4">
+          {AGENT_PROFILES.map((profile) => {
+            const insight = insightsById.get(profile.id);
+            const days = insight?.expiryDays ?? daysToExpiry(profile.passportExpiry);
+            const isExpanded = selectedId === profile.id;
+            return (
+              <button
+                key={profile.id}
+                onClick={() => setSelectedId((current) => (current === profile.id ? null : profile.id))}
+                aria-expanded={isExpanded}
+                aria-controls={isExpanded ? selectedDetailId : undefined}
+                className={`w-full text-left rounded-xl border bg-card p-4 space-y-3 transition-colors ${
+                  isExpanded ? "border-primary" : "border-border hover:border-primary/50"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-lg font-semibold leading-snug">{profile.name}</h2>
+                    <p className="text-sm text-muted-foreground">{profile.role}</p>
+                  </div>
+                  <ShieldCheck className="h-5 w-5 text-primary shrink-0" aria-hidden />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${trainingBadge(profile.trainingStatus)}`}>
+                    Training: {profile.trainingStatus}
+                  </span>
+                  <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${expiryBadge(days)}`}>
+                    Expiry: {days < 0 ? "expired" : `${days}d`}
+                  </span>
+                </div>
+                <p className="text-sm">
+                  <span className="text-muted-foreground">Active passport:</span>{" "}
+                  <span className="font-medium">{profile.activePassportId}</span>
+                </p>
+              </button>
+            );
+          })}
+        </section>
+
+        {selectedProfile && (
+          <section id={selectedDetailId} className="space-y-4">
+            <button
+              ref={collapseButtonRef}
+              onClick={() => setSelectedId(null)}
+              className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+            >
+              <ChevronLeft className="h-4 w-4" /> Collapse profile
             </button>
 
             <div className="rounded-xl border border-border bg-card p-4 space-y-4">
