@@ -66,6 +66,29 @@ Create one Talabat basket containing:
 
 Selection policy: prefer one nearby store with all three items, optimize for fastest delivery first and reasonable total price second, avoid promotional extras, and use the closest same-brand equivalent if an exact item is unavailable. Present a single compact approval only at the irreversible checkout boundary, then capture order number and ETA after placement.
 
+## Connector governance binding: Amazon UAE MCP
+
+This repository tracks governance and S/Integrator activation evidence only for the Amazon UAE connector surface.
+
+- `task_id`: `AMAZON-MCP-20260902`
+- `worker_passport`: `/root/amazon_mcp`
+- `owner`: `Seif Alsoub`
+- `account_surface`: `Amazon UAE customer account`
+- `authentication`: owner-presence browser handoff to an opaque session
+- `least_privilege_scopes`: `product:search`, `product:read`, `cart:read`, `cart:prepare`, `order:status`
+- `purchase_payment_policy`: disabled by default; requires a separate one-time owner approval immediately before any future purchase/payment action
+- `secrets_policy`: secrets must never be tool inputs, repository values, or audit fields
+
+### Remaining S/Integrator activation work (Amazon UAE connector)
+
+1. Runtime identity/public-key binding.
+2. Canonical Passport service registration.
+3. Issuer signature.
+4. Activation receipt.
+5. Gate registry entry bound to the activated S/Integrator passport ID.
+
+Executable MCP code for Amazon UAE is out of scope for this repository and must remain in `saifsoub/PersonalEmpire/packages/service-mcps` (tracked by PersonalEmpire issue `saifsoub/s-agent-passport#4`).
+
 ## Non-negotiable rule
 
 No platform is required to abandon a built-in integration merely to pass through S/Integrator. The Passport is the authoritative trust and governance layer; the connector implementation may remain native.
