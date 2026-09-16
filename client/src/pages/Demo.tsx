@@ -192,6 +192,12 @@ export default function Demo() {
     }
   }, [selectedProfile]);
 
+  const collapseSelectedProfile = (profileId: string | null) => {
+    const focusTarget = profileId ? profileCardRefs.current.get(profileId) : null;
+    setSelectedId(null);
+    requestAnimationFrame(() => focusTarget?.focus());
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto w-full max-w-md px-4 py-6 space-y-6">
@@ -240,7 +246,13 @@ export default function Demo() {
                   if (node) profileCardRefs.current.set(profile.id, node);
                   else profileCardRefs.current.delete(profile.id);
                 }}
-                onClick={() => setSelectedId((current) => (current === profile.id ? null : profile.id))}
+                onClick={() => {
+                  if (selectedId === profile.id) {
+                    collapseSelectedProfile(profile.id);
+                    return;
+                  }
+                  setSelectedId(profile.id);
+                }}
                 aria-expanded={isExpanded}
                 aria-controls={isExpanded ? selectedDetailId : undefined}
                 className={`w-full text-left rounded-xl border bg-card p-4 space-y-3 transition-colors ${
@@ -275,11 +287,7 @@ export default function Demo() {
           <section id={selectedDetailId} className="space-y-4">
             <button
               ref={collapseButtonRef}
-              onClick={() => {
-                const focusTarget = selectedId ? profileCardRefs.current.get(selectedId) : null;
-                setSelectedId(null);
-                requestAnimationFrame(() => focusTarget?.focus());
-              }}
+              onClick={() => collapseSelectedProfile(selectedId)}
               className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
             >
               <ChevronLeft className="h-4 w-4" /> Collapse profile
