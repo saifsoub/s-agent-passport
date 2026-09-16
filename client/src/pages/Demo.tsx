@@ -174,10 +174,11 @@ export function buildInsight(profile: AgentProfile, nowTs = Date.now()): AiInsig
 export default function Demo() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const collapseButtonRef = useRef<HTMLButtonElement>(null);
+  const profileCardRefs = useRef(new Map<string, HTMLButtonElement>());
   const profilesById = useMemo(() => new Map(AGENT_PROFILES.map((profile) => [profile.id, profile])), []);
 
   const insights = useMemo<AiInsight[]>(() => {
-    return AGENT_PROFILES.map(buildInsight).sort((a, b) => b.riskScore - a.riskScore);
+    return AGENT_PROFILES.map((profile) => buildInsight(profile)).sort((a, b) => b.riskScore - a.riskScore);
   }, []);
   const insightsById = useMemo(() => new Map(insights.map((insight) => [insight.profileId, insight])), [insights]);
 
@@ -235,6 +236,10 @@ export default function Demo() {
             return (
               <button
                 key={profile.id}
+                ref={(node) => {
+                  if (node) profileCardRefs.current.set(profile.id, node);
+                  else profileCardRefs.current.delete(profile.id);
+                }}
                 onClick={() => setSelectedId((current) => (current === profile.id ? null : profile.id))}
                 aria-expanded={isExpanded}
                 aria-controls={isExpanded ? selectedDetailId : undefined}
@@ -270,7 +275,11 @@ export default function Demo() {
           <section id={selectedDetailId} className="space-y-4">
             <button
               ref={collapseButtonRef}
-              onClick={() => setSelectedId(null)}
+              onClick={() => {
+                const focusTarget = selectedId ? profileCardRefs.current.get(selectedId) : null;
+                setSelectedId(null);
+                requestAnimationFrame(() => focusTarget?.focus());
+              }}
               className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
             >
               <ChevronLeft className="h-4 w-4" /> Collapse profile
@@ -287,13 +296,64 @@ export default function Demo() {
               </div>
 
               {selectedInsight && (
-                <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 space-y-2">
-                  <p className="text-sm font-medium text-red-200 flex items-center gap-2">
-                    <ShieldAlert className="h-4 w-4" /> AI risk score: {selectedInsight.riskScore}
+                <div
+                  className={`rounded-lg border p-3 space-y-2 ${
+                    selectedInsight.riskScore >= 90
+                      ? "border-red-500/30 bg-red-500/10"
+                      : selectedInsight.riskScore >= 65
+                        ? "border-amber-500/30 bg-amber-500/10"
+                        : "border-emerald-500/30 bg-emerald-500/10"
+                  }`}
+                >
+                  <p
+                    className={`text-sm font-medium flex items-center gap-2 ${
+                      selectedInsight.riskScore >= 90
+                        ? "text-red-200"
+                        : selectedInsight.riskScore >= 65
+                          ? "text-amber-200"
+                          : "text-emerald-200"
+                    }`}
+                  >
+                    {selectedInsight.riskScore >= 90 ? (
+                      <ShieldAlert className="h-4 w-4" />
+                    ) : selectedInsight.riskScore >= 65 ? (
+                      <FileWarning className="h-4 w-4" />
+                    ) : (
+                      <ShieldCheck className="h-4 w-4" />
+                    )}{" "}
+                    AI risk score: {selectedInsight.riskScore}
                   </p>
-                  <p className="text-xs text-red-100">{selectedInsight.predictedExpiryRisk}</p>
-                  <p className="text-xs text-red-100">{selectedInsight.recommendation}</p>
-                  <ul className="list-disc list-inside text-xs text-red-100 space-y-1">
+                  <p
+                    className={`text-xs ${
+                      selectedInsight.riskScore >= 90
+                        ? "text-red-100"
+                        : selectedInsight.riskScore >= 65
+                          ? "text-amber-100"
+                          : "text-emerald-100"
+                    }`}
+                  >
+                    {selectedInsight.predictedExpiryRisk}
+                  </p>
+                  <p
+                    className={`text-xs ${
+                      selectedInsight.riskScore >= 90
+                        ? "text-red-100"
+                        : selectedInsight.riskScore >= 65
+                          ? "text-amber-100"
+                          : "text-emerald-100"
+                    }`}
+                  >
+                    {selectedInsight.recommendation}
+                  </p>
+                  <ul
+                    className={`list-disc list-inside text-xs space-y-1 ${
+                      selectedInsight.riskScore >= 90
+                        ? "text-red-100"
+                        : selectedInsight.riskScore >= 65
+                          ? "text-amber-100"
+                          : "text-emerald-100"
+                    }`}
+                  >
                     {selectedInsight.riskFlags.map((flag) => (
                       <li key={flag}>{flag}</li>
                     ))}
