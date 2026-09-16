@@ -1,0 +1,35 @@
+{
+  "connector_name": "S/Binance",
+  "platform": "Binance Spot",
+  "passport_binding": "S/Integrator Passport",
+  "integration_mode": "websocket_event_relay",
+  "state": "configured_not_activated",
+  "upstream": {
+    "production": "wss://ws-api.binance.com:443/ws-api/v3",
+    "testnet": "wss://ws-api.testnet.binance.vision/ws-api/v3"
+  },
+  "capabilities": [
+    "market_data_read",
+    "account_event_read",
+    "balance_event_read",
+    "order_execution_event_read",
+    "signed_webhook_delivery"
+  ],
+  "forbidden_capabilities": [
+    "order_place",
+    "order_amend",
+    "order_cancel",
+    "withdrawal_create"
+  ],
+  "required_vault_refs": [
+    "BINANCE_API_KEY",
+    "BINANCE_WEBHOOK_SECRET"
+  ],
+  "webhook_contract": "webhook-relay.contract.json",
+  "activation_requirements": [
+    "S/Integrator Passport is active",
+    "A Binance API key limited to USER_DATA and USER_STREAM is stored in the vault",
+    "An HTTPS webhook destination is configured outside Passport metadata",
+    "Receiver verifies X-S-Binance-Signature before accepting any event"
+  ]
+}
