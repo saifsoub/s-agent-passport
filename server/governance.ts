@@ -37,7 +37,7 @@ export interface AuthorityEnvelope {
 
 export interface GatePassport {
   passport_id: string;
-  status: "active" | "revoked" | "expired" | "quarantined" | "suspended";
+  status: "active" | "paused" | "archived" | "revoked" | "expired" | "quarantined" | "suspended";
   expires_at: string | null;
   capabilities: string[];
   authority: AuthorityEnvelope;
@@ -55,8 +55,13 @@ export interface ActionRequest {
   requests_delegation?: boolean;
   irreversible?: boolean;
   new_authority_class?: boolean;
-  secondary_validation?: boolean;
-  owner_approval?: boolean;
+}
+
+/** Evidence is supplied by the trusted gate after checking the approval store. */
+export interface GateEvidence {
+  secondary_validation?: { passport_id: string; action_id: string; expires_at: string };
+  owner_approval?: { passport_id: string; action_id: string; expires_at: string };
+  actions_used: number;
 }
 
 export interface DecisionReceipt {
@@ -104,25 +109,29 @@ export function evaluateAuthority(
   passport: GatePassport,
   request: ActionRequest,
   previousReceiptHash: string | null = null,
-  now = new Date()
+  now = new Date(),
+  evidence: GateEvidence = { actions_used: NaN }
 ): DecisionReceipt {
   const reasons: string[] = [];
   const envelope = passport.authority;
   const nowMs = now.getTime();
 
   if (passport.status !== "active") reasons.push("PASSPORT_NOT_ACTIVE");
-  if (passport.expires_at && new Date(passport.expires_at).getTime() <= nowMs) reasons.push("PASSPORT_EXPIRED");
-  if (new Date(envelope.lifecycle.expires_at).getTime() <= nowMs) reasons.push("AUTHORITY_ENVELOPE_EXPIRED");
+  if (!passport.expires_at || !Number.isFinite(Date.parse(passport.expires_at)) || Date.parse(passport.expires_at) <= nowMs) reasons.push("PASSPORT_EXPIRED");
+  if (!Number.isFinite(Date.parse(envelope.lifecycle.expires_at)) || Date.parse(envelope.lifecycle.expires_at) <= nowMs) reasons.push("AUTHORITY_ENVELOPE_EXPIRED");
   if (!passport.capabilities.includes(request.capability) || !envelope.capabilities.includes(request.capability)) {
     reasons.push("CAPABILITY_NOT_GRANTED");
   }
   if (request.purpose !== envelope.purpose) reasons.push("PURPOSE_MISMATCH");
-  if (request.delegation_depth > envelope.delegation.max_depth) reasons.push("DELEGATION_DEPTH_EXCEEDED");
+  if (!Number.isInteger(request.delegation_depth) || request.delegation_depth < 0 || request.delegation_depth > envelope.delegation.max_depth) reasons.push("DELEGATION_DEPTH_EXCEEDED");
   if (request.requests_delegation && !envelope.delegation.may_delegate) reasons.push("DELEGATION_NOT_GRANTED");
-  if (request.spend_amount && request.spend_amount > envelope.constraints.spend_limit) reasons.push("SPEND_LIMIT_EXCEEDED");
-  if (request.spend_amount && envelope.constraints.currency && request.currency !== envelope.constraints.currency) {
+  if (request.data_domain && !envelope.constraints.data_domains.includes(request.data_domain)) reasons.push("DATA_DOMAIN_NOT_GRANTED");
+  if (request.external_system && !envelope.constraints.allowed_external_systems?.includes(request.external_system)) reasons.push("EXTERNAL_SYSTEM_NOT_GRANTED");
+  if (request.spend_amount !== undefined && (!Number.isFinite(request.spend_amount) || request.spend_amount < 0 || request.spend_amount > envelope.constraints.spend_limit)) reasons.push("SPEND_LIMIT_EXCEEDED");
+  if ((request.spend_amount ?? 0) > 0 && (!envelope.constraints.currency || request.currency !== envelope.constraints.currency)) {
     reasons.push("SPEND_CURRENCY_MISMATCH");
   }
+  if (!Number.isInteger(evidence.actions_used) || evidence.actions_used >= envelope.constraints.action_limit || evidence.actions_used < 0) reasons.push("ACTION_LIMIT_EXCEEDED");
   if (request.irreversible && envelope.constraints.reversible_actions_only) reasons.push("IRREVERSIBLE_ACTION_FORBIDDEN");
 
   const lane = classifyLane(request, envelope);
@@ -131,9 +140,9 @@ export function evaluateAuthority(
   if (reasons.length) {
     decision = "deny";
   } else if (lane === "red") {
-    decision = request.owner_approval ? "allow" : "require_owner_approval";
+    decision = validEvidence(evidence.owner_approval, passport.passport_id, request.action_id, nowMs) ? "allow" : "require_owner_approval";
   } else if (lane === "yellow") {
-    decision = request.secondary_validation ? "allow" : "require_validation";
+    decision = validEvidence(evidence.secondary_validation, passport.passport_id, request.action_id, nowMs) ? "allow" : "require_validation";
   }
 
   const evaluated_at = now.toISOString();
@@ -163,12 +172,24 @@ export function evaluateAuthority(
   };
 }
 
+function validEvidence(proof: GateEvidence["owner_approval"], passportId: string, actionId: string, nowMs: number): boolean {
+  return Boolean(proof && proof.passport_id === passportId && proof.action_id === actionId && Number.isFinite(Date.parse(proof.expires_at)) && Date.parse(proof.expires_at) > nowMs);
+}
+
 export function isPrivilegeExpansion(parent: AuthorityEnvelope, child: AuthorityEnvelope): boolean {
+  if (child.owner.root_identity !== parent.owner.root_identity || child.owner.controller !== parent.owner.controller) return true;
+  if (child.purpose !== parent.purpose) return true;
+  if (!Number.isFinite(Date.parse(child.lifecycle.expires_at)) || Date.parse(child.lifecycle.expires_at) > Date.parse(parent.lifecycle.expires_at)) return true;
+  if (child.constraints.action_limit > parent.constraints.action_limit) return true;
+  if (child.delegation.may_delegate && !parent.delegation.may_delegate) return true;
   if (child.delegation.max_depth > Math.max(parent.delegation.max_depth - 1, 0)) return true;
   if (child.constraints.spend_limit > parent.constraints.spend_limit) return true;
+  if (child.constraints.currency !== parent.constraints.currency && child.constraints.spend_limit > 0) return true;
+  if (parent.constraints.reversible_actions_only !== false && child.constraints.reversible_actions_only === false) return true;
   if (child.constraints.credential_ttl_seconds > parent.constraints.credential_ttl_seconds) return true;
   if (child.capabilities.some((capability) => !parent.capabilities.includes(capability))) return true;
   if (child.constraints.data_domains.some((domain) => !parent.constraints.data_domains.includes(domain))) return true;
+  if (child.constraints.allowed_external_systems?.some((system) => !parent.constraints.allowed_external_systems?.includes(system))) return true;
   return false;
 }
 

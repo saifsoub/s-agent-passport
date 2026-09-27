@@ -37,9 +37,11 @@ A request missing an exact capability, matching purpose, valid expiry, allowed d
 
 `server/governance.ts` provides a pure evaluator for use at every relying gate:
 
+The additive Supabase schema in `supabase/migrations/20260927_passport_governance.sql` stores signed authority envelopes and append-only, per-passport receipt chains. It does not enroll the 85 existing passports automatically: an issuer must sign a new envelope for each eligible passport. The schema alone does not make the web demo a live gate.
+
 1. Load and verify the Passport signature using the correct issuer.
 2. Retrieve current live status; fail closed for revoked, quarantined, suspended, expired, or unavailable status.
-3. Build the action request from trusted gate context—not client-supplied claims.
+3. Build the action request from trusted gate context—not client-supplied claims. Load approval/validation evidence separately from the gate's trusted store, bound to the passport and action with an expiry. Never copy an approval flag from the action payload.
 4. Call `evaluateAuthority`.
 5. Persist the returned receipt in an append-only store, chaining `previous_receipt_hash`.
 6. Issue a one-time, audience-bound capability only when the decision is `allow`.
