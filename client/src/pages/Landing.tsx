@@ -184,7 +184,7 @@ export default function Landing() {
             <a href="#how" className="hover:text-primary transition-colors">How it works</a>
             <a href="#benefits" className="hover:text-primary transition-colors">What you get</a>
             <a href="#security" className="hover:text-primary transition-colors">Security</a>
-            <Link href="/demo" className="hover:text-primary transition-colors">Live demo</Link>
+            <Link href="/demo" className="hover:text-primary transition-colors">Process walkthrough</Link>
           </nav>
           <Link href="/portal">
             <Button size="sm" className="btn-press font-mono text-xs tracking-wider uppercase rounded-[3px]">
@@ -491,7 +491,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="flex items-center gap-6 label-mono">
-            <Link href="/demo" className="hover:text-primary transition-colors">Live demo</Link>
+            <Link href="/demo" className="hover:text-primary transition-colors">Process walkthrough</Link>
             <Link href="/portal" className="hover:text-primary transition-colors">Portal</Link>
           </div>
         </div>
