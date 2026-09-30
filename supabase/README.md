@@ -1,8 +1,8 @@
 # Supabase control plane
 
-The official S/Passport portal is **https://s-agentpass.online/**.
+The official Passport portal is **https://s-agentpass.online/**.
 
-This directory is the deployment record for the S/Agency Supabase project. It extends the existing `public.agent_passports` registry (it does not create a second registry).
+This directory is the deployment record for the Agency Supabase project. It extends the existing `public.agent_passports` registry (it does not create a second registry).
 
 ## Live components
 
