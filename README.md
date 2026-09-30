@@ -49,3 +49,10 @@ Never commit secrets, credential exports, bearer tokens, recovery material, or r
 [S/License Version 1.0](LICENSE). Internal evaluation and modification are permitted under its conditions; public forks, redistribution, hosted distribution, and commercial use require prior written permission.
 
 Owned and maintained by S/Agency by Seif Alsoub.
+
+
+### Passport and vault cryptographic configuration
+
+Set `JWT_SECRET` to a private deployment secret before issuing passports or using the vault. Missing, empty, or whitespace-only configuration blocks minting, encryption, and decryption; signature verification returns false. There is no default cryptographic key. Keep the configured secret stable: changing it invalidates existing signatures and prevents decryption of existing vault records.
+
+Existing records created with the former development fallback require controlled recovery before enabling this change: inventory affected records, recover vault values in an authorized isolated environment, and re-encrypt/reissue with the configured deployment key. Do not automatically rotate keys or copy recovered secrets into logs or repository files. The Vitest configuration uses an explicit test-only key.
