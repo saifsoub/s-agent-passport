@@ -95,8 +95,16 @@ export function newPassportId(): string {
  * key derived from JWT_SECRET. (The Python package on US/SRV uses Ed25519 with
  * local sovereign keys; this web registry is a separate issuer authority.)
  */
+function cryptoSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || !secret.trim()) {
+    throw new Error("JWT_SECRET must be configured for passport signing and vault encryption.");
+  }
+  return secret;
+}
+
 function signingKey(): Buffer {
-  const secret = process.env.JWT_SECRET || "s-pass-dev-secret";
+  const secret = cryptoSecret();
   return crypto.createHash("sha256").update("s-pass-issuer:" + secret).digest();
 }
 
@@ -121,8 +129,8 @@ export function signPassport(p: PassportPayload): string {
 
 export function verifySignature(p: PassportPayload): boolean {
   if (!p.signature) return false;
-  const expected = signPassport(p);
   try {
+    const expected = signPassport(p);
     return crypto.timingSafeEqual(Buffer.from(expected, "hex"), Buffer.from(p.signature, "hex"));
   } catch {
     return false;
@@ -192,7 +200,7 @@ export function mintPassport(input: MintInput): PassportPayload {
 
 /* ===== Vault crypto — AES-256-GCM at rest ===== */
 function vaultKey(): Buffer {
-  const secret = process.env.JWT_SECRET || "s-pass-dev-secret";
+  const secret = cryptoSecret();
   return crypto.createHash("sha256").update("s-pass-vault:" + secret).digest();
 }
 
