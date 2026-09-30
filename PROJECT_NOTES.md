@@ -1,8 +1,8 @@
-# S/ Agent Passport Demo — Working Notes (internal)
+# Agent Passport Demo — Working Notes (internal)
 
 ## Task
-Build a webpage demonstrating the S/ Agent Passport v0.1 Python package for Seif.
-Webdev static project: /home/ubuntu/s-agent-passport-demo (project title "S/ Agent Passport").
+Build a webpage demonstrating the Agent Passport v0.1 Python package for Seif.
+Webdev static project: /home/ubuntu/s-agent-passport-demo (project title "Agent Passport").
 Dev preview: https://3000-ivm9t6fskvlfirktzyhkj-dfa17476.sg1.manus.computer
 Design: "Border Control Terminal" per ideas.md (navy #0A1628, orange #FF4F00,
 Space Grotesk + IBM Plex Mono, MRZ strips, rubber stamps, checkpoint metaphor).
@@ -10,7 +10,7 @@ Space Grotesk + IBM Plex Mono, MRZ strips, rubber stamps, checkpoint metaphor).
 ## Package facts to demonstrate (from /home/ubuntu/s-agent-passport)
 - AgentPassport pydantic model: passport_id (S-PASS-XXXX hex12), agent_name, agent_type
   (orchestrator/researcher/coder/executor/analyst/content_engine/domain_specialist/swarm_node/memory_bridge/custom),
-  version 1.0.0, creator "Seif Alsoub / S/", issued_at, expires_at, capabilities[],
+  version 1.0.0, creator "Seif Alsoub", issued_at, expires_at, capabilities[],
   permissions{}, memory_bridge_ref, calibration_level 0-7, provenance[], parent_passport_id,
   status (active/paused/revoked/archived/expired), branding{}, metadata{}, checksum (sha256 16-hex),
   signature + signer_public_key (Ed25519 opt-in).
@@ -36,7 +36,7 @@ All demo logic simulated client-side in TS mirroring the Python semantics (no MC
 Phase 3: screenshots + style review, checkpoint, deliver.
 
 ## Generated assets (fill in URLs after generation)
-- hero background, guilloche texture, S/ logo: see chat context for URLs.
+- hero background, guilloche texture, logo: see chat context for URLs.
 
 
 ## Current task (2026-07-10, third iteration)
@@ -92,7 +92,7 @@ RECOVERY PLAN (files to create/restore):
 1. git show 50ddd5b7 -- client/src/pages/Home.tsx > restore as client/src/pages/Demo.tsx
    (rename component Demo, route /demo, keep all interactive sections; remove nav Owner
    Console link → point to /portal).
-2. New Landing at / : commercial S/ branded (navy + copper #D97742 oklch(0.68 0.145 45)),
+2. New Landing at / : commercial branded (navy + copper #D97742 oklch(0.68 0.145 45)),
    headline like "Tired of pasting your API keys over and over?", benefits (one credential,
    sealed vault, scoped tools, revoke anytime), how-it-works 3 steps, CTA → /portal,
    secondary link → /demo ("see it inspect"). Existing assets:
