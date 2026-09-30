@@ -1,6 +1,6 @@
-# S/Agency Model Assets v0.1
+# Agency Model Assets v0.1
 
-This folder is the canonical registry for S/Agency model assets.
+This folder is the canonical registry for Agency model assets.
 
 ## Control Model
 
@@ -18,7 +18,7 @@ https://docs.google.com/spreadsheets/d/1yt4NBzqHKiwjZDDbcPqPh78pw1_yOMwCYImVl48e
 
 - `registry/model-assets.v0.1.json`: governed Hugging Face model assets.
 - `registry/advisory-skills.v0.1.json`: advisory skills used to evaluate and route assets.
-- `graph/knowledge-graph.v0.1.json`: graph nodes and edges for the S/Agency control map.
+- `graph/knowledge-graph.v0.1.json`: graph nodes and edges for the Agency control map.
 - `supabase/s_agency_model_assets.prepared.sql`: prepared Supabase/Postgres mirror contract.
 
 ## Activation Status
