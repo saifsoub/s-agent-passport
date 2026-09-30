@@ -1,7 +1,7 @@
 # Universal Passport Remediation Rule
 
 Status: CANONICAL OPERATING RULE
-Owner: S/Agency
+Owner: the maintainers
 Scope: all agents, workers, fleets, University cohorts, control planes, runtimes, and future registries.
 
 ## Universal rule
