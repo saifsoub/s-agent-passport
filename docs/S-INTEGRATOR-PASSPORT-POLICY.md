@@ -34,7 +34,7 @@ Native platform credentials and OAuth grants remain platform-native. Passport re
 
 - `agent_name`: `Integrator`
 - `agent_type`: `custom`
-- `creator`: `Seif Alsoub`
+- `creator`: `<owner>`
 - `capabilities`: integration orchestration, connector routing, identity binding, audit handoff
 - `permissions`: least-privilege, platform-specific grants only
 - `parent_passport_id`: owner/root passport when present
