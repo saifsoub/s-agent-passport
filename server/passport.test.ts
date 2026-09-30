@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   AGENT_TYPES,
   TOOL_CATALOG,
@@ -133,5 +133,28 @@ describe("tool catalog", () => {
     for (const t of TOOL_CATALOG.filter((t) => t.sensitive)) {
       expect(t.permission, `${t.id} should have a permission flag`).toBeTruthy();
     }
+  });
+});
+
+
+describe("crypto configuration", () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it.each([undefined, "", "   "])("fails closed when JWT_SECRET is %s", (secret) => {
+    const passport = mintPassport(baseInput);
+    const stored = encryptSecret("configured-key-secret");
+    vi.stubEnv("JWT_SECRET", secret);
+    expect(() => mintPassport(baseInput)).toThrow("JWT_SECRET must be configured");
+    expect(() => encryptSecret("value")).toThrow("JWT_SECRET must be configured");
+    expect(() => decryptSecret(stored)).toThrow("JWT_SECRET must be configured");
+    expect(verifySignature(passport)).toBe(false);
+  });
+
+  it("rejects signatures and ciphertext created under another key", () => {
+    const passport = mintPassport(baseInput);
+    const stored = encryptSecret("key-bound-secret");
+    vi.stubEnv("JWT_SECRET", "different-test-only-key");
+    expect(verifySignature(passport)).toBe(false);
+    expect(() => decryptSecret(stored)).toThrow();
   });
 });
