@@ -1,15 +1,15 @@
 ---
 name: model-passport-issuer
-description: Register and maintain S/ Model Passports for AI models without replacing or modifying provider-native identities, bindings, endpoints, or integrations.
+description: Register and maintain Model Passports for AI models without replacing or modifying provider-native identities, bindings, endpoints, or integrations.
 ---
 
-# S/ Model Passport Issuer
+# Model Passport Issuer
 
-Create and maintain the smallest valid S/ identity overlay for a model while preserving every provider-native identifier and connection already in place.
+Create and maintain the smallest valid identity overlay for a model while preserving every provider-native identifier and connection already in place.
 
 ## Authority and scope
 
-- A Model Passport is an S/ documentation and governance identity, not an operational authority grant.
+- A Model Passport is a documentation and governance identity, not an operational authority grant.
 - Never alter provider-native model IDs, resource IDs, endpoints, search/thread IDs, account bindings, credentials, or integrations in order to issue a Model Passport.
 - Never treat `S-MODEL-*` as a substitute for `S-PASS-*`.
 - Never store secrets, tokens, cookies, private keys, or reusable authentication material.
@@ -17,7 +17,7 @@ Create and maintain the smallest valid S/ identity overlay for a model while pre
 ## Issuance workflow
 
 1. Capture the model's provider, display name, provider-native IDs, resource handles, URLs/endpoints when safe, version/lineage, and available evidence.
-2. Search the S/ model registry for the same provider-native identity. Do not create duplicates.
+2. Search the model registry for the same provider-native identity. Do not create duplicates.
 3. Preserve the provider identity exactly as supplied or verified.
 4. Allocate the next sequential immutable ID in the format `S-MODEL-NNN`.
 5. Create the Model Passport record with status `documented` unless the provider identity has been independently verified.
@@ -28,7 +28,7 @@ Create and maintain the smallest valid S/ identity overlay for a model while pre
 ## Required fields
 
 - `schema_version`
-- `passport_type`: `S/ Model Passport`
+- `passport_type`: `Model Passport`
 - `s_model_passport`
 - `display_name`
 - `provider`
@@ -45,7 +45,7 @@ Create and maintain the smallest valid S/ identity overlay for a model while pre
 - Start at `S-MODEL-001`.
 - Increment sequentially.
 - Never recycle an issued number.
-- Never change an existing model's S/ number merely because a provider endpoint or non-identity metadata changes.
+- Never change an existing model's number merely because a provider endpoint or non-identity metadata changes.
 
 ## Verification
 
