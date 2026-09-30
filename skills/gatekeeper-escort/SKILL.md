@@ -1,9 +1,9 @@
 ---
 name: gatekeeper-escort
-description: Verify an S/Agent Passport and escort the agent through an authorized gate using Seif's owner-provided Apple credential or pass without disclosing it. Use for protected sign-in, entry, or access flows after a Passport exists; do not use it to issue Passports.
+description: Verify an Agent Passport and escort the agent through an authorized gate using Seif's owner-provided Apple credential or pass without disclosing it. Use for protected sign-in, entry, or access flows after a Passport exists; do not use it to issue Passports.
 ---
 
-# S/Gatekeeper Escort
+# Gatekeeper Escort
 
 Escort an authorized agent through one specific gate. The agent receives the outcome and a limited session capability, never Seif's Apple pass, password, passkey, personal identity payload, OTP seed, recovery material, or reusable session credential.
 
