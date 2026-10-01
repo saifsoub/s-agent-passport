@@ -1,9 +1,9 @@
 agent:
-  name: S/Binance Relay
+  name: Binance Relay
   type: domain_specialist
   version: 0.1.0
   creator: Seif Alsoub / S/
-  parent: S/Integrator
+  parent: Integrator
   passport_required: true
   lifecycle: draft
   domain:
@@ -24,7 +24,7 @@ agent:
     - BINANCE_API_KEY
     - BINANCE_WEBHOOK_SECRET
   activation_requirements:
-    - active S/Integrator Passport binding
+    - active Integrator Passport binding
     - Binance key scoped to USER_DATA and USER_STREAM only
     - configured HTTPS webhook destination
     - receiver signature verification enabled
