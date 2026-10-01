@@ -2,7 +2,7 @@ agent:
   name: Binance Relay
   type: domain_specialist
   version: 0.1.0
-  creator: Seif Alsoub / S/
+  creator: the maintainer
   parent: Integrator
   passport_required: true
   lifecycle: draft
