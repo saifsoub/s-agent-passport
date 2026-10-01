@@ -23,18 +23,18 @@ async function main() {
 
   // Deliberately log no token, secret, private event payload, account identifier,
   // order content, balance content, or destination credentials.
-  console.log("S/Binance read-only relay starting");
+  console.log("Binance read-only relay starting");
   const result = await runSBinanceRelayLoop({
     listenToken,
     receiverUrl,
     webhookSecret,
     signal: controller.signal,
   });
-  console.log(`S/Binance relay stopped after ${result.sessions} session(s); ${result.deliveries.length} safe delivery receipt(s)`);
+  console.log(`Binance relay stopped after ${result.sessions} session(s); ${result.deliveries.length} safe delivery receipt(s)`);
 }
 
 main().catch(error => {
   const message = error instanceof Error ? error.message : "unknown relay failure";
-  console.error(`S/Binance relay failed: ${message}`);
+  console.error(`Binance relay failed: ${message}`);
   process.exitCode = 1;
 });
