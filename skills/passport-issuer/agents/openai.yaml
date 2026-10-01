@@ -1,5 +1,5 @@
 interface:
-  display_name: "S/Passport Issuer"
+  display_name: "Passport Issuer"
   short_description: "Issue and manage verified S/Agent Passports"
   default_prompt: "Use $passport-issuer to process this agent's Passport request end to end."
 policy:
