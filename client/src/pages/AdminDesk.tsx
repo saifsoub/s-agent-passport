@@ -1,5 +1,5 @@
 /*
- * S/ Agent Passport — Approval Desk (admin only).
+ * Agent Passport — Approval Desk (admin only).
  * Pending applications queue → APPROVE (mints real passport) / DENY (with reason).
  * Full passport registry with one-click revoke.
  */
