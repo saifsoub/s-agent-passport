@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "namespace": "S/Agency",
+  "namespace": "Agency",
   "canonical_source": "GitHub branch s-agency-model-assets-v0-1",
   "connected_workbook": "https://docs.google.com/spreadsheets/d/1yt4NBzqHKiwjZDDbcPqPh78pw1_yOMwCYImVl48eJjo/edit",
   "control_model": {
