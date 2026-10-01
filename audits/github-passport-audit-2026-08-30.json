@@ -760,7 +760,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Integrator",
+      "name": "Integrator",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -769,7 +769,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Integrator control layer",
+      "runtime": "Integrator control layer",
       "status": "pending_binding",
       "subject_id": "s/integrator",
       "subject_type": "integration_orchestrator"
