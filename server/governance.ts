@@ -1,5 +1,5 @@
 /**
- * S/Passport governed-delegation evaluator.
+ * Passport governed-delegation evaluator.
  *
  * This is intentionally pure: a gate supplies a freshly verified Passport and
  * current revocation/quarantine status, then persists the returned receipt in
