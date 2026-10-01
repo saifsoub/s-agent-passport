@@ -1,5 +1,5 @@
 /*
- * Border Control Terminal · S/ Agent Passport
+ * Border Control Terminal · Agent Passport
  * In-browser TypeScript simulator that faithfully mirrors the Python package
  * semantics (s_agent_passport): issuance, checksum, least-privilege spawn,
  * lifecycle state machine, handoff payloads, and the orchestrator gate.
