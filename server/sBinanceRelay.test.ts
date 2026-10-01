@@ -21,7 +21,7 @@ function sampleEvent() {
   };
 }
 
-describe("S/Binance signed relay", () => {
+describe("Binance signed relay", () => {
   it("parses the current WebSocket API wrapped user-data event", () => {
     const parsed = parseSBinanceUserDataMessage(
       JSON.stringify({ subscriptionId: 7, event: sampleEvent() }),
@@ -49,7 +49,7 @@ describe("S/Binance signed relay", () => {
 
     expect(envelope).toMatchObject({
       delivery_id: "delivery-001",
-      connector: "S/Binance",
+      connector: "Binance",
       mode: "read_only",
       received_at: "2026-09-12T09:00:00.000Z",
       subscription_id: 42,
