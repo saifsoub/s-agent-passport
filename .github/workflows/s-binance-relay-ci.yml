@@ -1,4 +1,4 @@
-name: S/Binance Relay CI
+name: Binance Relay CI
 
 on:
   pull_request:
