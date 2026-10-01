@@ -52,7 +52,7 @@ function successfulFetch(calls: Array<{ url: string; body: string; headers: Reco
   };
 }
 
-describe("S/Binance WebSocket relay session", () => {
+describe("Binance WebSocket relay session", () => {
   it("subscribes with a listen token and forwards allowed wrapped events", async () => {
     const socket = new FakeSocket();
     const factory: WebSocketFactory = () => socket;
