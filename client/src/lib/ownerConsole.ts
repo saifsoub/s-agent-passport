@@ -206,7 +206,7 @@ export function buildEmbedBundle(req: PassportRequest): string {
 
   const secretLines =
     req.secret_keys.length > 0
-      ? req.secret_keys.map((k) => `#   ${k} = os.environ["${k}"]  # provisioned from your S/ vault`).join("\n")
+      ? req.secret_keys.map((k) => `#   ${k} = os.environ["${k}"]  # provisioned from your vault`).join("\n")
       : "#   (no vault secrets granted to this agent)";
 
   return `# ============================================================
