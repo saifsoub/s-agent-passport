@@ -72,7 +72,7 @@ export function buildEmbedBundle(data: ExportData): string {
       : "#   (no vault secrets granted to this agent)";
 
   return `# ============================================================
-# S/ AGENT PASSPORT · EMBED BUNDLE
+# AGENT PASSPORT · EMBED BUNDLE
 # Agent  : ${p.agent_name}
 # ID     : ${p.passport_id}
 # Issued : ${p.issued_at}
@@ -153,7 +153,7 @@ export function buildOwnerDocumentHtml(data: ExportData, toolLabels: { label: st
 <html>
 <head>
 <meta charset="utf-8">
-<title>${esc(p.passport_id)} — S/ Agent Passport Document</title>
+<title>${esc(p.passport_id)} — Agent Passport Document</title>
 <style>
   @page { margin: 18mm; }
   * { box-sizing: border-box; }
@@ -250,7 +250,7 @@ export function buildOwnerDocumentHtml(data: ExportData, toolLabels: { label: st
   </table>
 
   <div class="foot">
-    <span>S/ Agent Passport v0.1 · Sovereign. Calibrated. Accountable.</span>
+    <span>Agent Passport v0.1 · Sovereign. Calibrated. Accountable.</span>
     <span>Generated ${fmt(new Date().toISOString())}</span>
   </div>
 </div>
