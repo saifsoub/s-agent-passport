@@ -33,7 +33,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency agent runtime",
+      "runtime": "Agency agent runtime",
       "status": "pending_binding",
       "subject_id": "s/aria",
       "subject_type": "orchestrator"
@@ -58,7 +58,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency documentation worker",
+      "runtime": "Agency documentation worker",
       "status": "pending_binding",
       "subject_id": "s/docs/documentation-architect",
       "subject_type": "worker"
@@ -83,7 +83,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency documentation worker",
+      "runtime": "Agency documentation worker",
       "status": "pending_binding",
       "subject_id": "s/docs/documentation-editor",
       "subject_type": "worker"
@@ -108,7 +108,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency documentation worker",
+      "runtime": "Agency documentation worker",
       "status": "pending_binding",
       "subject_id": "s/docs/documentation-publisher",
       "subject_type": "worker"
@@ -133,7 +133,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency documentation worker",
+      "runtime": "Agency documentation worker",
       "status": "pending_binding",
       "subject_id": "s/docs/documentation-qa",
       "subject_type": "worker"
@@ -158,7 +158,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency documentation worker",
+      "runtime": "Agency documentation worker",
       "status": "pending_binding",
       "subject_id": "s/docs/knowledge-curator",
       "subject_type": "worker"
@@ -183,7 +183,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency documentation worker",
+      "runtime": "Agency documentation worker",
       "status": "pending_binding",
       "subject_id": "s/docs/notion-systems-specialist",
       "subject_type": "worker"
@@ -208,7 +208,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Agency documentation worker",
+      "runtime": "Agency documentation worker",
       "status": "pending_binding",
       "subject_id": "s/docs/style-guardian",
       "subject_type": "worker"
@@ -225,7 +225,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad",
+      "name": "Squad",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -251,7 +251,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Team Lead",
+      "name": "Squad Team Lead",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -260,7 +260,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/team-lead",
       "subject_type": "agent_seat"
@@ -277,7 +277,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Business Strategy",
+      "name": "Squad Business Strategy",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -286,7 +286,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/business-strategy",
       "subject_type": "agent_seat"
@@ -303,7 +303,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Research Intelligence",
+      "name": "Squad Research Intelligence",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -312,7 +312,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/research-intelligence",
       "subject_type": "agent_seat"
@@ -329,7 +329,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Operations Delivery",
+      "name": "Squad Operations Delivery",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -338,7 +338,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/operations-delivery",
       "subject_type": "agent_seat"
@@ -355,7 +355,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Product Design",
+      "name": "Squad Product Design",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -364,7 +364,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/product-design",
       "subject_type": "agent_seat"
@@ -381,7 +381,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Content Communications",
+      "name": "Squad Content Communications",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -390,7 +390,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/content-communications",
       "subject_type": "agent_seat"
@@ -407,7 +407,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Engineering Integration",
+      "name": "Squad Engineering Integration",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -416,7 +416,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/engineering-integration",
       "subject_type": "agent_seat"
@@ -433,7 +433,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Qa Evidence",
+      "name": "Squad Qa Evidence",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -442,7 +442,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/qa-evidence",
       "subject_type": "agent_seat"
@@ -459,7 +459,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/Squad Scribe Progress",
+      "name": "Squad Scribe Progress",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -468,7 +468,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Squad execution engine",
+      "runtime": "Squad execution engine",
       "status": "pending_binding",
       "subject_id": "s/squad/scribe-progress",
       "subject_type": "agent_seat"
@@ -735,7 +735,7 @@
         "issuer signature",
         "activation receipt"
       ],
-      "name": "S/GatePass",
+      "name": "GatePass",
       "notes": "",
       "owner": "Seif Alsoub",
       "owner_approval": {
@@ -744,7 +744,7 @@
         "granted_at": "2026-08-30"
       },
       "requested_scope": "Least-privilege capabilities defined by cited repository evidence",
-      "runtime": "S/Passport gatekeeper runtime",
+      "runtime": "Passport gatekeeper runtime",
       "status": "pending_binding",
       "subject_id": "s/gatepass",
       "subject_type": "access_broker"
@@ -1312,7 +1312,7 @@
         "canonical Passport service registration",
         "issuer signature"
       ],
-      "name": "S/BusinessBot",
+      "name": "BusinessBot",
       "notes": "Repository states the bot implementation is a placeholder stub.",
       "owner": "Seif Alsoub",
       "owner_approval": {
