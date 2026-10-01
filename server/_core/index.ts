@@ -33,7 +33,7 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // S/Binance signatures cover the exact UTF-8 request body, so register this
+  // Binance signatures cover the exact UTF-8 request body, so register this
   // endpoint before the app-wide JSON parser. The endpoint is disabled unless
   // a receiver secret is supplied by the runtime secret store/environment.
   const sBinanceReceiverSecret = process.env.S_BINANCE_RECEIVER_SECRET;
