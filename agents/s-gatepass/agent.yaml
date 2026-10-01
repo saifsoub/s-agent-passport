@@ -6,7 +6,7 @@ metadata:
   owner: Seif Alsoub
   description: Secure authorization broker for Passport-bound agents.
   labels:
-    family: S/
+    family: owner
     role: access-broker
 spec:
   activation:
