@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://sos.agency/s-passport/authority-envelope/v1",
   "title": "Passport Authority Envelope",
-  "description": "The canonical, machine-readable authority boundary issued with an S/Agent Passport.",
+  "description": "The canonical, machine-readable authority boundary issued with an Agent Passport.",
   "type": "object",
   "additionalProperties": false,
   "required": ["owner", "purpose", "capabilities", "constraints", "delegation", "lifecycle"],
