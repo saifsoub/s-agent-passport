@@ -172,7 +172,7 @@ export function mintPassport(input: MintInput): PassportPayload {
     provenance: [
       { event: "requested", actor: input.ownerName, timestamp: issuedAt.toISOString(), detail: input.purpose || undefined },
       { event: "approved", actor: input.approvedBy, timestamp: issuedAt.toISOString() },
-      { event: "issued", actor: "S/ Passport Registry", timestamp: issuedAt.toISOString() },
+      { event: "issued", actor: "Passport Registry", timestamp: issuedAt.toISOString() },
     ],
     checksum: computeChecksum(base),
     signature: null,
