@@ -68,7 +68,7 @@ export function buildEmbedBundle(data: ExportData): string {
   const refs = (p.metadata?.vault_secret_refs as string[]) ?? [];
   const secretLines =
     refs.length > 0
-      ? refs.map((k) => `#   export ${k}=<value sealed in your S/ vault — provision at runtime>`).join("\n")
+      ? refs.map((k) => `#   export ${k}=<value sealed in your vault — provision at runtime>`).join("\n")
       : "#   (no vault secrets granted to this agent)";
 
   return `# ============================================================
@@ -88,7 +88,7 @@ AGENT_PASSPORT = AgentPassport.model_validate('''${passportJson}''')
 
 # --- Vault secrets granted to this agent ---
 # Provision them as environment variables before starting the agent
-# (values stay sealed in your S/ vault; use the .env download for local runs):
+# (values stay sealed in your vault; use the .env download for local runs):
 ${secretLines}
 
 def present(context: dict | None = None) -> dict:
@@ -99,7 +99,7 @@ def present(context: dict | None = None) -> dict:
 
 /* ===== Optional .env download with real vault values ===== */
 export function buildEnvFile(data: ExportData): string {
-  const header = `# S/ vault provisioning for ${data.passport.agent_name} (${data.passport.passport_id})
+  const header = `# Vault provisioning for ${data.passport.agent_name} (${data.passport.passport_id})
 # KEEP THIS FILE PRIVATE. Values are pulled live from your sealed vault.
 `;
   if (data.secretEnv.length === 0) return header + "# (no vault secrets granted)\n";
