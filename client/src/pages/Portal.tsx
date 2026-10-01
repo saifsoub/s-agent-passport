@@ -1,5 +1,5 @@
 /*
- * S/ Agent Passport — Owner Portal (real backend).
+ * Agent Passport — Owner Portal (real backend).
  * Manus OAuth login → owner file, sealed vault (trpc.vault), passport
  * applications (trpc.requests), issued passports (trpc.passports) with
  * dual downloads (owner PDF dossier + embeddable code bundle + .env).
