@@ -66,6 +66,30 @@ Create one Talabat basket containing:
 
 Selection policy: prefer one nearby store with all three items, optimize for fastest delivery first and reasonable total price second, avoid promotional extras, and use the closest same-brand equivalent if an exact item is unavailable. Present a single compact approval only at the irreversible checkout boundary, then capture order number and ETA after placement.
 
+## Connector governance binding: Amazon UAE MCP
+
+This repository tracks governance and Integrator activation evidence only for the Amazon UAE connector surface.
+
+- `task_id`: `AMAZON-MCP-20260902`
+- `worker_passport`: `S-PASS-20260911-002` (Codex, as recorded in the canonical implementation issue)
+- `worker_runtime_path`: `/root/amazon_mcp` (an execution directory, not a Passport ID)
+- `owner`: `Seif Alsoub`
+- `account_surface`: `Amazon UAE customer account`
+- `authentication`: owner-presence browser handoff to an opaque session
+- `least_privilege_scopes`: `product:search`, `product:read`, `cart:read`, `cart:prepare`, `order:status`
+- `purchase_payment_policy`: disabled by default; requires a separate one-time owner approval immediately before any future purchase/payment action
+- `secrets_policy`: secrets must never be tool inputs, repository values, or audit fields
+
+### Remaining Integrator activation work (Amazon UAE connector)
+
+1. Runtime identity/public-key binding.
+2. Canonical Passport service registration.
+3. Issuer signature.
+4. Activation receipt.
+5. Gate registry entry bound to the activated Integrator passport ID.
+
+Executable MCP code for Amazon UAE is out of scope for this repository and must remain in `saifsoub/PersonalEmpire/packages/service-mcps` (tracked by [PersonalEmpire issue #4](https://github.com/saifsoub/PersonalEmpire/issues/4)). This is a governance record, not proof that live account access or activation has completed.
+
 ## Connector construction: Binance
 
 Binance is a Passport-governed, real-time Spot connector registered under Integrator.
