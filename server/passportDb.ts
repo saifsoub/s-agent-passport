@@ -1,5 +1,5 @@
 /*
- * Query helpers for the S/ Agent Passport product tables.
+ * Query helpers for the Agent Passport product tables.
  */
 import { and, desc, eq } from "drizzle-orm";
 import {

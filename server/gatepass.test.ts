@@ -3,7 +3,7 @@ import { mintPassport } from "./passport";
 import { GatePassEngine, type GatePolicy, type SessionAdapter } from "./gatepass";
 
 const passport = () => mintPassport({
-  agentName: "S/Integrator",
+  agentName: "Integrator",
   agentType: "orchestrator",
   toolIds: ["task_execution"],
   secretKeys: [],

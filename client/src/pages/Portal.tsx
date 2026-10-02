@@ -1,10 +1,10 @@
 /*
- * S/ Agent Passport — Owner Portal (real backend).
+ * Agent Passport — Owner Portal (real backend).
  * Manus OAuth login → owner file, sealed vault (trpc.vault), passport
  * applications (trpc.requests), issued passports (trpc.passports) with
  * dual downloads (owner PDF dossier + embeddable code bundle + .env).
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { startLogin } from "@/const";
@@ -88,6 +88,24 @@ export default function Portal() {
   const [grantedKeys, setGrantedKeys] = useState<string[]>([]);
   const [ttl, setTtl] = useState("");
   const [purpose, setPurpose] = useState("");
+  useEffect(() => {
+    if (!isAuthenticated || !typesQ.data) return;
+    const raw = sessionStorage.getItem("s_passport_walkthrough_draft");
+    if (!raw) return;
+    sessionStorage.removeItem("s_passport_walkthrough_draft");
+    try {
+      const draft: unknown = JSON.parse(raw);
+      if (!draft || typeof draft !== "object") return;
+      const values = draft as Record<string, unknown>;
+      if (typeof values.agentName === "string") setAgentName(values.agentName.slice(0, 128));
+      if (typeof values.agentType === "string" && typesQ.data.includes(values.agentType as never)) {
+        setAgentType(values.agentType);
+      }
+      if (typeof values.ttl === "string" && /^\d{1,4}$/.test(values.ttl)) setTtl(values.ttl);
+    } catch {
+      // Ignore an invalid browser draft; the authenticated form remains usable.
+    }
+  }, [isAuthenticated, typesQ.data]);
   const submitReq = trpc.requests.submit.useMutation({
     onSuccess: () => {
       utils.requests.mine.invalidate();

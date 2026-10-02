@@ -1,7 +1,7 @@
-# S/ Agent Passport — Demo Site Design Brainstorm
+# Agent Passport — Demo Site Design Brainstorm
 
 ## Constraint (brand ground truth)
-The S/ brand is fixed: dark navy `#0A1628`, signature orange `#FF4F00`, tagline
+The brand is fixed: dark navy `#0A1628`, signature orange `#FF4F00`, tagline
 "Sovereign. Calibrated. Accountable." The site must feel like the passport card itself:
 a sovereign credential system — official, technical, high-trust.
 
@@ -37,7 +37,7 @@ Emotionally: an official registry book of record.
   4. Asymmetric ledger grid — left-anchored rails, offset columns, no centered hero-blob.
 - **Color Philosophy:** Navy `#0A1628` is the sovereign field (background of the state);
   orange `#FF4F00` is the stamp ink — used only for authority moments (ACTIVE stamps,
-  gate PASS, CTAs, the S/ mark). Denials use a desaturated red; muted steel-blue
+  gate PASS, CTAs, the logo mark). Denials use a desaturated red; muted steel-blue
   `#5A6B85` for secondary data. Paper-white `#E8EDF5` for primary text.
 - **Layout Paradigm:** A vertical "inspection route": hero checkpoint → passport booklet
   (schema) → issuance desk (interactive) → border gate (validation demo) → lineage wall
@@ -65,12 +65,12 @@ Emotionally: an official registry book of record.
   exacting, kinetic.
 - **Brand Voice:** Imperative border-officer clarity. Examples: "Present your passport."
   / "No passport, no tools. No exceptions." Ban: "Welcome to our website", "Get started today".
-- **Wordmark & Logo:** The `S/` slash-mark in orange on navy — rendered big, cropped,
+- **Wordmark & Logo:** The logo mark in orange on navy — rendered big, cropped,
   used as watermark; favicon is the slash glyph.
 - **Signature Brand Color:** `#FF4F00` stamp-ink orange.
 
 ## Style Decisions
-- The `S/` slash-mark must appear as a large recurring authority device — cropped
+- The logo mark must appear as a large recurring authority device — cropped
   watermark, seal, or stamp — not only as a small navbar logo.
 - Every primary content panel should borrow from passport/document security language:
   ruled lines, MRZ bands, perforation dots, cut-lines, guilloché patterns, or stamps.

@@ -153,10 +153,10 @@ export const appRouter = router({
           purpose: req.purpose ?? "",
           ownerName: String(req.userId),
           ownerOpenId: "",
-          approvedBy: ctx.user.name || "S/ Admin",
+          approvedBy: ctx.user.name || "Admin",
         });
 
-        await pdb.decideRequest(input.requestId, "approved", ctx.user.name || "S/ Admin");
+        await pdb.decideRequest(input.requestId, "approved", ctx.user.name || "Admin");
         await pdb.insertPassport({
           passportId: payload.passport_id,
           requestId: req.id,
@@ -177,7 +177,7 @@ export const appRouter = router({
         const req = await pdb.getRequestById(input.requestId);
         if (!req) throw new TRPCError({ code: "NOT_FOUND" });
         if (req.status !== "pending") throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Request already decided." });
-        await pdb.decideRequest(input.requestId, "denied", ctx.user.name || "S/ Admin", input.reason);
+        await pdb.decideRequest(input.requestId, "denied", ctx.user.name || "Admin", input.reason);
         return { success: true } as const;
       }),
     allPassports: adminProcedure.query(() => pdb.listAllPassports()),

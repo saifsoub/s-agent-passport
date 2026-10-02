@@ -1,5 +1,5 @@
 /*
- * Border Control Terminal · S/ Agent Passport demo page
+ * Border Control Terminal · Agent Passport demo page
  * Inspection route: hero checkpoint → booklet → issuance desk → border gate
  * → lineage wall → lifecycle strip → integration annex.
  * Navy #0A1628 field, soft copper #D97742 stamp ink, Space Grotesk + IBM Plex Mono.
@@ -177,7 +177,7 @@ export default function Demo() {
     upsert(p);
     setIssued(p);
     setIssueAnim((n) => n + 1);
-    toast.success(`Passport ${p.passport_id} issued and registered.`);
+    toast.success(`Sample passport ${p.passport_id} created for this session.`);
   };
 
   /* ============ 03 · Border gate state ============ */
@@ -402,9 +402,9 @@ export default function Demo() {
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 rise-in" style={{ animationDelay: "240ms" }}>
               {[
                 ["41", "tests green"],
-                ["Ed25519", "sovereign signing"],
-                ["Supabase", "live registry"],
-                ["US/SRV", "systemd deployed"],
+                ["Sample", "signature preview"],
+                ["Local", "session registry"],
+                ["Portal", "real applications"],
               ].map(([v, k]) => (
                 <div key={k} className="flex items-baseline gap-2">
                   <span className="font-display font-bold text-lg text-foreground">{v}</span>
@@ -445,7 +445,7 @@ export default function Demo() {
           <div className="space-y-5">
             <img
               src={BOOKLET_IMG}
-              alt="S/ Agent Passport booklet"
+              alt="Agent Passport booklet"
               className="w-full rounded-sm border border-border/60"
             />
             <p className="font-mono text-[13px] text-muted-foreground leading-relaxed">
@@ -532,14 +532,29 @@ export default function Demo() {
               <label className="flex items-center gap-2.5 font-mono text-[13px] pt-1 border-t border-border/50 mt-3">
                 <Checkbox checked={signIt} onCheckedChange={(c) => setSignIt(!!c)} />
                 <span className="inline-flex items-center gap-1.5">
-                  <KeyRound className="h-3.5 w-3.5 text-primary" /> Sign with Ed25519 issuer key
+                  <KeyRound className="h-3.5 w-3.5 text-primary" /> Preview issuer signature
                 </span>
               </label>
             </div>
 
             <Button onClick={doIssue} className="btn-press w-full font-mono uppercase tracking-widest text-xs rounded-[3px] h-11">
-              <StampIcon className="h-4 w-4 mr-2" /> Issue &amp; register
+              <StampIcon className="h-4 w-4 mr-2" /> Preview issuance
             </Button>
+            <Button
+              variant="outline"
+              className="w-full font-mono uppercase tracking-widest text-xs rounded-[3px] h-11"
+              onClick={() => {
+                sessionStorage.setItem("s_passport_walkthrough_draft", JSON.stringify({
+                  agentName: agentName.trim(), agentType, ttl,
+                }));
+                window.location.assign("/portal");
+              }}
+            >
+              Continue to the live request portal
+            </Button>
+            <p className="font-mono text-xs text-muted-foreground">
+              A walkthrough passport stays in this page only. The portal saves real applications after sign-in.
+            </p>
           </div>
 
           {/* result */}
@@ -549,13 +564,13 @@ export default function Demo() {
             ) : (
               <div className="panel rounded-sm h-full min-h-[320px] flex flex-col items-center justify-center gap-3 border-dashed">
                 <Boxes className="h-10 w-10 text-muted-foreground/40" strokeWidth={1.25} />
-                <p className="font-mono text-sm text-muted-foreground">The desk is open. Submit the form to mint a credential.</p>
+                <p className="font-mono text-sm text-muted-foreground">Preview a passport here. This walkthrough resets when the page reloads.</p>
               </div>
             )}
             {registryRows.length > 0 && (
               <div className="mt-6">
                 <div className="label-mono mb-2 flex items-center gap-2">
-                  <Database className="h-3.5 w-3.5 text-primary" /> Registry · latest entries
+                  <Database className="h-3.5 w-3.5 text-primary" /> Walkthrough · session entries
                 </div>
                 <div className="panel rounded-sm divide-y divide-border/50">
                   {registryRows.map((r) => (
@@ -607,7 +622,7 @@ export default function Demo() {
               </div>
               <p className="font-mono text-[11px] text-muted-foreground leading-relaxed">
                 Uses the passport issued at Desk 02. Tampering flips one byte of the identity
-                core; revocation kills it registry-wide. Both are caught instantly.
+                core; revocation changes this walkthrough session. Both are caught instantly here.
               </p>
             </div>
             {gatePassport && (
@@ -808,12 +823,12 @@ export default function Demo() {
         id="registry"
         index="06"
         code="LEDGER·06/07"
-        kicker="Live registry · fleet ledger"
-        title="Every credential on file. At a glance."
+        kicker="Example registry · fleet ledger"
+        title="Sample credentials. At a glance."
       >
         <div className="flex flex-wrap items-center gap-2.5 mb-8">
           <span className="label-mono inline-flex items-center gap-1.5 mr-2">
-            <RadioTower className="h-3.5 w-3.5 text-primary" /> agent_passports · {liveFleet.length} on file
+            <RadioTower className="h-3.5 w-3.5 text-primary" /> {liveFleet.length} sample records
           </span>
           {(["all", "active", "paused", "revoked", "expired", "archived"] as const).map((s) => (
             <button
@@ -886,7 +901,7 @@ export default function Demo() {
           {[
             {
               icon: Database,
-              title: "Live Supabase registry",
+              title: "Supabase registry integration",
               body: "agent_passports table in the DoneAi project — single source of truth for status and revocation.",
             },
             {
@@ -916,7 +931,7 @@ export default function Demo() {
           <div className="flex items-center gap-3">
             <img src={LOGO} alt="S/" className="h-9 w-9 object-contain" />
             <div>
-              <div className="font-display font-bold">S/ Agent Passport</div>
+              <div className="font-display font-bold">Agent Passport</div>
               <div className="label-mono">Sovereign · Calibrated · Accountable</div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "namespace": "S/Agency",
+  "namespace": "Agency",
   "advisory_skills": [
     {
       "skill_id": "adv-owner-intent",
@@ -14,7 +14,7 @@
       "skill_id": "adv-fit-filter",
       "advisory_skill": "strategic_fit_filter",
       "purpose": "Decide whether an asset belongs or is noise.",
-      "uses_for_model_assets": "Rejects models that do not serve S/Agency.",
+      "uses_for_model_assets": "Rejects models that do not serve Agency.",
       "owner_control_rule": "Owner can override with explicit reason.",
       "output_artifact": "Fit decision"
     },

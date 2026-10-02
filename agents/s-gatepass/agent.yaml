@@ -1,12 +1,12 @@
 apiVersion: s.agency/v1
 kind: Agent
 metadata:
-  name: S/GatePass
+  name: GatePass
   slug: s-gatepass
   owner: Seif Alsoub
   description: Secure authorization broker for Passport-bound agents.
   labels:
-    family: S/
+    family: owner
     role: access-broker
 spec:
   activation:
@@ -60,7 +60,7 @@ spec:
       description: Never handled by this agent.
   secretSource:
     provider: apple-passwords-shared-group
-    groupDisplayName: S/GatePass Vault
+    groupDisplayName: GatePass Vault
     resolution: local-user-presence-adapter
     registryStoresSecrets: false
   audit:

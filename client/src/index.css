@@ -1,5 +1,5 @@
 /*
- * S/ Agent Passport — "Border Control Terminal" theme
+ * Agent Passport — "Border Control Terminal" theme
  * Navy #0A1628 sovereign field · Soft copper stamp ink
  * Space Grotesk (display) · IBM Plex Mono (data/MRZ/labels)
  * Signature motifs: MRZ strips, rubber stamps, perforation dots
@@ -272,7 +272,7 @@
     border-right: 2px solid oklch(0.68 0.145 45 / 0.7);
   }
 
-  /* Giant cropped S/ watermark */
+  /* Giant cropped logo watermark */
   .slash-watermark {
     position: absolute;
     pointer-events: none;

@@ -1,5 +1,5 @@
 /**
- * WebAuthn (passkey) support for the S/ Agent Passport portal.
+ * WebAuthn (passkey) support for the Agent Passport portal.
  *
  * Owners may enroll Face ID / fingerprint / security-key passkeys and enable
  * the "vault lock": once enabled, sensitive actions (vault .env export,
@@ -23,7 +23,7 @@ import { eq } from "drizzle-orm";
 import { passkeys, users, type Passkey } from "../drizzle/schema";
 import { getDb } from "./db";
 
-const RP_NAME = "S/ Agent Passport";
+const RP_NAME = "Agent Passport";
 const CHALLENGE_TTL_MS = 5 * 60 * 1000;
 /** How long a passkey verification unlocks sensitive actions. */
 export const VERIFY_WINDOW_MS = 5 * 60 * 1000;

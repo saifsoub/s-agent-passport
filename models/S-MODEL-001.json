@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "passport_type": "S/ Model Passport",
+  "passport_type": "Model Passport",
   "s_model_passport": "S-MODEL-001",
   "display_name": "Our Beautiful Model",
   "provider": "Perplexity",
@@ -26,7 +26,7 @@
     "replaces_provider_identity": false
   },
   "verification_notes": [
-    "The S/ Model Passport documents the supplied Perplexity identity without changing it.",
+    "The Model Passport documents the supplied Perplexity identity without changing it.",
     "Exact provider model slug/version has not been supplied or independently verified; do not infer one.",
     "Operational use by an agent remains governed separately by S-PASS, Gatekeeper, runtime permissions, and provider policy."
   ]
