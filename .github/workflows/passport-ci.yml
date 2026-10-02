@@ -1,0 +1,47 @@
+name: Passport CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: passport-ci-only
+          MYSQL_DATABASE: passport_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -ppassport-ci-only"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      # Disposable CI-only database and configuration, never deployment secrets.
+      DATABASE_URL: mysql://root:passport-ci-only@127.0.0.1:3306/passport_test
+      OAUTH_SERVER_URL: https://auth.example.invalid
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Initialize disposable integration database
+        run: pnpm exec drizzle-kit migrate
+      - name: Typecheck
+        run: pnpm check
+      - name: Full test suite
+        run: pnpm test
+      - name: Production build
+        run: pnpm build
