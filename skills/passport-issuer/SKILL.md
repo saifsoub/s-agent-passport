@@ -1,9 +1,9 @@
 ---
 name: passport-issuer
-description: Issue, renew, amend, suspend, or revoke an S/Agent Passport end to end when a person, agent, or orchestrator requests one. Use for Passport onboarding and lifecycle work; a request starts processing but does not itself prove authorization.
+description: Issue, renew, amend, suspend, or revoke an Agent Passport end to end when a person, agent, or orchestrator requests one. Use for Passport onboarding and lifecycle work; a request starts processing but does not itself prove authorization.
 ---
 
-# S/Passport Issuer
+# Passport Issuer
 
 Create the smallest valid, traceable Passport that lets an agent operate across platforms without replacing integrations already built into those platforms.
 
@@ -31,7 +31,7 @@ Create the smallest valid, traceable Passport that lets an agent operate across 
 - `passport_id`
 - `subject_id` and subject type
 - owner: `Seif Alsoub`
-- S/ family name and upstream lineage metadata
+- family name and upstream lineage metadata
 - runtime and public-key binding
 - approved capabilities, scopes, environments, and integration bindings
 - approval rules and Gatekeeper compatibility

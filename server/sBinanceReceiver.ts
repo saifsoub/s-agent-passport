@@ -53,7 +53,7 @@ export class FileDeliveryReplayStore implements DeliveryReplayStore {
 
 function parseAndValidateEnvelope(body: string): SBinanceEnvelope {
   const parsed = JSON.parse(body) as SBinanceEnvelope;
-  if (parsed.connector !== "S/Binance") throw new Error("invalid connector");
+  if (parsed.connector !== "Binance") throw new Error("invalid connector");
   if (parsed.mode !== "read_only") throw new Error("invalid mode");
   if (!parsed.delivery_id || typeof parsed.delivery_id !== "string") {
     throw new Error("missing delivery_id");
@@ -100,7 +100,7 @@ export function registerSBinanceReceiverRoute(
       req.on("data", chunk => {
         body += chunk;
         if (Buffer.byteLength(body, "utf8") > 1024 * 1024) {
-          req.destroy(new Error("S/Binance payload too large"));
+          req.destroy(new Error("Binance payload too large"));
         }
       });
       req.on("end", async () => {
@@ -117,7 +117,7 @@ export function registerSBinanceReceiverRoute(
             delivery_id: result.envelope.delivery_id,
           });
         } catch (error) {
-          const message = error instanceof Error ? error.message : "invalid S/Binance webhook";
+          const message = error instanceof Error ? error.message : "invalid Binance webhook";
           const authFailure = /signature/.test(message);
           res.status(authFailure ? 401 : 400).json({ error: message });
         }

@@ -1,4 +1,4 @@
--- S/Agency model asset runtime mirror contract.
+-- Agency model asset runtime mirror contract.
 -- Prepared only. Do not apply to production until the owner approves the registry contract.
 -- Canonical source: GitHub s-agency/model-assets + Agent_memory Google Sheet.
 

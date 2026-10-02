@@ -1,8 +1,8 @@
-# S/Agency Model Asset Registry Design
+# Agency Model Asset Registry Design
 
 ## Goal
 
-Create a governed model-asset layer for S/Agency that lets model capabilities be reviewed, assigned, visualized, and later mirrored into Supabase without losing owner control.
+Create a governed model-asset layer for Agency that lets model capabilities be reviewed, assigned, visualized, and later mirrored into Supabase without losing owner control.
 
 ## Architecture
 

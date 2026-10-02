@@ -1,5 +1,5 @@
 /*
- * Server-side S/ Agent Passport minting + vault crypto.
+ * Server-side Agent Passport minting + vault crypto.
  * Mirrors the Python package semantics: identity-core checksum (sha256[:16]),
  * S-PASS-{12 hex} ids, provenance trail, TTL expiry, issuer signing.
  * Vault secrets are encrypted at rest with AES-256-GCM.
@@ -180,7 +180,7 @@ export function mintPassport(input: MintInput): PassportPayload {
     provenance: [
       { event: "requested", actor: input.ownerName, timestamp: issuedAt.toISOString(), detail: input.purpose || undefined },
       { event: "approved", actor: input.approvedBy, timestamp: issuedAt.toISOString() },
-      { event: "issued", actor: "S/ Passport Registry", timestamp: issuedAt.toISOString() },
+      { event: "issued", actor: "Passport Registry", timestamp: issuedAt.toISOString() },
     ],
     checksum: computeChecksum(base),
     signature: null,

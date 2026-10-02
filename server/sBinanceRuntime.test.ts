@@ -26,7 +26,7 @@ function fetchSequence(statuses: number[]): FetchLike {
   };
 }
 
-describe("S/Binance runtime helpers", () => {
+describe("Binance runtime helpers", () => {
   it("forces connection rotation before the 24-hour lifetime", () => {
     expect(
       shouldRotateSBinanceConnection({

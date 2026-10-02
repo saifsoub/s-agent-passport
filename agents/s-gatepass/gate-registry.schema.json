@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://s.agency/schemas/gate-registry.schema.json",
-  "title": "S/GatePass Gate Registry",
+  "title": "GatePass Gate Registry",
   "description": "Policy metadata only. Secrets are never valid values in this document.",
   "type": "object",
   "additionalProperties": false,

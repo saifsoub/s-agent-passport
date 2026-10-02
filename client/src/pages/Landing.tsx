@@ -1,5 +1,5 @@
 /*
- * S/ Agent Passport — public commercial landing page (v2).
+ * Agent Passport — public commercial landing page (v2).
  * Conversion-focused front door: pain hook, product proof strip, how-it-works,
  * benefits, security annex, FAQ, final CTA → /portal.
  * Border Control Terminal brand: navy field, copper stamp ink, MRZ dividers.
@@ -253,7 +253,7 @@ export default function Landing() {
                 <span className="stamp absolute -right-3 top-6 text-primary text-xl rotate-[8deg] opacity-80">Active</span>
                 <div className="flex items-center gap-2.5 mb-4">
                   <img src={LOGO} alt="S/" className="h-6 w-6 object-contain" />
-                  <span className="label-mono text-foreground/90">S/ AGENT PASSPORT</span>
+                  <span className="label-mono text-foreground/90">AGENT PASSPORT</span>
                 </div>
                 <div className="space-y-2.5 font-mono text-[12px]">
                   <div className="flex justify-between gap-4">
@@ -364,7 +364,7 @@ export default function Landing() {
             </div>
             <img
               src={BOOKLET_IMG}
-              alt="S/ Agent Passport booklet"
+              alt="Agent Passport booklet"
               className="w-full rounded-sm border border-border/60 hidden lg:block"
             />
           </div>
@@ -486,7 +486,7 @@ export default function Landing() {
           <div className="flex items-center gap-3">
             <img src={LOGO} alt="S/" className="h-9 w-9 object-contain" />
             <div>
-              <div className="font-display font-bold">S/ Agent Passport</div>
+              <div className="font-display font-bold">Agent Passport</div>
               <div className="label-mono">Sovereign · Calibrated · Accountable</div>
             </div>
           </div>

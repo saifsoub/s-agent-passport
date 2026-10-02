@@ -68,11 +68,11 @@ export function buildEmbedBundle(data: ExportData): string {
   const refs = (p.metadata?.vault_secret_refs as string[]) ?? [];
   const secretLines =
     refs.length > 0
-      ? refs.map((k) => `#   export ${k}=<value sealed in your S/ vault — provision at runtime>`).join("\n")
+      ? refs.map((k) => `#   export ${k}=<value sealed in your vault — provision at runtime>`).join("\n")
       : "#   (no vault secrets granted to this agent)";
 
   return `# ============================================================
-# S/ AGENT PASSPORT · EMBED BUNDLE
+# AGENT PASSPORT · EMBED BUNDLE
 # Agent  : ${p.agent_name}
 # ID     : ${p.passport_id}
 # Issued : ${p.issued_at}
@@ -88,7 +88,7 @@ AGENT_PASSPORT = AgentPassport.model_validate('''${passportJson}''')
 
 # --- Vault secrets granted to this agent ---
 # Provision them as environment variables before starting the agent
-# (values stay sealed in your S/ vault; use the .env download for local runs):
+# (values stay sealed in your vault; use the .env download for local runs):
 ${secretLines}
 
 def present(context: dict | None = None) -> dict:
@@ -99,7 +99,7 @@ def present(context: dict | None = None) -> dict:
 
 /* ===== Optional .env download with real vault values ===== */
 export function buildEnvFile(data: ExportData): string {
-  const header = `# S/ vault provisioning for ${data.passport.agent_name} (${data.passport.passport_id})
+  const header = `# Vault provisioning for ${data.passport.agent_name} (${data.passport.passport_id})
 # KEEP THIS FILE PRIVATE. Values are pulled live from your sealed vault.
 `;
   if (data.secretEnv.length === 0) return header + "# (no vault secrets granted)\n";
@@ -153,7 +153,7 @@ export function buildOwnerDocumentHtml(data: ExportData, toolLabels: { label: st
 <html>
 <head>
 <meta charset="utf-8">
-<title>${esc(p.passport_id)} — S/ Agent Passport Document</title>
+<title>${esc(p.passport_id)} — Agent Passport Document</title>
 <style>
   @page { margin: 18mm; }
   * { box-sizing: border-box; }
@@ -250,7 +250,7 @@ export function buildOwnerDocumentHtml(data: ExportData, toolLabels: { label: st
   </table>
 
   <div class="foot">
-    <span>S/ Agent Passport v0.1 · Sovereign. Calibrated. Accountable.</span>
+    <span>Agent Passport v0.1 · Sovereign. Calibrated. Accountable.</span>
     <span>Generated ${fmt(new Date().toISOString())}</span>
   </div>
 </div>

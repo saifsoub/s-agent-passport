@@ -1,4 +1,4 @@
--- S/Passport governed-delegation control plane
+-- Passport governed-delegation control plane
 -- Applied to Supabase project nrjfbqgvigankejaajrt on 2026-09-27.
 
 create table if not exists public.passport_authority_controls (
@@ -39,7 +39,7 @@ create or replace function public.prevent_passport_history_mutation()
 returns trigger language plpgsql security invoker set search_path = public
 as $$
 begin
-  raise exception 'S/Passport history is append-only';
+  raise exception 'Passport history is append-only';
 end;
 $$;
 

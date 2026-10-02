@@ -1,7 +1,7 @@
 {
-  "connector_name": "S/Binance",
+  "connector_name": "Binance",
   "platform": "Binance Spot",
-  "passport_binding": "S/Integrator Passport",
+  "passport_binding": "Integrator Passport",
   "integration_mode": "websocket_event_relay",
   "state": "configured_not_activated",
   "upstream": {
@@ -27,7 +27,7 @@
   ],
   "webhook_contract": "webhook-relay.contract.json",
   "activation_requirements": [
-    "S/Integrator Passport is active",
+    "Integrator Passport is active",
     "A Binance API key limited to USER_DATA and USER_STREAM is stored in the vault",
     "An HTTPS webhook destination is configured outside Passport metadata",
     "Receiver verifies X-S-Binance-Signature before accepting any event"

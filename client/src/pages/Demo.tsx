@@ -1,5 +1,5 @@
 /*
- * Border Control Terminal · S/ Agent Passport demo page
+ * Border Control Terminal · Agent Passport demo page
  * Inspection route: hero checkpoint → booklet → issuance desk → border gate
  * → lineage wall → lifecycle strip → integration annex.
  * Navy #0A1628 field, soft copper #D97742 stamp ink, Space Grotesk + IBM Plex Mono.
@@ -445,7 +445,7 @@ export default function Demo() {
           <div className="space-y-5">
             <img
               src={BOOKLET_IMG}
-              alt="S/ Agent Passport booklet"
+              alt="Agent Passport booklet"
               className="w-full rounded-sm border border-border/60"
             />
             <p className="font-mono text-[13px] text-muted-foreground leading-relaxed">
@@ -931,7 +931,7 @@ export default function Demo() {
           <div className="flex items-center gap-3">
             <img src={LOGO} alt="S/" className="h-9 w-9 object-contain" />
             <div>
-              <div className="font-display font-bold">S/ Agent Passport</div>
+              <div className="font-display font-bold">Agent Passport</div>
               <div className="label-mono">Sovereign · Calibrated · Accountable</div>
             </div>
           </div>

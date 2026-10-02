@@ -1,6 +1,6 @@
 # Governed Delegation Control Plane
 
-S/Passport scales by issuing **bounded authority**, not generic access. An agent is free to act within its approved authority envelope; a gate intervenes when it crosses an authority boundary.
+Passport scales by issuing **bounded authority**, not generic access. An agent is free to act within its approved authority envelope; a gate intervenes when it crosses an authority boundary.
 
 > No agent enters the system without an owner, a purpose, an expiry, and a revocation path.
 
@@ -46,7 +46,7 @@ The additive Supabase schema in `supabase/migrations/20260927_passport_governanc
 5. Persist the returned receipt in an append-only store, chaining `previous_receipt_hash`.
 6. Issue a one-time, audience-bound capability only when the decision is `allow`.
 
-The evaluator is not itself a credential broker. S/GatePass remains responsible for secret isolation and must never return reusable credentials.
+The evaluator is not itself a credential broker. GatePass remains responsible for secret isolation and must never return reusable credentials.
 
 ## Quarantine and revocation
 

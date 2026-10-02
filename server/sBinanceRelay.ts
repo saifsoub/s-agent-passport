@@ -17,7 +17,7 @@ export type SBinanceEvent = {
 
 export type SBinanceEnvelope = {
   delivery_id: string;
-  connector: "S/Binance";
+  connector: "Binance";
   mode: "read_only";
   received_at: string;
   subscription_id?: number | null;
@@ -84,7 +84,7 @@ export function buildSBinanceEnvelope(input: {
 
   return {
     delivery_id: deliveryId,
-    connector: "S/Binance",
+    connector: "Binance",
     mode: "read_only",
     received_at: (input.receivedAt ?? new Date()).toISOString(),
     subscription_id: input.subscriptionId ?? null,
@@ -146,7 +146,7 @@ export function verifySignedSBinanceRequest(input: {
   }
 
   const parsed = JSON.parse(input.body) as SBinanceEnvelope;
-  if (parsed.connector !== "S/Binance" || parsed.mode !== "read_only") {
+  if (parsed.connector !== "Binance" || parsed.mode !== "read_only") {
     throw new Error("invalid connector or mode");
   }
   if (parsed.delivery_id !== input.deliveryHeader) {

@@ -19,7 +19,7 @@ async function tempStore() {
   return { file, store: new FileDeliveryReplayStore(file) };
 }
 
-describe("S/Binance receiver", () => {
+describe("Binance receiver", () => {
   it("accepts a valid signed event and persists its delivery ID", async () => {
     const { file, store } = await tempStore();
     const request = buildSignedSBinanceRequest(

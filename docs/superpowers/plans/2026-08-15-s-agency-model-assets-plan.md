@@ -1,8 +1,8 @@
-# S/Agency Model Asset Registry Implementation Plan
+# Agency Model Asset Registry Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a governed S/Agency model asset registry connected across GitHub, Google Sheets, an owned knowledge graph source/render contract, and a prepared Supabase mirror.
+**Goal:** Build a governed Agency model asset registry connected across GitHub, Google Sheets, an owned knowledge graph source/render contract, and a prepared Supabase mirror.
 
 **Architecture:** GitHub stores the canonical asset records. Google Sheets gives the owner an editable operating surface. The owned graph renderer reads the canonical nodes and edges JSON. Supabase remains a prepared mirror until the live project and access model are confirmed.
 
