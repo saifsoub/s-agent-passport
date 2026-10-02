@@ -14,6 +14,7 @@ export default defineConfig({
   },
   test: {
     environment: "node",
+    env: { JWT_SECRET: "passport-test-only-signing-key" },
     include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
   },
 });

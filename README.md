@@ -19,16 +19,18 @@ The web app uses React, Vite, tRPC, Express, Drizzle, and MySQL. Its web issuanc
 
 ## Local development
 
-Requirements: Node.js, pnpm, a MySQL database, and the application authentication configuration.
+Requirements: Node.js 22, the pnpm version pinned in `package.json` (10.4.1, available through Corepack), a MySQL database, and the application authentication configuration.
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm check
 pnpm test
 pnpm dev
 ```
 
 Provide the required environment variables through your local deployment configuration. Review `server/_core/env.ts` and `drizzle.config.ts` for the current names before starting; keep keys, database credentials, and vault contents out of commits. Run `pnpm db:push` only against a database you intend to migrate.
+
+The full test suite includes a database integration test. Use a disposable MySQL database with the checked-in migrations applied (`pnpm exec drizzle-kit migrate`), not a production database. Passport CI provisions its own isolated MySQL 8 database and runs the frozen install, migrations, typecheck, full test suite, and production build on pull requests and main.
 
 ## Passport flow
 
@@ -49,3 +51,9 @@ Never commit secrets, credential exports, bearer tokens, recovery material, or r
 [License Version 1.0](LICENSE). Internal evaluation and modification are permitted under its conditions; public forks, redistribution, hosted distribution, and commercial use require prior written permission.
 
 Owned and maintained by the project maintainers.
+
+### Passport and vault cryptographic configuration
+
+Set `JWT_SECRET` to a private deployment secret before issuing passports or using the vault. Missing, empty, or whitespace-only configuration blocks minting, encryption, and decryption; signature verification returns false. There is no default cryptographic key. Keep the configured secret stable: changing it invalidates existing signatures and prevents decryption of existing vault records.
+
+Existing records created with the former development fallback require controlled recovery before enabling this change: inventory affected records, recover vault values in an authorized isolated environment, and re-encrypt/reissue with the configured deployment key. Do not automatically rotate keys or copy recovered secrets into logs or repository files. The Vitest configuration uses an explicit test-only key.
